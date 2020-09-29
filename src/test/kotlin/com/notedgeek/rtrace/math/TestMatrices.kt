@@ -2,7 +2,6 @@ package com.notedgeek.rtrace.math
 
 import com.notedgeek.rtace.math.*
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.data.Offset
 import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -450,7 +449,7 @@ class MatrixTest {
     }
 
     @Nested
-    inner class Chaining{
+    inner class Chaining {
         private val p = Point(1, 0, 1)
         private val t1 = rotationX(PI / 2)
         private val t2 = scaling(5.0, 5.0, 5.0)
