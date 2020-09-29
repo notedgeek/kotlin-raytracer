@@ -8,61 +8,128 @@ var EPSILON = 0.00001
 
 private fun closeTo(a: Double, b: Double) = abs(a - b) < EPSILON
 
-class Tuple internal constructor(val x: Double, val y: Double, val z: Double, val w: Double) {
+class Point(val x: Double, val y: Double, val z: Double) {
 
-    init {
-        if (w != 1.0 && w != 0.0) {
-            throw IllegalArgumentException("tuple cannot be created with w != 1.0 or 0.0 : $w")
-        }
-    }
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
+
+    operator fun minus(other: Point) = Vector(x - other.x, y - other.y, z - other.z)
+
+    operator fun minus(vector: Vector) = Point(x - vector.x, y - vector.y, z - vector.z)
+
     override fun equals(other: Any?) =
-        other is Tuple && closeTo(x, other.x) && closeTo(y, other.y) && closeTo (z, other.z) && closeTo(w, other.w)
+        other is Point && closeTo(x, other.x) && closeTo(y, other.y) && closeTo (z, other.z)
+}
 
-    operator fun plus(other: Tuple) = Tuple(x + other.x, y + other.y, z + other.z, w + other.w)
+class Vector(val x: Double, val y: Double, val z: Double) {
 
-    operator fun minus(other: Tuple) = Tuple(x - other.x, y - other.y, z - other.z, w - other.w)
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    operator fun unaryMinus() = Tuple(-x, -y, -z, w)
+    operator fun plus(other: Vector) = Vector(x + other.x, y + other.y, z + other.z)
 
-    operator fun times(scalar: Double) = Tuple(x * scalar, y * scalar, z * scalar, w)
+    operator fun minus(other: Vector) = Vector(x - other.x, y - other.y, z - other.z)
+
+    operator fun times(scalar: Double) = Vector(x * scalar, y * scalar, z * scalar)
 
     operator fun times(scalar: Int) = times(scalar.toDouble())
 
-    operator fun div(scalar: Double) = Tuple(x / scalar, y / scalar, z / scalar, w)
+    operator fun div(scalar: Double) = Vector(x / scalar, y / scalar, z / scalar)
 
     operator fun div(scalar: Int) = div(scalar.toDouble())
 
-    infix fun dot(other: Tuple) = x * other.x + y * other.y + z * other.z
+    operator fun unaryMinus() = Vector(-x, -y, -z)
 
-    infix fun cross(other: Tuple) = vector(
+    fun mag() = sqrt(x * x + y * y + z * z)
+
+    fun norm() = this / mag()
+
+    infix fun dot(other: Vector) = x * other.x + y * other.y + z * other.z
+
+    infix fun cross(other: Vector) = Vector (
         y * other.z - z * other.y,
         z * other.x - x * other.z,
         x * other.y - y * other.x
     )
 
-    fun isPoint() = w == 1.0
+    override fun equals(other: Any?) =
+        other is Vector && closeTo(x, other.x) && closeTo(y, other.y) && closeTo (z, other.z)
+}
 
-    fun isVector() = w == 0.0
+open class Matrix(vararg val elems: Double) {
+
+    private val dim: Int = sqrt(elems.size.toDouble()).toInt()
+    private val contents: Array<DoubleArray>
+
+    init {
+        if(dim * dim != elems.size) {
+            throw IllegalArgumentException("number of elements ${elems.size} not a square number")
+        }
+        contents = Array(dim) { DoubleArray(dim)}
+        var r = 0
+        var c = 0
+        for (elem in elems) {
+            contents[r][c] = elem
+            c++
+            if(c == dim) {
+                c = 0
+                r++
+            }
+        }
+    }
+
+    operator fun times(other: Matrix): Matrix {
+        if (dim != other.dim) {
+            throw IllegalArgumentException("cannot multiply different sized matrices this: $dim other: ${other.dim}")
+        }
+        val result = DoubleArray(dim * dim)
+        var i = 0
+        for (r in 0 until dim) {
+            for (c in 0 until dim) {
+                result[i] = getMultCell(r, c, other)
+                i++
+            }
+        }
+        return Matrix(*result)
+    }
+
+    private fun getMultCell(r: Int, c: Int, other: Matrix): Double {
+        var result = 0.0
+        for(i in 0 until dim) {
+            result += contents[r][i] * other.contents[i][c]
+        }
+        return result
+    }
+
+    fun get(r: Int, c: Int) =
+        if(r !in 0 until dim || c !in 0 until dim) {
+            IllegalArgumentException("r or c out of range r: $r c: $c")
+        } else {
+            contents[r][c]
+        }
+
+    override fun equals(other: Any?): Boolean {
+        if(other !is Matrix || other.dim != dim) {
+            return false
+        }
+        for(r in 0 until dim) {
+            for(c in 0 until dim) {
+                if(!closeTo(contents[r][c], other.contents[r][c]))
+                    return false
+            }
+        }
+        return true
+    }
 
     override fun toString(): String {
-        return "Tuple(x=$x, y=$y, z=$z, w=$w)"
+        val sb = StringBuilder()
+        for(r in 0 until dim) {
+            for(c in 0 until dim) {
+                sb.append("${contents[r][c]} ")
+            }
+            sb.append('\n')
+        }
+        return sb.toString()
     }
 }
 
-fun tuple(x: Double, y: Double, z: Double, w: Double): Tuple {
-    return Tuple(x, y, z, w)
-}
 
-fun point(x: Double, y: Double, z: Double) = Tuple(x, y, z, 1.0)
 
-fun vector(x: Double, y: Double, z: Double) = Tuple(x, y, z, 0.0)
-
-fun tuple(x: Int, y: Int, z: Int, w: Int) = tuple(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble())
-
-fun point(x: Int, y: Int, z: Int) = tuple(x, y, z, 1)
-
-fun vector(x: Int, y: Int, z: Int) = tuple(x, y, z, 0)
-
-fun mag(t: Tuple) = sqrt(t.x * t.x + t.y * t.y + t.z * t.z)
-
-fun norm(t: Tuple) = t / mag(t)
