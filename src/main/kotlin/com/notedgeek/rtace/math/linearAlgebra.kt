@@ -119,7 +119,7 @@ open class Matrix(vararg elems: Double) {
     operator fun unaryMinus(): Matrix {
         val det = det()
         if (closeTo(det, 0.0)) {
-            throw IllegalArgumentException("un-invertable matrix $this")
+            throw IllegalArgumentException("un-invertible matrix $this")
         }
         val destArray = DoubleArray(dim * dim)
         for (r in 0 until dim) {
@@ -242,6 +242,16 @@ open class Matrix(vararg elems: Double) {
         return result
     }
 }
+
+fun vector(x: Double, y: Double, z: Double) = Vector(x, y, z)
+
+fun vector(x: Int, y: Int, z: Int) = Vector(x, y, z)
+
+fun point(x: Double, y: Double, z: Double) = Point(x, y, z)
+
+fun point(x: Int, y: Int, z: Int) = Point(x, y, z)
+
+fun matrix(vararg elems: Double) = Matrix(*elems)
 
 fun mag(v: Vector) =  v.mag()
 
