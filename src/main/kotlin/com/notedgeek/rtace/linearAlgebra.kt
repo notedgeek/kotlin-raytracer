@@ -1,4 +1,4 @@
-package com.notedgeek.rtace.math
+package com.notedgeek.rtace
 
 import java.lang.IllegalArgumentException
 import kotlin.math.abs
@@ -21,12 +21,20 @@ class Point(val x: Double, val y: Double, val z: Double) {
 
     constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    operator fun minus(other: Point) = Vector(x - other.x, y - other.y, z - other.z)
+    operator fun minus(other: Point) =
+        Vector(x - other.x, y - other.y, z - other.z)
 
-    operator fun minus(vector: Vector) = Point(x - vector.x, y - vector.y, z - vector.z)
+    operator fun minus(vector: Vector) =
+        Point(x - vector.x, y - vector.y, z - vector.z)
 
     override fun equals(other: Any?) =
-        other is Point && closeTo(x, other.x) && closeTo(y, other.y) && closeTo (z, other.z)
+        other is Point && closeTo(
+            x,
+            other.x
+        ) && closeTo(
+            y,
+            other.y
+        ) && closeTo(z, other.z)
 
     override fun toString(): String {
         return "Point(x=$x, y=$y, z=$z)"
@@ -37,11 +45,14 @@ class Vector(val x: Double, val y: Double, val z: Double) {
 
     constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    operator fun plus(other: Vector) = Vector(x + other.x, y + other.y, z + other.z)
+    operator fun plus(other: Vector) =
+        Vector(x + other.x, y + other.y, z + other.z)
 
-    operator fun minus(other: Vector) = Vector(x - other.x, y - other.y, z - other.z)
+    operator fun minus(other: Vector) =
+        Vector(x - other.x, y - other.y, z - other.z)
 
-    operator fun times(scalar: Double) = Vector(x * scalar, y * scalar, z * scalar)
+    operator fun times(scalar: Double) =
+        Vector(x * scalar, y * scalar, z * scalar)
 
     operator fun times(scalar: Int) = times(scalar.toDouble())
 
@@ -57,14 +68,21 @@ class Vector(val x: Double, val y: Double, val z: Double) {
 
     infix fun dot(other: Vector) = x * other.x + y * other.y + z * other.z
 
-    infix fun cross(other: Vector) = Vector (
-        y * other.z - z * other.y,
-        z * other.x - x * other.z,
-        x * other.y - y * other.x
-    )
+    infix fun cross(other: Vector) =
+        Vector(
+            y * other.z - z * other.y,
+            z * other.x - x * other.z,
+            x * other.y - y * other.x
+        )
 
     override fun equals(other: Any?) =
-        other is Vector && closeTo(x, other.x) && closeTo(y, other.y) && closeTo (z, other.z)
+        other is Vector && closeTo(
+            x,
+            other.x
+        ) && closeTo(
+            y,
+            other.y
+        ) && closeTo(z, other.z)
 
     override fun toString(): String {
         return "Vector(x=$x, y=$y, z=$z)"
@@ -282,29 +300,30 @@ fun scaling(x: Double, y: Double, z: Double) = Matrix(
 )
 
 fun rotationX(r: Double) = Matrix(
-    1.0, 0.0,     0.0,    0.0,
+    1.0, 0.0, 0.0, 0.0,
     0.0, cos(r), -sin(r), 0.0,
-    0.0, sin(r),  cos(r), 0.0,
-    0.0, 0.0,     0.0,    1.0
+    0.0, sin(r), cos(r), 0.0,
+    0.0, 0.0, 0.0, 1.0
 )
 
 fun rotationY(r: Double) = Matrix(
-    cos(r),  0.0, sin(r), 0.0,
-    0.0,     1.0, 0.0,    0.0,
+    cos(r), 0.0, sin(r), 0.0,
+    0.0, 1.0, 0.0, 0.0,
     -sin(r), 0.0, cos(r), 0.0,
-    0.0,     0.0, 0.0,    1.0
+    0.0, 0.0, 0.0, 1.0
 )
 
 fun rotationZ(r: Double) = Matrix(
     cos(r), -sin(r), 0.0, 0.0,
-    sin(r),  cos(r), 0.0, 0.0,
-    0.0,        0.0, 1.0, 0.0,
-    0.0,        0.0, 0.0, 1.0
-)
-
-fun shearing(xy: Double, xz: Double, yx: Double, yz: Double, zx: Double, zy: Double) = Matrix(
-    1.0, xy, xz,  0.0,
-    yx, 1.0, yz,  0.0,
-    zx, zy, 1.0,  0.0,
+    sin(r), cos(r), 0.0, 0.0,
+    0.0, 0.0, 1.0, 0.0,
     0.0, 0.0, 0.0, 1.0
 )
+
+fun shearing(xy: Double, xz: Double, yx: Double, yz: Double, zx: Double, zy: Double) =
+    Matrix(
+        1.0, xy, xz, 0.0,
+        yx, 1.0, yz, 0.0,
+        zx, zy, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    )

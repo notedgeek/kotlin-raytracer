@@ -1,6 +1,6 @@
-package com.notedgeek.rtrace.math
+package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.math.*
+import com.notedgeek.rtace.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Nested
@@ -10,7 +10,7 @@ import kotlin.math.sqrt
 
 private val SQ2 = sqrt(2.0)
 
-class MatrixTest {
+class TestMatrices {
 
     @Nested
     inner class BasicArithmetic {
@@ -119,7 +119,13 @@ class MatrixTest {
                     0.0, 8.0, 3.0, 8.0
                 )
             )
-            assertThat(transpose(transpose(m))).isEqualTo(m)
+            assertThat(
+                transpose(
+                    transpose(
+                        m
+                    )
+                )
+            ).isEqualTo(m)
         }
     }
 
@@ -175,7 +181,13 @@ class MatrixTest {
             )
             val sm = submatrix(m, 1, 0)
             assertThat(det(sm)).isCloseTo(25.0, offset(EPSILON))
-            assertThat(minor(m, 1, 0)).isCloseTo(25.0, offset(EPSILON))
+            assertThat(
+                minor(
+                    m,
+                    1,
+                    0
+                )
+            ).isCloseTo(25.0, offset(EPSILON))
         }
 
         @Test
@@ -185,10 +197,26 @@ class MatrixTest {
                 2.0, -1.0, -7.0,
                 6.0, -1.0, 5.0
             )
-            assertThat(minor(m, 0, 0)).isCloseTo(-12.0, offset(EPSILON))
-            assertThat(cofactor(m, 0, 0)).isCloseTo(-12.0, offset(EPSILON))
-            assertThat(minor(m, 1, 0)).isCloseTo(25.0, offset(EPSILON))
-            assertThat(cofactor(m, 1, 0)).isCloseTo(-25.0, offset(EPSILON))
+            assertThat(
+                minor(
+                    m,
+                    0,
+                    0
+                )
+            ).isCloseTo(-12.0, offset(EPSILON))
+            assertThat(cofactor(m, 0, 0)).isCloseTo(-12.0, offset(
+                EPSILON
+            ))
+            assertThat(
+                minor(
+                    m,
+                    1,
+                    0
+                )
+            ).isCloseTo(25.0, offset(EPSILON))
+            assertThat(cofactor(m, 1, 0)).isCloseTo(-25.0, offset(
+                EPSILON
+            ))
         }
 
         @Test
@@ -198,9 +226,15 @@ class MatrixTest {
                 -5.0, 8.0, -4.0,
                 2.0, 6.0, 4.0
             )
-            assertThat(cofactor(m, 0, 0)).isCloseTo(56.0, offset(EPSILON))
-            assertThat(cofactor(m, 0, 1)).isCloseTo(12.0, offset(EPSILON))
-            assertThat(cofactor(m, 0, 2)).isCloseTo(-46.0, offset(EPSILON))
+            assertThat(cofactor(m, 0, 0)).isCloseTo(56.0, offset(
+                EPSILON
+            ))
+            assertThat(cofactor(m, 0, 1)).isCloseTo(12.0, offset(
+                EPSILON
+            ))
+            assertThat(cofactor(m, 0, 2)).isCloseTo(-46.0, offset(
+                EPSILON
+            ))
             assertThat(det(m)).isCloseTo(-196.0, offset(EPSILON))
         }
 
@@ -212,10 +246,18 @@ class MatrixTest {
                 1.0, 2.0, -9.0, 6.0,
                 -6.0, 7.0, 7.0, -9.0
             )
-            assertThat(cofactor(m, 0, 0)).isCloseTo(690.0, offset(EPSILON))
-            assertThat(cofactor(m, 0, 1)).isCloseTo(447.0, offset(EPSILON))
-            assertThat(cofactor(m, 0, 2)).isCloseTo(210.0, offset(EPSILON))
-            assertThat(cofactor(m, 0, 3)).isCloseTo(51.0, offset(EPSILON))
+            assertThat(cofactor(m, 0, 0)).isCloseTo(690.0, offset(
+                EPSILON
+            ))
+            assertThat(cofactor(m, 0, 1)).isCloseTo(447.0, offset(
+                EPSILON
+            ))
+            assertThat(cofactor(m, 0, 2)).isCloseTo(210.0, offset(
+                EPSILON
+            ))
+            assertThat(cofactor(m, 0, 3)).isCloseTo(51.0, offset(
+                EPSILON
+            ))
             assertThat(det(m)).isCloseTo(-4071.0, offset(EPSILON))
         }
 
@@ -229,9 +271,13 @@ class MatrixTest {
             )
             val mi = -m
             assertThat(det(m)).isCloseTo(532.0, offset(EPSILON))
-            assertThat(cofactor(m, 2, 3)).isCloseTo(-160.0, offset(EPSILON))
+            assertThat(cofactor(m, 2, 3)).isCloseTo(-160.0, offset(
+                EPSILON
+            ))
             assertThat(mi.get(3, 2)).isCloseTo(-160.0 / 532.0, offset(EPSILON))
-            assertThat(cofactor(m, 3, 2)).isCloseTo(105.0, offset(EPSILON))
+            assertThat(cofactor(m, 3, 2)).isCloseTo(105.0, offset(
+                EPSILON
+            ))
             assertThat(mi.get(2, 3)).isCloseTo(105.0 / 532.0, offset(EPSILON))
             assertThat(mi).isEqualTo(
                 matrix(

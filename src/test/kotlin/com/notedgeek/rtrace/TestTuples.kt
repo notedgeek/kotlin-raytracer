@@ -1,6 +1,6 @@
-package com.notedgeek.rtrace.math
+package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.math.*
+import com.notedgeek.rtace.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.offset
 import org.junit.jupiter.api.Nested
@@ -102,14 +102,26 @@ class TestTuples {
         @Test
         fun `normalising vector(4, 0, 0) gives (1, 0, 0)`() {
             val v = vector(4, 0, 0)
-            assertThat(normalise(v)).isEqualTo(vector(1, 0, 0))
+            assertThat(normalise(v)).isEqualTo(
+                vector(
+                    1,
+                    0,
+                    0
+                )
+            )
         }
 
         @Test
         fun `normalising vector(1, 2, 3)`() {
             val v = vector(1, 2, 3)
             val s14 = sqrt(14.0)
-            assertThat(normalise(v)).isEqualTo(vector(1.0 / s14, 2.0 / s14, 3.0 / s14))
+            assertThat(normalise(v)).isEqualTo(
+                vector(
+                    1.0 / s14,
+                    2.0 / s14,
+                    3.0 / s14
+                )
+            )
         }
     }
 
