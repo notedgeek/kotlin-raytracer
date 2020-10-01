@@ -5,19 +5,17 @@ import com.notedgeek.rtace.`object`.sphere
 import com.notedgeek.rtrace.graphics.pixelSource
 import com.notedgeek.rtrace.graphics.pixelSourceRenderer
 import java.awt.Color
-import kotlin.math.PI
 
-private class FirstSphere {
+private class ShadedSphere {
 
-    val canvasPixels = 1000
+    val canvasPixels = 1200
 
     private val rayOrigin = point(0, 0, -5)
     private val wallZ = 10.0
     private val wallSize = 7.0
     private val pixelSize = wallSize / canvasPixels
-    private val shape = sphere()
-        .transform(scaling(1.0, 0.3, 1.0))
-        .transform(rotationZ(PI / 4))
+    private val shape = sphere().withMaterial(material(colour(1.0, 0.2, 1.0)))
+    private val light = pointLight(point(-10, 10, -10), WHITE)
     private val half = wallSize / 2
 
     fun colorAt(x: Int, y: Int): Color {
@@ -26,18 +24,20 @@ private class FirstSphere {
         val position = point(worldX, worldY, wallZ)
         val r = ray(rayOrigin, normalise(position - rayOrigin))
         val xs = shape.intersects(r)
-        return if (hit(xs) != null) {
-            Color.MAGENTA
+        val hit = hit(xs)
+        return if (hit != null) {
+            val point = position(r, hit.t)
+            val o = hit.obj
+            val normal = o.normalAt(point)
+            val eyeV = - r.direction
+            lighting(o.material, light, point, eyeV, normal).toAWT()
         } else {
-            Color.BLACK
+            BLACK.toAWT()
         }
     }
 }
 
 fun main() {
-    val sphere = FirstSphere()
+    val sphere = ShadedSphere()
     pixelSourceRenderer(pixelSource(sphere.canvasPixels, sphere.canvasPixels, sphere::colorAt))
 }
-
-
-
