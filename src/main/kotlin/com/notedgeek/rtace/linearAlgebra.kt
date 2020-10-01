@@ -14,7 +14,7 @@ var I = Matrix(
     0.0, 0.0, 0.0, 1.0
 )
 
-private fun closeTo(a: Double, b: Double) = abs(a - b) < EPSILON
+internal fun closeTo(a: Double, b: Double) = abs(a - b) < EPSILON
 
 class Point(val x: Double, val y: Double, val z: Double) {
 
