@@ -3,10 +3,20 @@ package com.notedgeek.rtace.`object`
 import com.notedgeek.rtace.*
 import kotlin.math.sqrt
 
-class Sphere(transformation: Matrix = I) : SceneObject<Sphere>(transformation) {
+class Sphere(
+    material: Material = Material(),
+    transformation: Matrix = I
+) : sceneObject<Sphere>(
+    material,
+    transformation
+) {
 
     override fun withTransform(transform: Matrix): Sphere {
-        return Sphere(transform)
+        return Sphere(material, transform)
+    }
+
+    override fun withMaterial(material: Material): Sphere {
+        return Sphere(material, transform)
     }
 
     override fun intersects(r: Ray): List<Intersection> {

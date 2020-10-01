@@ -4,10 +4,10 @@ import java.io.File
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
-class RenderFrame(name: String?, width: Int, height: Int, renderer: Renderer) : JFrame(name) {
-    private val renderer: Renderer
-    private val renderContext: RenderContext
-    private val panel: ImageSourceRenderContextPanel
+class renderFrame(name: String?, width: Int, height: Int, renderer: renderer) : JFrame(name) {
+    private val renderer: renderer
+    private val renderContext: renderContext
+    private val panel: imageSourceRenderContextPanel
     fun render() {
         renderer.render(renderContext)
     }
@@ -20,7 +20,7 @@ class RenderFrame(name: String?, width: Int, height: Int, renderer: Renderer) : 
         this.setSize(width, height)
         this.renderer = renderer
         val content = contentPane
-        panel = ImageSourceRenderContextPanel(width, height)
+        panel = imageSourceRenderContextPanel(width, height)
         renderContext = panel
         content.add(panel)
         pack()

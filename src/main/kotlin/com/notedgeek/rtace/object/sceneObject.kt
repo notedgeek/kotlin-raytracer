@@ -2,13 +2,18 @@ package com.notedgeek.rtace.`object`
 
 import com.notedgeek.rtace.*
 
-abstract class SceneObject<T>(val transform: Matrix = I) {
+abstract class sceneObject<T>(
+    val material: Material = Material(),
+    val transform: Matrix = I
+) {
 
     val inverseTransform = -transform
 
     abstract fun intersects(r: Ray): List<Intersection>
 
     abstract fun withTransform(transform: Matrix): T
+
+    abstract fun withMaterial(material: Material): T
 
     abstract fun normalAt(worldPoint: Point): Vector
 

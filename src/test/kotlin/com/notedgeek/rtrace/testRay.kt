@@ -28,55 +28,52 @@ class TestRay {
         assertThat(position(r, 2.5)).isEqualTo(point(4.5, 3.0, 4.0))
     }
 
-    @Nested
-    inner class Spheres {
-        @Test
-        fun `a ray intersects a sphere at two points`() {
-            val r = ray(point(0, 0, -5), vector(0, 0, 1))
-            val s = sphere()
-            val xs = s.intersects(r)
-            assertThat(xs.size).isEqualTo(2)
-            assertThat(xs[0].t).isCloseTo(4.0, offset(EPSILON))
-            assertThat(xs[1].t).isCloseTo(6.0, offset(EPSILON))
-        }
+    @Test
+    fun `a ray intersects a sphere at two points`() {
+        val r = ray(point(0, 0, -5), vector(0, 0, 1))
+        val s = sphere()
+        val xs = s.intersects(r)
+        assertThat(xs.size).isEqualTo(2)
+        assertThat(xs[0].t).isCloseTo(4.0, offset(EPSILON))
+        assertThat(xs[1].t).isCloseTo(6.0, offset(EPSILON))
+    }
 
-        @Test
-        fun `a ray intersects a sphere at a tangent`() {
-            val r = ray(point(0, 1, -5), vector(0, 0, 1))
-            val s = sphere()
-            val xs = s.intersects(r)
-            assertThat(xs.size).isEqualTo(2)
-            assertThat(xs[0].t).isCloseTo(5.0, offset(EPSILON))
-            assertThat(xs[1].t).isCloseTo(5.0, offset(EPSILON))
-        }
+    @Test
+    fun `a ray intersects a sphere at a tangent`() {
+        val r = ray(point(0, 1, -5), vector(0, 0, 1))
+        val s = sphere()
+        val xs = s.intersects(r)
+        assertThat(xs.size).isEqualTo(2)
+        assertThat(xs[0].t).isCloseTo(5.0, offset(EPSILON))
+        assertThat(xs[1].t).isCloseTo(5.0, offset(EPSILON))
+    }
 
-        @Test
-        fun `a ray misses a sphere`() {
-            val r = ray(point(0, 2, -5), vector(0, 0, 1))
-            val s = sphere()
-            val xs = s.intersects(r)
-            assertThat(xs.size).isEqualTo(0)
-        }
+    @Test
+    fun `a ray misses a sphere`() {
+        val r = ray(point(0, 2, -5), vector(0, 0, 1))
+        val s = sphere()
+        val xs = s.intersects(r)
+        assertThat(xs.size).isEqualTo(0)
+    }
 
-        @Test
-        fun `a ray originates inside a sphere`() {
-            val r = ray(point(0, 0, 0), vector(0, 0, 1))
-            val s = sphere()
-            val xs = s.intersects(r)
-            assertThat(xs.size).isEqualTo(2)
-            assertThat(xs[0].t).isCloseTo(-1.0, offset(EPSILON))
-            assertThat(xs[1].t).isCloseTo(1.0, offset(EPSILON))
-        }
+    @Test
+    fun `a ray originates inside a sphere`() {
+        val r = ray(point(0, 0, 0), vector(0, 0, 1))
+        val s = sphere()
+        val xs = s.intersects(r)
+        assertThat(xs.size).isEqualTo(2)
+        assertThat(xs[0].t).isCloseTo(-1.0, offset(EPSILON))
+        assertThat(xs[1].t).isCloseTo(1.0, offset(EPSILON))
+    }
 
-        @Test
-        fun `a sphere is behind a ray`() {
-            val r = ray(point(0, 0, 5), vector(0, 0, 1))
-            val s = sphere()
-            val xs = s.intersects(r)
-            assertThat(xs.size).isEqualTo(2)
-            assertThat(xs[0].t).isCloseTo(-6.0, offset(EPSILON))
-            assertThat(xs[1].t).isCloseTo(-4.0, offset(EPSILON))
-        }
+    @Test
+    fun `a sphere is behind a ray`() {
+        val r = ray(point(0, 0, 5), vector(0, 0, 1))
+        val s = sphere()
+        val xs = s.intersects(r)
+        assertThat(xs.size).isEqualTo(2)
+        assertThat(xs[0].t).isCloseTo(-6.0, offset(EPSILON))
+        assertThat(xs[1].t).isCloseTo(-4.0, offset(EPSILON))
     }
 
     @Test

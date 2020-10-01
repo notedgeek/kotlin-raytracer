@@ -1,8 +1,8 @@
 package com.notedgeek.rtace
 
-import com.notedgeek.rtace.`object`.SceneObject
+import com.notedgeek.rtace.`object`.sceneObject
 
-data class Intersection(val t: Double, val obj: SceneObject<*>)
+data class Intersection(val t: Double, val obj: sceneObject<*>)
 
 data class Ray(val origin: Point, val direction: Vector) {
     fun transform(t: Matrix) = Ray(t * origin, t * direction)
@@ -12,7 +12,7 @@ fun ray(origin: Point, direction: Vector) = Ray(origin, direction)
 
 fun position(ray: Ray, t: Double) = ray.origin + ray.direction * t
 
-fun intersection(t: Double, obj: SceneObject<*>) = Intersection(t, obj)
+fun intersection(t: Double, obj: sceneObject<*>) = Intersection(t, obj)
 
 fun intersections(vararg elems: Intersection): List<Intersection> {
     val result = ArrayList<Intersection>(elems.size)

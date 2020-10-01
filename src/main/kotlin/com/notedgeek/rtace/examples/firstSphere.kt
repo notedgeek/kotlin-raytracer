@@ -2,8 +2,8 @@ package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
 import com.notedgeek.rtace.`object`.sphere
-import com.notedgeek.rtrace.graphics.PixelSource
-import com.notedgeek.rtrace.graphics.PixelSourceRenderer
+import com.notedgeek.rtrace.graphics.pixelSource
+import com.notedgeek.rtrace.graphics.pixelSourceRenderer
 import java.awt.Color
 import kotlin.math.PI
 
@@ -32,7 +32,7 @@ fun colorAt(x: Int, y: Int): Color {
 }
 
 fun main() {
-    PixelSourceRenderer(PixelSource(canvasPixels, canvasPixels, ::colorAt))
+    pixelSourceRenderer(pixelSource(canvasPixels, canvasPixels, ::colorAt))
 }
 
 

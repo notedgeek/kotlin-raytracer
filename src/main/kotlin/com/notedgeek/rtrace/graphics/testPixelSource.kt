@@ -5,7 +5,7 @@ import java.awt.Color
 private const val squareSize = 20
 
 fun main() {
-    PixelSourceRenderer(PixelSource(1920, 1080){
+    pixelSourceRenderer(pixelSource(1920, 1080){
         x: Int, y: Int ->
             val squareX = x / squareSize
             val squareY = y / squareSize
