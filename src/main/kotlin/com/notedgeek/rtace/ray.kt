@@ -27,3 +27,5 @@ fun hit(intersections: Iterable<Intersection>): Intersection? {
     } }
     return null
 }
+
+fun reflect(incoming: Vector, normal: Vector) = incoming - normal * 2 * (incoming dot normal)

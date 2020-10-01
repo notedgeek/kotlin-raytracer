@@ -238,4 +238,20 @@ class TestRay {
         val n = s.normalAt(point(0.0, SQ2 / 2, -SQ2 / 2))
         assertThat(n).isEqualTo(vector(0.0, 0.97014, -0.24254))
     }
+
+    @Test
+    fun `reflecting a vector approaching at 45` () {
+        val v = vector(1, -1, 0)
+        val n = vector(0, 1, 0)
+        val r = reflect(v, n)
+        assertThat(r).isEqualTo(vector(1, 1, 0))
+    }
+
+    @Test
+    fun `reflecting a vector off a slanted surface` () {
+        val v = vector(0, -1, 0)
+        val n = vector(SQ2 / 2, SQ2 / 2, 0.0)
+        val r = reflect(v, n)
+        assertThat(r).isEqualTo(vector(1, 0, 0))
+    }
 }
