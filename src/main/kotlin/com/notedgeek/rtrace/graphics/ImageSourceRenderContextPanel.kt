@@ -20,11 +20,7 @@ class ImageSourceRenderContextPanel(override var sizeX: Int, override var sizeY:
         if (r > 255 || g > 255 || b > 255) println("overflow")
         val loc = y * sizeX + x
         val alpha = 255
-        try {
-            data[loc] = alpha shl 24 or (0xff and r shl 16) or (0xff and g shl 8) or (0xff and b)
-        } catch (e: Exception) {
-            println("hello")
-        }
+        data[loc] = alpha shl 24 or (0xff and r shl 16) or (0xff and g shl 8) or (0xff and b)
     }
 
     fun writeToFile(file: File?) {
