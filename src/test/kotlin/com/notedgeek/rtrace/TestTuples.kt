@@ -26,6 +26,13 @@ class TestTuples {
         }
 
         @Test
+        fun `adding a vector to a point produces a point`() {
+            val p = point(3, 2, 1)
+            val v = vector(5, 6, 7)
+            assertThat(p + v).isEqualTo(point(8, 8, 8))
+        }
+
+        @Test
         fun `subtracting a vector from a point produces a point`() {
             val p = point(3, 2, 1)
             val v = vector(5, 6, 7)

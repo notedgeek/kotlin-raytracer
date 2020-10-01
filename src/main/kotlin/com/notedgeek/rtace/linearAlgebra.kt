@@ -1,9 +1,6 @@
 package com.notedgeek.rtace
 
-import java.lang.IllegalArgumentException
 import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
 import kotlin.math.sqrt
 
 var EPSILON = 0.00001
@@ -20,6 +17,8 @@ private fun closeTo(a: Double, b: Double) = abs(a - b) < EPSILON
 class Point(val x: Double, val y: Double, val z: Double) {
 
     constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
+
+    operator fun plus(vector: Vector) = Point(x + vector.x, y + vector.y, z + vector.z)
 
     operator fun minus(other: Point) =
         Vector(x - other.x, y - other.y, z - other.z)
@@ -285,45 +284,3 @@ fun minor(m: Matrix, r: Int, c: Int) = m.minor(r, c)
 
 fun cofactor(m: Matrix, r: Int, c: Int) = m.cofactor(r, c)
 
-fun translation(x: Double, y: Double, z: Double) = Matrix(
-    1.0, 0.0, 0.0, x,
-    0.0, 1.0, 0.0, y,
-    0.0, 0.0, 1.0, z,
-    0.0, 0.0, 0.0, 1.0
-)
-
-fun scaling(x: Double, y: Double, z: Double) = Matrix(
-    x, 0.0, 0.0, 0.0,
-    0.0, y, 0.0, 0.0,
-    0.0, 0.0, z, 0.0,
-    0.0, 0.0, 0.0, 1.0
-)
-
-fun rotationX(r: Double) = Matrix(
-    1.0, 0.0, 0.0, 0.0,
-    0.0, cos(r), -sin(r), 0.0,
-    0.0, sin(r), cos(r), 0.0,
-    0.0, 0.0, 0.0, 1.0
-)
-
-fun rotationY(r: Double) = Matrix(
-    cos(r), 0.0, sin(r), 0.0,
-    0.0, 1.0, 0.0, 0.0,
-    -sin(r), 0.0, cos(r), 0.0,
-    0.0, 0.0, 0.0, 1.0
-)
-
-fun rotationZ(r: Double) = Matrix(
-    cos(r), -sin(r), 0.0, 0.0,
-    sin(r), cos(r), 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 0.0, 1.0
-)
-
-fun shearing(xy: Double, xz: Double, yx: Double, yz: Double, zx: Double, zy: Double) =
-    Matrix(
-        1.0, xy, xz, 0.0,
-        yx, 1.0, yz, 0.0,
-        zx, zy, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    )
