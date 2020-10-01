@@ -1,6 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.`object`.sphere
 import com.notedgeek.rtrace.graphics.PixelSource
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import java.awt.Color

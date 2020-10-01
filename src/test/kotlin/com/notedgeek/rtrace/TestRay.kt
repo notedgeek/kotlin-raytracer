@@ -1,12 +1,12 @@
 package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.scaling
-import com.notedgeek.rtace.translation
+import com.notedgeek.rtace.`object`.sphere
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.data.Offset.*
+import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.math.PI
 
 class TestRay {
 
@@ -188,5 +188,54 @@ class TestRay {
         val s = sphere().transform(translation(5.0, 0.0, 0.0))
         val xs = s.intersects(r)
         assertThat(xs.size).isEqualTo(0)
+    }
+
+    @Test
+    fun `normal on a sphere at a point on the x axis` () {
+        val s = sphere()
+        val n = s.normalAt(point(1, 0, 0))
+        assertThat(n).isEqualTo(vector(1, 0, 0))
+    }
+
+    @Test
+    fun `normal on a sphere at a point on the y axis` () {
+        val s = sphere()
+        val n = s.normalAt(point(0, 1, 0))
+        assertThat(n).isEqualTo(vector(0, 1, 0))
+    }
+
+    @Test
+    fun `normal on a sphere at a point on the z axis` () {
+        val s = sphere()
+        val n = s.normalAt(point(0, 0, 1))
+        assertThat(n).isEqualTo(vector(0, 0, 1))
+    }
+
+    @Test
+    fun `normal on a sphere at a non-axial point` () {
+        val s = sphere()
+        val n = s.normalAt(point(SQ3 / 3, SQ3 / 3, SQ3 / 3))
+        assertThat(n).isEqualTo(vector(SQ3 / 3, SQ3 / 3, SQ3 / 3))
+    }
+
+    @Test
+    fun `normal is a normalized vector` () {
+        val s = sphere()
+        val n = s.normalAt(point(SQ3 / 3, SQ3 / 3, SQ3 / 3))
+        assertThat(n).isEqualTo(normalise(n))
+    }
+
+    @Test
+    fun `computing the normal on a translated sphere`() {
+        val s = sphere().translateY(1.0)
+        val n = s.normalAt(point(0.0, 1.70711, -0.70711))
+        assertThat(n).isEqualTo(vector(0.0, 0.70711, -0.70711))
+    }
+
+    @Test
+    fun `computing the normal on a transformed sphere`() {
+        val s = sphere().rotateZ(PI / 5).scale(1.0, 0.5, 1.0)
+        val n = s.normalAt(point(0.0, SQ2 / 2, -SQ2 / 2))
+        assertThat(n).isEqualTo(vector(0.0, 0.97014, -0.24254))
     }
 }

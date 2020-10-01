@@ -1,5 +1,7 @@
 package com.notedgeek.rtace
 
+import com.notedgeek.rtace.`object`.SceneObject
+
 data class Intersection(val t: Double, val obj: SceneObject<*>)
 
 data class Ray(val origin: Point, val direction: Vector) {

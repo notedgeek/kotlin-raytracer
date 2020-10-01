@@ -1,20 +1,7 @@
-package com.notedgeek.rtace
+package com.notedgeek.rtace.`object`
 
+import com.notedgeek.rtace.*
 import kotlin.math.sqrt
-
-abstract class SceneObject<T>(val transform: Matrix = I) {
-
-    val inverseTransform = -transform
-
-    abstract fun intersects(r: Ray): List<Intersection>
-
-    abstract fun withTransform(transform: Matrix): T
-
-    fun transform(transform: Matrix): T {
-        return withTransform(transform * this.transform)
-    }
-}
-
 
 class Sphere(transformation: Matrix = I) : SceneObject<Sphere>(transformation) {
 
@@ -37,6 +24,13 @@ class Sphere(transformation: Matrix = I) : SceneObject<Sphere>(transformation) {
                 intersection((-b + sqrt(disc)) / (2 * a), this)
             )
         }
+    }
+
+    override fun normalAt(worldPoint: Point): Vector {
+        val objectPoint = inverseTransform * worldPoint
+        val objectNormal = objectPoint - point(0, 0, 0,)
+        val worldNormal = transpose(inverseTransform) * objectNormal
+        return normalise(worldNormal)
     }
 }
 

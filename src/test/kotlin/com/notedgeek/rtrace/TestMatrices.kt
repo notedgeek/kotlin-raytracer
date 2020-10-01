@@ -6,9 +6,6 @@ import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
-import kotlin.math.sqrt
-
-private val SQ2 = sqrt(2.0)
 
 class TestMatrices {
 

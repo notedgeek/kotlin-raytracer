@@ -3,7 +3,9 @@ package com.notedgeek.rtace
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-var EPSILON = 0.00001
+const val EPSILON = 0.00001
+val SQ3 = sqrt(3.0)
+val SQ2 = sqrt(2.0)
 
 var I = Matrix(
     1.0, 0.0, 0.0, 0.0,
