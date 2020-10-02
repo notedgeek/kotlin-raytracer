@@ -1,9 +1,9 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.`object`.sphere
-import com.notedgeek.rtrace.graphics.pixelSource
-import com.notedgeek.rtrace.graphics.pixelSourceRenderer
+import com.notedgeek.rtace.objects.sphere
+import com.notedgeek.rtrace.graphics.PixelSource
+import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import java.awt.Color
 
 private class ShadedSphere {
@@ -39,5 +39,5 @@ private class ShadedSphere {
 
 fun main() {
     val sphere = ShadedSphere()
-    pixelSourceRenderer(pixelSource(sphere.canvasPixels, sphere.canvasPixels, sphere::colorAt))
+    PixelSourceRenderer(PixelSource(sphere.canvasPixels, sphere.canvasPixels, sphere::colorAt))
 }

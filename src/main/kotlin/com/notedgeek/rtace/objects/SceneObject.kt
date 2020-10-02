@@ -1,8 +1,8 @@
-package com.notedgeek.rtace.`object`
+package com.notedgeek.rtace.objects
 
 import com.notedgeek.rtace.*
 
-abstract class sceneObject<T>(
+abstract class SceneObject<T>(
     val material: Material = Material(),
     val transform: Matrix = I
 ) {

@@ -8,7 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 import javax.swing.JPanel
 
-class imageSourceRenderContextPanel(override var sizeX: Int, override var sizeY: Int) : renderContext, JPanel() {
+class ImageSourceRenderContextPanel(override var sizeX: Int, override var sizeY: Int) : RenderContext, JPanel() {
 
     private val data = IntArray(sizeX * sizeY)
 

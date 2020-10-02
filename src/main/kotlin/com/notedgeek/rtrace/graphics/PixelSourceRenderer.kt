@@ -3,11 +3,11 @@ package com.notedgeek.rtrace.graphics
 import java.io.IOException
 import java.util.*
 
-class pixelSourceRenderer(private val pixelSource: pixelSource) : renderer {
+class PixelSourceRenderer(private val pixelSource: PixelSource) : Renderer {
     internal inner class RenderRunner(
         private val start: Int,
         private val inc: Int,
-        private val renderContext: renderContext
+        private val renderContext: RenderContext
     ) : Runnable {
         override fun run() {
             for (y in 0 until renderContext.sizeY) {
@@ -23,7 +23,7 @@ class pixelSourceRenderer(private val pixelSource: pixelSource) : renderer {
         }
     }
 
-    override fun render(renderContext: renderContext) {
+    override fun render(renderContext: RenderContext) {
         val start = System.currentTimeMillis()
         val count = 8
         val threads: MutableList<Thread> = ArrayList()
@@ -43,7 +43,7 @@ class pixelSourceRenderer(private val pixelSource: pixelSource) : renderer {
     }
 
     init {
-        val renderFrame = renderFrame("pixel source renderer", pixelSource.width, pixelSource.height, this)
+        val renderFrame = RenderFrame("pixel source renderer", pixelSource.width, pixelSource.height, this)
         renderFrame.render()
         try {
             val `val` = 0

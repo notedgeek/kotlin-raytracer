@@ -3,7 +3,6 @@ package com.notedgeek.rtrace
 import com.notedgeek.rtace.colour
 import com.notedgeek.rtace.point
 import com.notedgeek.rtace.pointLight
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

@@ -1,8 +1,8 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.`object`.sphere
 import com.notedgeek.rtace.colour
 import com.notedgeek.rtace.material
+import com.notedgeek.rtace.objects.sphere
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

@@ -1,4 +1,4 @@
-package com.notedgeek.rtace.`object`
+package com.notedgeek.rtace.objects
 
 import com.notedgeek.rtace.*
 import kotlin.math.sqrt
@@ -6,7 +6,7 @@ import kotlin.math.sqrt
 class Sphere(
     material: Material = Material(),
     transformation: Matrix = I
-) : sceneObject<Sphere>(
+) : SceneObject<Sphere>(
     material,
     transformation
 ) {
@@ -42,6 +42,8 @@ class Sphere(
         val worldNormal = transpose(inverseTransform) * objectNormal
         return normalise(worldNormal)
     }
+
+    override fun equals(other: Any?) = other is Sphere && material == other.material && transform == other.transform
 }
 
 fun sphere() = Sphere()

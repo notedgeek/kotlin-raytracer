@@ -1,10 +1,9 @@
 package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.`object`.sphere
+import com.notedgeek.rtace.objects.sphere
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset.offset
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 
