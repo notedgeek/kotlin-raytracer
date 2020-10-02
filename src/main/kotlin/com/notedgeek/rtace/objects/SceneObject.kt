@@ -17,8 +17,22 @@ abstract class SceneObject(
 
     abstract fun normalAt(worldPoint: Point): Vector
 
+    fun withColour(r: Double, g: Double, b: Double) = withColour(colour(r, g, b))
+
+    fun withColour(colour: Colour) =
+        withMaterial(material(colour, material.ambient, material.diffuse, material.specular, material.shininess))
+
     fun withAmbient(ambient: Double) =
         withMaterial(material(material.colour, ambient, material.diffuse, material.specular, material.shininess))
+
+    fun withDiffuse(diffuse: Double) =
+        withMaterial(material(material.colour, material.ambient, diffuse, material.specular, material.shininess))
+
+    fun withSpecular(specular: Double) =
+        withMaterial(material(material.colour, material.ambient, material.diffuse, specular, material.shininess))
+
+    fun withShininess(shininess: Double) =
+        withMaterial(material(material.colour, material.ambient, material.diffuse, material.specular, shininess))
 
     fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
