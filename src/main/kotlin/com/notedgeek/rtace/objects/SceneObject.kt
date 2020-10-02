@@ -7,15 +7,9 @@ abstract class SceneObject(
     val transform: Matrix = I
 ) {
 
-    val inverseTransform = -transform
+    private val inverseTransform = -transform
 
     fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
-
-    abstract fun localIntersect(localRay: Ray): List<Intersection>
-
-    abstract fun withTransform(transform: Matrix): SceneObject
-
-    abstract fun material(material: Material): SceneObject
 
     fun normalAt(worldPoint: Point): Vector {
         val localPoint = inverseTransform * worldPoint
@@ -24,9 +18,6 @@ abstract class SceneObject(
         return normalise(worldNormal)
 
     }
-
-    abstract fun localNormalAt(localPoint: Point): Vector
-
     fun colour(r: Double, g: Double, b: Double) = colour(Colour(r, g, b))
 
     fun colour(colour: Colour) =
@@ -47,26 +38,35 @@ abstract class SceneObject(
     fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
     }
-    
+
     fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
-    
+
     fun translateX(x: Double) = transform(translation(x, 0.0, 0.0))
-    
+
     fun translateY(y: Double) = transform(translation(0.0, y, 0.0))
-    
+
     fun translateZ(z: Double) = transform(translation(0.0, 0.0, z))
-    
+
     fun scale(x: Double, y: Double, z: Double) = transform(scaling(x, y, z))
-    
+
     fun scaleX(x: Double) = transform(scaling(x, 0.0, 0.0))
-    
+
     fun scaleY(y: Double) = transform(scaling(0.0, y, 0.0))
-    
+
     fun scaleZ(z: Double) = transform(scaling(0.0, 0.0, z))
-    
+
     fun rotateX(r: Double) = transform(rotationX(r))
 
     fun rotateY(r: Double) = transform(rotationY(r))
 
     fun rotateZ(r: Double) = transform(rotationZ(r))
+
+    abstract fun localIntersect(localRay: Ray): List<Intersection>
+
+    abstract fun withTransform(transform: Matrix): SceneObject
+
+    abstract fun material(material: Material): SceneObject
+
+    abstract fun localNormalAt(localPoint: Point): Vector
+
 }
