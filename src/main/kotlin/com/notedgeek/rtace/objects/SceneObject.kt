@@ -17,7 +17,15 @@ abstract class SceneObject(
 
     abstract fun material(material: Material): SceneObject
 
-    abstract fun normalAt(worldPoint: Point): Vector
+    fun normalAt(worldPoint: Point): Vector {
+        val localPoint = inverseTransform * worldPoint
+        val localNormal = localNormalAt(localPoint)
+        val worldNormal = transpose(inverseTransform) * localNormal
+        return normalise(worldNormal)
+
+    }
+
+    abstract fun localNormalAt(localPoint: Point): Vector
 
     fun colour(r: Double, g: Double, b: Double) = colour(Colour(r, g, b))
 

@@ -35,11 +35,8 @@ class Sphere(
         }
     }
 
-    override fun normalAt(worldPoint: Point): Vector {
-        val objectPoint = inverseTransform * worldPoint
-        val objectNormal = objectPoint - point(0, 0, 0,)
-        val worldNormal = transpose(inverseTransform) * objectNormal
-        return normalise(worldNormal)
+    override fun localNormalAt(localPoint: Point): Vector {
+        return localPoint - point(0, 0, 0)
     }
 
     override fun equals(other: Any?) = other is Sphere && material == other.material && transform == other.transform
