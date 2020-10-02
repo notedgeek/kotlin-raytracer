@@ -54,7 +54,10 @@ class TestWorld {
         val s = w.objects[1]
         val i = intersection(0.5, s)
         val c = comps(i, r)
-        assertThat(w.shadeHit(c)).isEqualTo(colour(0.90498, 0.90498, 0.90498))
+
+        val amb = s.material.ambient
+        // modified from 0.90498, 0.90498, 0.90498 - now that shading is considered
+        assertThat(w.shadeHit(c)).isEqualTo(colour(amb, amb, amb))
     }
 
     @Test
@@ -79,4 +82,33 @@ class TestWorld {
         val ray = ray(point(0.0, 0.0, 0.75), vector(0, 0, -1))
         assertThat(w.colourAt(ray)).isEqualTo(defaultWorld.objects[1].material.colour)
     }
+
+    @Test
+    fun `there is no shadow when nothing is collinear with point and light`() {
+        val w = defaultWorld
+        val p = point(0, 10, 0)
+        assertThat(w.isShadowed(p)).isFalse
+    }
+
+    @Test
+    fun `shadow when object is between point and light`() {
+        val w = defaultWorld
+        val p = point(10, -10, 10)
+        assertThat(w.isShadowed(p)).isTrue
+    }
+
+    @Test
+    fun `there is no shadow when object is behind light`() {
+        val w = defaultWorld
+        val p = point(-20, -20, -20)
+        assertThat(w.isShadowed(p)).isFalse
+    }
+
+    @Test
+    fun `there is no shadow when object is behind point`() {
+        val w = defaultWorld
+        val p = point(-2, 2, -2)
+        assertThat(w.isShadowed(p)).isFalse
+    }
+
 }

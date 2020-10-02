@@ -2,14 +2,15 @@ package com.notedgeek.rtace
 
 import kotlin.math.pow
 
-fun lighting(material: Material, light: PointLight, point: Point, eyeV: Vector, normal: Vector): Colour {
+fun lighting(material: Material, light: PointLight, point: Point, eyeV: Vector,
+             normal: Vector, inShadow: Boolean = false): Colour {
     val effectiveColour = material.colour * light.intensity
     val lightV = normalise(light.position - point)
     val ambient = effectiveColour * material.ambient
     val lightDotNormal = lightV dot normal
     val diffuse: Colour
     val specular: Colour
-    if (lightDotNormal < 0.0) {
+    if (inShadow || lightDotNormal < 0.0) {
         diffuse = BLACK
         specular = BLACK
     } else {

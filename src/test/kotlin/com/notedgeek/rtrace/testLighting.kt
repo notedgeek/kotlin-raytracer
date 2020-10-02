@@ -54,4 +54,13 @@ class TestLighting {
         Assertions.assertThat(result).isEqualTo(colour(0.1, 0.1, 0.1))
     }
 
+    @Test
+    fun `lighting with the surface in shadow`() {
+        val eyeV = vector(0, 0, -1)
+        val normal = vector(0, 0, -1)
+        val light = pointLight(point(0, 0, -10), WHITE)
+        val inShadow = true
+        val result = lighting(material, light, position, eyeV, normal, inShadow)
+        Assertions.assertThat(result).isEqualTo(colour(0.1, 0.1, 0.1))
+    }
 }

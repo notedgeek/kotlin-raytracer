@@ -15,6 +15,7 @@ class Comps(intersection: Intersection, ray: Ray) {
     val eyeV = -ray.direction
     val normal: Vector
     val inside: Boolean
+    val overPoint: Point
 
     init {
         val normal = obj.normalAt(point)
@@ -25,6 +26,7 @@ class Comps(intersection: Intersection, ray: Ray) {
             inside = false
             this.normal = normal
         }
+        overPoint = point + normal * EPSILON
     }
 }
 

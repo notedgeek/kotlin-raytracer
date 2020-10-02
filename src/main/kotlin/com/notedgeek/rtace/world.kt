@@ -10,7 +10,8 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
         return result
     }
 
-    fun shadeHit(comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV, comps.normal)
+    fun shadeHit(comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV, comps.normal,
+        isShadowed(comps.overPoint))
 
     fun colourAt(ray: Ray): Colour {
         val intersections = intersections(ray)
@@ -21,6 +22,15 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
             val comps = comps(hit, ray)
             shadeHit(comps)
         }
+    }
+
+    fun isShadowed(point: Point): Boolean {
+        val v = light.position - point
+        val distance = mag(v)
+        val direction = normalise(v)
+        val ray = ray(point, direction)
+        val hit = hit(intersections(ray))
+        return hit != null && hit.t < distance
     }
 
     private fun intersectObjects(obj: SceneObject, ray: Ray, currentList: List<Intersection>): List<Intersection> {
