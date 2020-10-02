@@ -53,4 +53,5 @@ class TestLighting {
         val result = lighting(material, light, position, eyeV, normal)
         Assertions.assertThat(result).isEqualTo(colour(0.1, 0.1, 0.1))
     }
+
 }

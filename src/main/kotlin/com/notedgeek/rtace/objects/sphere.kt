@@ -6,7 +6,7 @@ import kotlin.math.sqrt
 class Sphere(
     material: Material = Material(),
     transformation: Matrix = I
-) : SceneObject<Sphere>(
+) : SceneObject(
     material,
     transformation
 ) {

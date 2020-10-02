@@ -2,7 +2,7 @@ package com.notedgeek.rtace.objects
 
 import com.notedgeek.rtace.*
 
-abstract class SceneObject<T>(
+abstract class SceneObject(
     val material: Material = Material(),
     val transform: Matrix = I
 ) {
@@ -11,13 +11,16 @@ abstract class SceneObject<T>(
 
     abstract fun intersects(r: Ray): List<Intersection>
 
-    abstract fun withTransform(transform: Matrix): T
+    abstract fun withTransform(transform: Matrix): SceneObject
 
-    abstract fun withMaterial(material: Material): T
+    abstract fun withMaterial(material: Material): SceneObject
 
     abstract fun normalAt(worldPoint: Point): Vector
 
-    fun transform(transform: Matrix): T {
+    fun withAmbient(ambient: Double) =
+        withMaterial(material(material.colour, ambient, material.diffuse, material.specular, material.shininess))
+
+    fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
     }
     

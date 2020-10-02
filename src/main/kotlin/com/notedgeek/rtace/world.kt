@@ -2,7 +2,7 @@ package com.notedgeek.rtace
 
 import com.notedgeek.rtace.objects.SceneObject
 
-class World(val light: PointLight, val objects: List<SceneObject<*>>) {
+class World(val light: PointLight, val objects: List<SceneObject>) {
 
     fun intersections(ray: Ray): List<Intersection> {
         var result = emptyList<Intersection>()
@@ -10,7 +10,20 @@ class World(val light: PointLight, val objects: List<SceneObject<*>>) {
         return result
     }
 
-    private fun intersectObjects(obj: SceneObject<*>, ray: Ray, currentList: List<Intersection>): List<Intersection> {
+    fun shadeHit(comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV, comps.normal)
+
+    fun colourAt(ray: Ray): Colour {
+        val intersections = intersections(ray)
+        val hit = hit(intersections)
+        return if (hit == null) {
+            BLACK
+        } else {
+            val comps = comps(hit, ray)
+            shadeHit(comps)
+        }
+    }
+
+    private fun intersectObjects(obj: SceneObject, ray: Ray, currentList: List<Intersection>): List<Intersection> {
         val list = obj.intersects(ray)
         val size = currentList.size + list.size
         var currentListIndex = 0
@@ -34,3 +47,5 @@ class World(val light: PointLight, val objects: List<SceneObject<*>>) {
         return result
     }
 }
+
+fun world(light: PointLight, objects: List<SceneObject>) = World(light, objects)

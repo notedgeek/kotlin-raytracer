@@ -250,4 +250,40 @@ class TestRay {
         val r = reflect(v, n)
         assertThat(r).isEqualTo(vector(1, 0, 0))
     }
+
+    @Test
+    fun `pre-computing the state of an intersection`() {
+        val r = ray(point(0, 0, -5), vector(0, 0, 1))
+        val s = sphere()
+        val i = intersection(4.0, s)
+        val c = comps(i, r)
+        assertThat(c.t).isEqualTo(i.t)
+        assertThat(c.obj).isEqualTo(s)
+        assertThat(c.point).isEqualTo(point(0, 0, -1))
+        assertThat(c.eyeV).isEqualTo(vector(0, 0, -1))
+        assertThat(c.normal).isEqualTo(vector(0, 0, -1))
+    }
+
+    @Test
+    fun `the hit when an intersection occurs on the outside`() {
+        val r = ray(point(0, 0, -5), vector(0, 0, 1))
+        val s = sphere()
+        val i = intersection(4.0, s)
+        val c = comps(i, r)
+        assertThat(c.inside).isFalse
+    }
+
+    @Test
+    fun `the hit when an intersection occurs on the inside`() {
+        val r = ray(point(0, 0, 0), vector(0, 0, 1))
+        val s = sphere()
+        val i = intersection(1.0, s)
+        val c = comps(i, r)
+        assertThat(c.point).isEqualTo(point(0, 0, 1))
+        assertThat(c.eyeV).isEqualTo(vector(0, 0, -1))
+        assertThat(c.normal).isEqualTo(vector(0, 0, -1))
+        assertThat(c.inside).isTrue
+
+    }
+
 }
