@@ -19,11 +19,10 @@ class Sphere(
         return Sphere(material, transform)
     }
 
-    override fun intersects(r: Ray): List<Intersection> {
-        val ray = r.transform(inverseTransform)
-        val sphereToRay = ray.origin - point(0, 0, 0)
-        val a = ray.direction dot ray.direction
-        val b = 2 * (ray.direction dot sphereToRay)
+    override fun localIntersect(localRay: Ray): List<Intersection> {
+        val sphereToRay = localRay.origin - point(0, 0, 0)
+        val a = localRay.direction dot localRay.direction
+        val b = 2 * (localRay.direction dot sphereToRay)
         val c = (sphereToRay dot sphereToRay) - 1
         val disc = b * b - 4 * a * c
         return if (disc < 0) {

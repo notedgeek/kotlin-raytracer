@@ -23,7 +23,7 @@ private class ShadedSphere {
         val worldY = half - pixelSize * y
         val position = point(worldX, worldY, wallZ)
         val r = ray(rayOrigin, normalise(position - rayOrigin))
-        val xs = shape.intersects(r)
+        val xs = shape.localIntersect(r)
         val hit = hit(xs)
         return if (hit != null) {
             val point = position(r, hit.t)

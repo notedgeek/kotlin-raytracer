@@ -34,7 +34,7 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
     }
 
     private fun intersectObjects(obj: SceneObject, ray: Ray, currentList: List<Intersection>): List<Intersection> {
-        val list = obj.intersects(ray)
+        val list = obj.intersect(ray)
         val size = currentList.size + list.size
         var currentListIndex = 0
         var listIndex = 0

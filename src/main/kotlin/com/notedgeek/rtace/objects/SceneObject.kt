@@ -9,7 +9,9 @@ abstract class SceneObject(
 
     val inverseTransform = -transform
 
-    abstract fun intersects(r: Ray): List<Intersection>
+    fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
+
+    abstract fun localIntersect(localRay: Ray): List<Intersection>
 
     abstract fun withTransform(transform: Matrix): SceneObject
 

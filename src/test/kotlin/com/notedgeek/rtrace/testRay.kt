@@ -31,7 +31,7 @@ class TestRay {
     fun `a ray intersects a sphere at two points`() {
         val r = ray(point(0, 0, -5), vector(0, 0, 1))
         val s = sphere()
-        val xs = s.intersects(r)
+        val xs = s.localIntersect(r)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].t).isCloseTo(4.0, offset(EPSILON))
         assertThat(xs[1].t).isCloseTo(6.0, offset(EPSILON))
@@ -41,7 +41,7 @@ class TestRay {
     fun `a ray intersects a sphere at a tangent`() {
         val r = ray(point(0, 1, -5), vector(0, 0, 1))
         val s = sphere()
-        val xs = s.intersects(r)
+        val xs = s.localIntersect(r)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].t).isCloseTo(5.0, offset(EPSILON))
         assertThat(xs[1].t).isCloseTo(5.0, offset(EPSILON))
@@ -51,7 +51,7 @@ class TestRay {
     fun `a ray misses a sphere`() {
         val r = ray(point(0, 2, -5), vector(0, 0, 1))
         val s = sphere()
-        val xs = s.intersects(r)
+        val xs = s.localIntersect(r)
         assertThat(xs.size).isEqualTo(0)
     }
 
@@ -59,7 +59,7 @@ class TestRay {
     fun `a ray originates inside a sphere`() {
         val r = ray(point(0, 0, 0), vector(0, 0, 1))
         val s = sphere()
-        val xs = s.intersects(r)
+        val xs = s.localIntersect(r)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].t).isCloseTo(-1.0, offset(EPSILON))
         assertThat(xs[1].t).isCloseTo(1.0, offset(EPSILON))
@@ -69,7 +69,7 @@ class TestRay {
     fun `a sphere is behind a ray`() {
         val r = ray(point(0, 0, 5), vector(0, 0, 1))
         val s = sphere()
-        val xs = s.intersects(r)
+        val xs = s.localIntersect(r)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].t).isCloseTo(-6.0, offset(EPSILON))
         assertThat(xs[1].t).isCloseTo(-4.0, offset(EPSILON))
@@ -90,7 +90,7 @@ class TestRay {
     fun `intersect sets the object on the intersection`() {
         val r = ray(point(0, 0, -5), vector(0, 0, 1))
         val s = sphere()
-        val xs = s.intersects(r)
+        val xs = s.localIntersect(r)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].obj).isEqualTo(s)
         assertThat(xs[1].obj).isEqualTo(s)
@@ -172,7 +172,7 @@ class TestRay {
     fun `intersecting a scaled sphere with a ray`() {
         val r = ray(point(0, 0, -5), vector(0, 0, 1))
         val s = sphere().transform(scaling(2.0, 2.0, 2.0))
-        val xs = s.intersects(r)
+        val xs = s.intersect(r)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].t).isCloseTo(3.0, offset(EPSILON))
         assertThat(xs[1].t).isCloseTo(7.0, offset(EPSILON))
@@ -182,7 +182,7 @@ class TestRay {
     fun `intersecting a translated sphere with a ray`() {
         val r = ray(point(0, 0, -5), vector(0, 0, 1))
         val s = sphere().transform(translation(5.0, 0.0, 0.0))
-        val xs = s.intersects(r)
+        val xs = s.intersect(r)
         assertThat(xs.size).isEqualTo(0)
     }
 

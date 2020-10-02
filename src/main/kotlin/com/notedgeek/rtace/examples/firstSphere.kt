@@ -25,7 +25,7 @@ private class FirstSphere {
         val worldY = half - pixelSize * y
         val position = point(worldX, worldY, wallZ)
         val r = ray(rayOrigin, normalise(position - rayOrigin))
-        val xs = shape.intersects(r)
+        val xs = shape.intersect(r)
         return if (hit(xs) != null) {
             Color.MAGENTA
         } else {
