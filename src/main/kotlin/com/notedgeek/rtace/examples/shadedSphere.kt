@@ -14,7 +14,7 @@ private class ShadedSphere {
     private val wallZ = 10.0
     private val wallSize = 7.0
     private val pixelSize = wallSize / canvasPixels
-    private val shape = sphere().withMaterial(material(colour(1.0, 0.2, 1.0)))
+    private val shape = sphere().material(material(colour(1.0, 0.2, 1.0)))
     private val light = pointLight(point(-10, 10, -10), WHITE)
     private val half = wallSize / 2
 

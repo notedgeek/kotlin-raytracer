@@ -27,7 +27,7 @@ class TestMaterial {
     @Test
     fun `a sphere may be assigned a material`() {
         val m = material(ambient = 1.0)
-        val s = sphere().withMaterial(m)
+        val s = sphere().material(m)
         assertThat(s.material).isEqualTo(m)
     }
 }

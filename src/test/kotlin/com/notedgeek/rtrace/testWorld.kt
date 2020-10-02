@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.offset
 import org.junit.jupiter.api.Test
 
 private val defaultWorld  = World(pointLight(point(-10, 10, -10), WHITE), listOf(
-    sphere().withMaterial(material(colour = colour(0.8, 1.0, 0.6), diffuse = 0.7, specular = 0.2)),
+    sphere().material(material(colour = colour(0.8, 1.0, 0.6), diffuse = 0.7, specular = 0.2)),
     sphere().scale(0.5, 0.5, 0.5)
 ))
 
@@ -17,7 +17,7 @@ class TestWorld {
     @Test
     fun `default world`() {
         val light = pointLight(point(-10, 10, -10), WHITE)
-        val s1 = sphere().withMaterial(material(colour = colour(0.8, 1.0, 0.6), diffuse = 0.7, specular = 0.2))
+        val s1 = sphere().material(material(colour = colour(0.8, 1.0, 0.6), diffuse = 0.7, specular = 0.2))
         val s2 = sphere().scale(0.5, 0.5, 0.5)
         val w = defaultWorld
         assertThat(w.light).isEqualTo(light)
@@ -75,7 +75,7 @@ class TestWorld {
     fun `the colour with an intersection behind the ray`() {
         val w = world(
             defaultWorld.light,
-            listOf(defaultWorld.objects[0].withAmbient(1.0), defaultWorld.objects[1].withAmbient(1.0)))
+            listOf(defaultWorld.objects[0].ambient(1.0), defaultWorld.objects[1].ambient(1.0)))
         val ray = ray(point(0.0, 0.0, 0.75), vector(0, 0, -1))
         assertThat(w.colourAt(ray)).isEqualTo(defaultWorld.objects[1].material.colour)
     }

@@ -13,26 +13,26 @@ abstract class SceneObject(
 
     abstract fun withTransform(transform: Matrix): SceneObject
 
-    abstract fun withMaterial(material: Material): SceneObject
+    abstract fun material(material: Material): SceneObject
 
     abstract fun normalAt(worldPoint: Point): Vector
 
-    fun withColour(r: Double, g: Double, b: Double) = withColour(colour(r, g, b))
+    fun colour(r: Double, g: Double, b: Double) = colour(Colour(r, g, b))
 
-    fun withColour(colour: Colour) =
-        withMaterial(material(colour, material.ambient, material.diffuse, material.specular, material.shininess))
+    fun colour(colour: Colour) =
+        material(material(colour, material.ambient, material.diffuse, material.specular, material.shininess))
 
-    fun withAmbient(ambient: Double) =
-        withMaterial(material(material.colour, ambient, material.diffuse, material.specular, material.shininess))
+    fun ambient(ambient: Double) =
+        material(material(material.colour, ambient, material.diffuse, material.specular, material.shininess))
 
-    fun withDiffuse(diffuse: Double) =
-        withMaterial(material(material.colour, material.ambient, diffuse, material.specular, material.shininess))
+    fun diffuse(diffuse: Double) =
+        material(material(material.colour, material.ambient, diffuse, material.specular, material.shininess))
 
-    fun withSpecular(specular: Double) =
-        withMaterial(material(material.colour, material.ambient, material.diffuse, specular, material.shininess))
+    fun specular(specular: Double) =
+        material(material(material.colour, material.ambient, material.diffuse, specular, material.shininess))
 
-    fun withShininess(shininess: Double) =
-        withMaterial(material(material.colour, material.ambient, material.diffuse, material.specular, shininess))
+    fun shininess(shininess: Double) =
+        material(material(material.colour, material.ambient, material.diffuse, material.specular, shininess))
 
     fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)

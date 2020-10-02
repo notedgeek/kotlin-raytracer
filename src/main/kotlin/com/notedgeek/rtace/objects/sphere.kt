@@ -15,7 +15,7 @@ class Sphere(
         return Sphere(material, transform)
     }
 
-    override fun withMaterial(material: Material): Sphere {
+    override fun material(material: Material): Sphere {
         return Sphere(material, transform)
     }
 

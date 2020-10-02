@@ -5,46 +5,46 @@ import com.notedgeek.rtace.objects.sphere
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
-private const val width = 1000
-private const val height = 500
+private const val width = 2000
+private const val height = 1000
 
 private val floor = sphere()
     .scale(10.0, 0.01, 10.0)
-    .withMaterial(material(colour = colour(1.0, 0.9, 0.9), specular = 0.0))
+    .material(material(colour = colour(1.0, 0.9, 0.9), specular = 0.0))
 
 private val leftWall = sphere()
     .scale(10.0, 0.01, 10.0)
     .rotateX(PI / 2)
     .rotateY(-PI / 4)
     .translateZ(5.0)
-    .withMaterial(floor.material)
+    .material(floor.material)
 
 private val rightWall = sphere()
     .scale(10.0, 0.01, 10.0)
     .rotateX(PI / 2)
     .rotateY(PI / 4)
     .translateZ(5.0)
-    .withMaterial(floor.material)
+    .material(floor.material)
 
 private val middle = sphere()
     .translate(-0.5, 1.0, 0.5)
-    .withColour(0.1, 1.0, 0.5)
-    .withDiffuse(0.7)
-    .withSpecular(0.3)
+    .colour(0.1, 1.0, 0.5)
+    .diffuse(0.7)
+    .specular(0.3)
 
 private val right = sphere()
     .scale(0.5, 0.5, 0.5)
     .translate(1.5, 0.5, -0.5)
-    .withColour(0.5, 1.0, 0.1)
-    .withDiffuse(0.7)
-    .withSpecular(0.3)
+    .colour(0.5, 1.0, 0.1)
+    .diffuse(0.7)
+    .specular(0.3)
 
 private val left = sphere()
     .scale(0.33, 0.33, 0.33)
     .translate(-1.5, 0.33, -0.75)
-    .withColour(1.0, 0.8, 0.1)
-    .withDiffuse(0.7)
-    .withSpecular(0.3)
+    .colour(1.0, 0.8, 0.1)
+    .diffuse(0.7)
+    .specular(0.3)
 
 
 private val light = pointLight(point(-10, 10, -10), WHITE)
