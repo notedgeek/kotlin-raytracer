@@ -12,7 +12,7 @@ class RenderFrame(name: String?, width: Int, height: Int, renderer: Renderer) : 
         renderer.render(renderContext)
     }
 
-    fun writeToFile(filename: String) {
+    fun writeToFile(filename: String?) {
         panel.writeToFile(File(filename))
     }
 

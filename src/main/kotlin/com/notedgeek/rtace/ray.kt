@@ -30,10 +30,6 @@ class Comps(intersection: Intersection, ray: Ray) {
     }
 }
 
-fun ray(origin: Point, direction: Vector) = Ray(origin, direction)
-
-fun comps(intersection: Intersection, ray: Ray) = Comps(intersection, ray)
-
 fun position(ray: Ray, t: Double) = ray.origin + ray.direction * t
 
 fun intersection(t: Double, obj: SceneObject) = Intersection(t, obj)

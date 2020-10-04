@@ -19,7 +19,7 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
         return if (hit == null) {
             BLACK
         } else {
-            val comps = comps(hit, ray)
+            val comps = Comps(hit, ray)
             shadeHit(comps)
         }
     }
@@ -28,7 +28,7 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
         val v = light.position - point
         val distance = mag(v)
         val direction = normalise(v)
-        val ray = ray(point, direction)
+        val ray = Ray(point, direction)
         val hit = hit(intersections(ray))
         return hit != null && hit.t < distance
     }
@@ -57,5 +57,3 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
         return result
     }
 }
-
-fun world(light: PointLight, objects: List<SceneObject>) = World(light, objects)

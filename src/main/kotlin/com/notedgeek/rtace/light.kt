@@ -8,5 +8,3 @@ class PointLight(var position: Point, var intensity: Colour) {
         return "PointLight(position=$position, intensity=$intensity)"
     }
 }
-
-fun pointLight(position: Point, intensity: Colour) = PointLight(position, intensity)

@@ -21,19 +21,19 @@ abstract class SceneObject(
     fun colour(r: Double, g: Double, b: Double) = colour(Colour(r, g, b))
 
     fun colour(colour: Colour) =
-        material(material(colour, material.ambient, material.diffuse, material.specular, material.shininess))
+        withMaterial(Material(colour, material.ambient, material.diffuse, material.specular, material.shininess))
 
     fun ambient(ambient: Double) =
-        material(material(material.colour, ambient, material.diffuse, material.specular, material.shininess))
+        withMaterial(Material(material.colour, ambient, material.diffuse, material.specular, material.shininess))
 
     fun diffuse(diffuse: Double) =
-        material(material(material.colour, material.ambient, diffuse, material.specular, material.shininess))
+        withMaterial(Material(material.colour, material.ambient, diffuse, material.specular, material.shininess))
 
     fun specular(specular: Double) =
-        material(material(material.colour, material.ambient, material.diffuse, specular, material.shininess))
+        withMaterial(Material(material.colour, material.ambient, material.diffuse, specular, material.shininess))
 
     fun shininess(shininess: Double) =
-        material(material(material.colour, material.ambient, material.diffuse, material.specular, shininess))
+        withMaterial(Material(material.colour, material.ambient, material.diffuse, material.specular, shininess))
 
     fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
@@ -65,7 +65,7 @@ abstract class SceneObject(
 
     abstract fun withTransform(transform: Matrix): SceneObject
 
-    abstract fun material(material: Material): SceneObject
+    abstract fun withMaterial(material: Material): SceneObject
 
     abstract fun localNormalAt(localPoint: Point): Vector
 

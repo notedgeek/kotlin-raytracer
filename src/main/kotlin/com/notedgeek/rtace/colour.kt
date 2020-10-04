@@ -25,5 +25,3 @@ class Colour(val red: Double, val green: Double, val blue: Double) {
         return "Colour(red=$red, green=$green, blue=$blue)"
     }
 }
-
-fun colour(r: Double, g: Double, b: Double) = Colour(r, g, b)

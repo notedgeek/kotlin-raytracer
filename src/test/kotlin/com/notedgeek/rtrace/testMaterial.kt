@@ -1,8 +1,8 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.colour
-import com.notedgeek.rtace.material
-import com.notedgeek.rtace.objects.sphere
+import com.notedgeek.rtace.Colour
+import com.notedgeek.rtace.Material
+import com.notedgeek.rtace.objects.Sphere
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,8 +10,8 @@ class TestMaterial {
 
     @Test
     fun `default material`() {
-        val m = material()
-        assertThat(m.colour).isEqualTo(colour(1.0, 1.0, 1.0))
+        val m = Material()
+        assertThat(m.colour).isEqualTo(Colour(1.0, 1.0, 1.0))
         assertThat(m.ambient).isEqualTo(0.1)
         assertThat(m.diffuse).isEqualTo(0.9)
         assertThat(m.specular).isEqualTo(0.9)
@@ -19,15 +19,15 @@ class TestMaterial {
     }
 
     @Test
-    fun `sphere has default material`() {
-        val s = sphere()
-        assertThat(s.material).isEqualTo(material())
+    fun `Sphere has default material`() {
+        val s = Sphere()
+        assertThat(s.material).isEqualTo(Material())
     }
 
     @Test
-    fun `a sphere may be assigned a material`() {
-        val m = material(ambient = 1.0)
-        val s = sphere().material(m)
+    fun `a Sphere may be assigned a material`() {
+        val m = Material(ambient = 1.0)
+        val s = Sphere().withMaterial(m)
         assertThat(s.material).isEqualTo(m)
     }
 }

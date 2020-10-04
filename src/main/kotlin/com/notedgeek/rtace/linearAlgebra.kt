@@ -262,16 +262,6 @@ open class Matrix(vararg elems: Double) {
     }
 }
 
-fun vector(x: Double, y: Double, z: Double) = Vector(x, y, z)
-
-fun vector(x: Int, y: Int, z: Int) = Vector(x, y, z)
-
-fun point(x: Double, y: Double, z: Double) = Point(x, y, z)
-
-fun point(x: Int, y: Int, z: Int) = Point(x, y, z)
-
-fun matrix(vararg elems: Double) = Matrix(*elems)
-
 fun mag(v: Vector) =  v.mag()
 
 fun normalise(v: Vector) = v.normalise()

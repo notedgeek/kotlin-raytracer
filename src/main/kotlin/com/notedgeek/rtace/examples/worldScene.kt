@@ -1,45 +1,45 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.objects.sphere
+import com.notedgeek.rtace.objects.Sphere
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private const val width = 2000
 private const val height = 1000
 
-private val floor = sphere()
+private val floor = Sphere()
     .scale(10.0, 0.01, 10.0)
-    .material(material(colour = colour(1.0, 0.9, 0.9), specular = 0.0))
+    .withMaterial(Material(colour = Colour(1.0, 0.9, 0.9), specular = 0.0))
 
-private val leftWall = sphere()
+private val leftWall = Sphere()
     .scale(10.0, 0.01, 10.0)
     .rotateX(PI / 2)
     .rotateY(-PI / 4)
     .translateZ(5.0)
-    .material(floor.material)
+    .withMaterial(floor.material)
 
-private val rightWall = sphere()
+private val rightWall = Sphere()
     .scale(10.0, 0.01, 10.0)
     .rotateX(PI / 2)
     .rotateY(PI / 4)
     .translateZ(5.0)
-    .material(floor.material)
+    .withMaterial(floor.material)
 
-private val middle = sphere()
+private val middle = Sphere()
     .translate(-0.5, 1.0, 0.5)
     .colour(0.1, 1.0, 0.5)
     .diffuse(0.7)
     .specular(0.3)
 
-private val right = sphere()
+private val right = Sphere()
     .scale(0.5, 0.5, 0.5)
     .translate(1.5, 0.5, -0.5)
     .colour(0.5, 1.0, 0.1)
     .diffuse(0.7)
     .specular(0.3)
 
-private val left = sphere()
+private val left = Sphere()
     .scale(0.33, 0.33, 0.33)
     .translate(-1.5, 0.33, -0.75)
     .colour(1.0, 0.8, 0.1)
@@ -47,14 +47,14 @@ private val left = sphere()
     .specular(0.3)
 
 
-private val light = pointLight(point(-10, 10, -10), WHITE)
+private val light = PointLight(Point(-10, 10, -10), WHITE)
 
-private val world = world(light, listOf(
+private val world = World(light, listOf(
     floor, leftWall, rightWall, middle, right, left
 ))
 
-private val camera = camera(width, height, PI / 3, viewTransformation(
-    point(0.0, 1.5, -5.0), point(0.0, 1.0, 0.0)))
+private val camera = Camera(width, height, PI / 3, viewTransformation(
+    Point(0.0, 1.5, -5.0), Point(0.0, 1.0, 0.0)))
 
 fun main() {
     PixelSourceRenderer(pixelSource(world, camera, width, height))

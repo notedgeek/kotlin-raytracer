@@ -3,7 +3,7 @@ package com.notedgeek.rtace
 import com.notedgeek.rtrace.graphics.PixelSource
 import kotlin.math.tan
 
-fun viewTransformation(from: Point, to: Point, up: Vector = vector(0, 1, 0)): Matrix {
+fun viewTransformation(from: Point, to: Point, up: Vector = Vector(0, 1, 0)): Matrix {
     val forward = normalise(to - from)
     val upn = normalise(up)
     val left = forward cross upn
@@ -43,15 +43,12 @@ class Camera(val width: Int, val height: Int, val fov: Double, val transformatio
         val yOffset = (py + 0.5) * pixelSize
         val worldX = halfWidth - xOffset
         val worldY = halfHeight - yOffset
-        val pixel = inverseTransformation * point(worldX, worldY, -1.0)
-        val origin = inverseTransformation * point(0, 0, 0)
+        val pixel = inverseTransformation * Point(worldX, worldY, -1.0)
+        val origin = inverseTransformation * Point(0, 0, 0)
         val direction = normalise(pixel - origin)
-        return ray(origin, direction)
+        return Ray(origin, direction)
     }
 }
 
 fun pixelSource(world: World, camera: Camera, width: Int, height: Int) =
     PixelSource(width, height) { x, y -> world.colourAt(camera.rayForPixel(x, y)).toAWT()}
-
-fun camera(width: Int, height: Int, fov: Double, transformation: Matrix = I) =
-    Camera(width, height, fov, transformation)

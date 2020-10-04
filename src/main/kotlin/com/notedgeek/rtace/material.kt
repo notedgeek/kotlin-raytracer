@@ -14,8 +14,3 @@ class Material(
         return "Material(colour=$colour, ambient=$ambient, diffuse=$diffuse, specular=$specular, shininess=$shininess)"
     }
 }
-
-fun material(
-    colour: Colour = Colour(1.0, 1.0, 1.0), ambient: Double = 0.1, diffuse: Double = 0.9,
-    specular: Double = 0.9, shininess: Double = 200.0,
-) = Material(colour, ambient, diffuse, specular, shininess)

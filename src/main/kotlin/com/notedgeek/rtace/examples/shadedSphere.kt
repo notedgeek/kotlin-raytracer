@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.objects.sphere
+import com.notedgeek.rtace.objects.Sphere
 import com.notedgeek.rtrace.graphics.PixelSource
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import java.awt.Color
@@ -10,27 +10,27 @@ private class ShadedSphere {
 
     val canvasPixels = 1200
 
-    private val rayOrigin = point(0, 0, -5)
+    private val rayOrigin = Point(0, 0, -5)
     private val wallZ = 10.0
     private val wallSize = 7.0
     private val pixelSize = wallSize / canvasPixels
-    private val shape = sphere().material(material(colour(1.0, 0.2, 1.0)))
-    private val light = pointLight(point(-10, 10, -10), WHITE)
+    private val shape = Sphere().withMaterial(Material(Colour(1.0, 0.2, 1.0)))
+    private val light = PointLight(Point(-10, 10, -10), WHITE)
     private val half = wallSize / 2
 
     fun colorAt(x: Int, y: Int): Color {
         val worldX = -half + pixelSize * x
         val worldY = half - pixelSize * y
-        val position = point(worldX, worldY, wallZ)
-        val r = ray(rayOrigin, normalise(position - rayOrigin))
+        val position = Point(worldX, worldY, wallZ)
+        val r = Ray(rayOrigin, normalise(position - rayOrigin))
         val xs = shape.localIntersect(r)
         val hit = hit(xs)
         return if (hit != null) {
-            val point = position(r, hit.t)
+            val Point = position(r, hit.t)
             val o = hit.obj
-            val normal = o.normalAt(point)
+            val normal = o.normalAt(Point)
             val eyeV = - r.direction
-            lighting(o.material, light, point, eyeV, normal).toAWT()
+            lighting(o.material, light, Point, eyeV, normal).toAWT()
         } else {
             BLACK.toAWT()
         }
@@ -38,6 +38,6 @@ private class ShadedSphere {
 }
 
 fun main() {
-    val sphere = ShadedSphere()
-    PixelSourceRenderer(PixelSource(sphere.canvasPixels, sphere.canvasPixels, sphere::colorAt))
+    val Sphere = ShadedSphere()
+    PixelSourceRenderer(PixelSource(Sphere.canvasPixels, Sphere.canvasPixels, Sphere::colorAt))
 }

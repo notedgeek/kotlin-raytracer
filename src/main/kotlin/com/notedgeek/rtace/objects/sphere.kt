@@ -15,12 +15,12 @@ class Sphere(
         return Sphere(material, transform)
     }
 
-    override fun material(material: Material): Sphere {
+    override fun withMaterial(material: Material): Sphere {
         return Sphere(material, transform)
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {
-        val sphereToRay = localRay.origin - point(0, 0, 0)
+        val sphereToRay = localRay.origin - Point(0, 0, 0)
         val a = localRay.direction dot localRay.direction
         val b = 2 * (localRay.direction dot sphereToRay)
         val c = (sphereToRay dot sphereToRay) - 1
@@ -36,10 +36,8 @@ class Sphere(
     }
 
     override fun localNormalAt(localPoint: Point): Vector {
-        return localPoint - point(0, 0, 0)
+        return localPoint - Point(0, 0, 0)
     }
 
     override fun equals(other: Any?) = other is Sphere && material == other.material && transform == other.transform
 }
-
-fun sphere() = Sphere()
