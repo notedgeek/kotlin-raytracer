@@ -20,7 +20,7 @@ class TestWorld {
         val s1 = Sphere().withMaterial(Material(colour = Colour(0.8, 1.0, 0.6), diffuse = 0.7, specular = 0.2))
         val s2 = Sphere().scale(0.5, 0.5, 0.5)
         val w = defaultWorld
-        assertThat(w.light).isEqualTo(light)
+        assertThat(w.lights[0]).isEqualTo(light)
         assertThat(w.objects).contains(s1)
         assertThat(w.objects).contains(s2)
     }
@@ -44,7 +44,7 @@ class TestWorld {
         val s = w.objects[0]
         val i = intersection(4.0, s)
         val c = Comps(i, r)
-        assertThat(w.shadeHit(c)).isEqualTo(Colour(0.38066, 0.47583, 0.2855))
+        assertThat(w.shadeHit(w.lights[0], c)).isEqualTo(Colour(0.38066, 0.47583, 0.2855))
     }
 
     @Test
@@ -57,7 +57,7 @@ class TestWorld {
 
         val amb = s.material.ambient
         // modified from 0.90498, 0.90498, 0.90498 - now that shading is considered
-        assertThat(w.shadeHit(c)).isEqualTo(Colour(amb, amb, amb))
+        assertThat(w.shadeHit(w.lights[0], c)).isEqualTo(Colour(amb, amb, amb))
     }
 
     @Test
@@ -77,7 +77,7 @@ class TestWorld {
     @Test
     fun `the Colour with an intersection behind the ray`() {
         val w = World(
-            defaultWorld.light,
+            defaultWorld.lights[0],
             listOf(defaultWorld.objects[0].ambient(1.0), defaultWorld.objects[1].ambient(1.0)))
         val Ray = Ray(Point(0.0, 0.0, 0.75), Vector(0, 0, -1))
         assertThat(w.colourAt(Ray)).isEqualTo(defaultWorld.objects[1].material.colour)
@@ -87,28 +87,28 @@ class TestWorld {
     fun `there is no shadow when nothing is collinear with Point and light`() {
         val w = defaultWorld
         val p = Point(0, 10, 0)
-        assertThat(w.isShadowed(p)).isFalse
+        assertThat(w.isShadowed(w.lights[0], p)).isFalse
     }
 
     @Test
     fun `shadow when object is between point and light`() {
         val w = defaultWorld
         val p = Point(10, -10, 10)
-        assertThat(w.isShadowed(p)).isTrue
+        assertThat(w.isShadowed(w.lights[0], p)).isTrue
     }
 
     @Test
     fun `there is no shadow when object is behind light`() {
         val w = defaultWorld
         val p = Point(-20, -20, -20)
-        assertThat(w.isShadowed(p)).isFalse
+        assertThat(w.isShadowed(w.lights[0], p)).isFalse
     }
 
     @Test
     fun `there is no shadow when object is behind Point`() {
         val w = defaultWorld
         val p = Point(-2, 2, -2)
-        assertThat(w.isShadowed(p)).isFalse
+        assertThat(w.isShadowed(w.lights[0], p)).isFalse
     }
 
 }

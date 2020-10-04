@@ -12,7 +12,9 @@ class Colour(val red: Double, val green: Double, val blue: Double) {
 
     operator fun minus(other: Colour) = Colour(red - other.red, green - other.green, blue - other.blue)
 
-    operator fun times(s: Double) = Colour(s * red, s * green, s * blue)
+    operator fun times(s: Double) = Colour(red * s, green * s, blue * s)
+
+    operator fun div(s: Double) = Colour(red / s, green / s, blue / s)
 
     operator fun times(other: Colour) = Colour(red * other.red, green * other.green, blue * other.blue)
 

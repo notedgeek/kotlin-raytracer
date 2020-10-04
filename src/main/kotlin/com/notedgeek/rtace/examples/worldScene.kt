@@ -47,9 +47,12 @@ private val left = Sphere()
     .specular(0.3)
 
 
-private val light = PointLight(Point(-10, 10, -10), WHITE)
+private val lights = listOf(
+    PointLight(Point(-10, 10, -10), WHITE),
+    PointLight(Point(5, 5, -5), WHITE)
+)
 
-private val world = World(light, listOf(
+private val world = World(lights, listOf(
     floor, leftWall, rightWall, middle, right, left
 ))
 

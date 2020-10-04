@@ -2,16 +2,18 @@ package com.notedgeek.rtace
 
 import com.notedgeek.rtace.objects.SceneObject
 
-class World(val light: PointLight, val objects: List<SceneObject>) {
+class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
+
+    constructor(light: PointLight, objects: List<SceneObject>) : this(listOf(light), objects)
 
     fun intersections(ray: Ray): List<Intersection> {
         var result = emptyList<Intersection>()
-        objects.forEach { result = intersectObjects(it, ray, result) }
+        objects.forEach { result = intersectObject(it, ray, result) }
         return result
     }
 
-    fun shadeHit(comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV, comps.normal,
-        isShadowed(comps.overPoint))
+    fun shadeHit(light: PointLight, comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV, comps.normal,
+        isShadowed(light, comps.overPoint))
 
     fun colourAt(ray: Ray): Colour {
         val intersections = intersections(ray)
@@ -19,12 +21,18 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
         return if (hit == null) {
             BLACK
         } else {
-            val comps = Comps(hit, ray)
-            shadeHit(comps)
+            var lightCount = 0
+            var result = Colour(0.0, 0.0, 0.0)
+            lights.forEach {
+                val comps = Comps(hit, ray)
+                result += shadeHit(it, comps)
+                lightCount++
+            }
+            result / lightCount.toDouble()
         }
     }
 
-    fun isShadowed(point: Point): Boolean {
+    fun isShadowed(light: PointLight, point: Point): Boolean {
         val v = light.position - point
         val distance = mag(v)
         val direction = normalise(v)
@@ -33,21 +41,21 @@ class World(val light: PointLight, val objects: List<SceneObject>) {
         return hit != null && hit.t < distance
     }
 
-    private fun intersectObjects(obj: SceneObject, ray: Ray, currentList: List<Intersection>): List<Intersection> {
+    private fun intersectObject(obj: SceneObject, ray: Ray, currentIntersections: List<Intersection>): List<Intersection> {
         val list = obj.intersect(ray)
-        val size = currentList.size + list.size
+        val size = currentIntersections.size + list.size
         var currentListIndex = 0
         var listIndex = 0
         val result = ArrayList<Intersection>(size)
         for(i in 0 until size) {
-            if (currentList.isEmpty() || currentListIndex == currentList.size) {
+            if (currentIntersections.isEmpty() || currentListIndex == currentIntersections.size) {
                 result.add(list[listIndex])
                 listIndex++
             } else if (list.isEmpty() || listIndex == list.size) {
-                result.add(currentList[currentListIndex])
+                result.add(currentIntersections[currentListIndex])
                 currentListIndex++
-            } else if (currentList[currentListIndex].t < list[listIndex].t) {
-                result.add(currentList[currentListIndex])
+            } else if (currentIntersections[currentListIndex].t < list[listIndex].t) {
+                result.add(currentIntersections[currentListIndex])
                 currentListIndex++
             } else {
                 result.add(list[listIndex])
