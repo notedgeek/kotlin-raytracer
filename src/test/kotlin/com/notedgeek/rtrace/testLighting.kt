@@ -1,11 +1,13 @@
 package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.obj.Sphere
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-val material = Material()
-val position = Point(0, 0, 0)
+private val material = Material()
+private val position = Point(0, 0, 0)
+private val dummyObj = Sphere()
 
 class TestLighting {
 
@@ -14,7 +16,7 @@ class TestLighting {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal)
+        val result = lighting(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(1.9, 1.9, 1.9))
     }
 
@@ -23,7 +25,7 @@ class TestLighting {
         val eyeV = Vector(0.0, SQ2 / 2, SQ2 / 2)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal)
+        val result = lighting(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(1.0, 1.0, 1.0))
     }
 
@@ -32,7 +34,7 @@ class TestLighting {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 10, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal)
+        val result = lighting(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(0.7364, 0.7364, 0.7364))
     }
 
@@ -41,7 +43,7 @@ class TestLighting {
         val eyeV = Vector(0.0, -SQ2 / 2, -SQ2 / 2)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 10, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal)
+        val result = lighting(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(1.6364, 1.6364, 1.6364))
     }
 
@@ -50,7 +52,7 @@ class TestLighting {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, 10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal)
+        val result = lighting(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(0.1, 0.1, 0.1))
     }
 
@@ -60,7 +62,7 @@ class TestLighting {
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, -10), WHITE)
         val inShadow = true
-        val result = lighting(material, light, position, eyeV, normal, inShadow)
+        val result = lighting(material, light, position, eyeV, normal, dummyObj, inShadow)
         Assertions.assertThat(result).isEqualTo(Colour(0.1, 0.1, 0.1))
     }
 }

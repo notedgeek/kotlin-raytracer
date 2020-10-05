@@ -1,4 +1,4 @@
-package com.notedgeek.rtace.`object`
+package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
 import kotlin.math.abs

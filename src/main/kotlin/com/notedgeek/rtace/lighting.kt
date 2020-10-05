@@ -1,10 +1,13 @@
 package com.notedgeek.rtace
 
+import com.notedgeek.rtace.obj.SceneObject
 import kotlin.math.pow
 
-fun lighting(material: Material, light: PointLight, point: Point, eyeV: Vector,
-             normal: Vector, inShadow: Boolean = false): Colour {
-    val effectiveColour = material.colour * light.intensity
+fun lighting(
+    material: Material, light: PointLight, point: Point, eyeV: Vector,
+    normal: Vector, obj: SceneObject, inShadow: Boolean = false,
+): Colour {
+    val effectiveColour = material.pattern.colourAtObject(obj, point) * light.intensity
     val lightV = normalise(light.position - point)
     val ambient = effectiveColour * material.ambient
     val lightDotNormal = lightV dot normal

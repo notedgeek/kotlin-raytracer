@@ -4,7 +4,7 @@ import com.notedgeek.rtace.EPSILON
 import com.notedgeek.rtace.Point
 import com.notedgeek.rtace.Ray
 import com.notedgeek.rtace.Vector
-import com.notedgeek.rtace.`object`.Plane
+import com.notedgeek.rtace.obj.Plane
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Test

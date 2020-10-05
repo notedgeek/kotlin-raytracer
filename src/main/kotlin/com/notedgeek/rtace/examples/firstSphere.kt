@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.`object`.Sphere
+import com.notedgeek.rtace.obj.Sphere
 import com.notedgeek.rtrace.graphics.PixelSource
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import java.awt.Color
@@ -35,8 +35,8 @@ private class FirstSphere {
 }
 
 fun main() {
-    val Sphere = FirstSphere()
-    PixelSourceRenderer(PixelSource(Sphere.canvasPixels, Sphere.canvasPixels, Sphere::colorAt))
+    val sphere = FirstSphere()
+    PixelSourceRenderer(PixelSource(sphere.canvasPixels, sphere.canvasPixels, sphere::colorAt))
 }
 
 

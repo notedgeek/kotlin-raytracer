@@ -2,7 +2,7 @@ package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.Colour
 import com.notedgeek.rtace.Material
-import com.notedgeek.rtace.`object`.Sphere
+import com.notedgeek.rtace.obj.Sphere
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

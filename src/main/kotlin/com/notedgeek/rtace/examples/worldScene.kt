@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.`object`.Sphere
+import com.notedgeek.rtace.obj.Sphere
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 

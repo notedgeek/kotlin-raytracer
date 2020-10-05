@@ -4,7 +4,7 @@ import java.io.File
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
-class RenderFrame(name: String?, width: Int, height: Int, renderer: Renderer) : JFrame(name) {
+class RenderFrame(name: String, width: Int, height: Int, renderer: Renderer) : JFrame(name) {
     private val renderer: Renderer
     private val renderContext: RenderContext
     private val panel: ImageSourceRenderContextPanel
@@ -12,7 +12,7 @@ class RenderFrame(name: String?, width: Int, height: Int, renderer: Renderer) : 
         renderer.render(renderContext)
     }
 
-    fun writeToFile(filename: String?) {
+    fun writeToFile(filename: String) {
         panel.writeToFile(File(filename))
     }
 

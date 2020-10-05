@@ -1,6 +1,6 @@
 package com.notedgeek.rtace
 
-import com.notedgeek.rtace.`object`.SceneObject
+import com.notedgeek.rtace.obj.SceneObject
 
 class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
 
@@ -13,7 +13,7 @@ class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
     }
 
     fun shadeHit(light: PointLight, comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV,
-        comps.normal, isShadowed(light, comps.overPoint))
+        comps.normal, comps.obj, isShadowed(light, comps.overPoint))
 
     fun colourAt(ray: Ray): Colour {
         val intersections = intersections(ray)

@@ -3,24 +3,27 @@ package com.notedgeek.rtace.examples
 import com.notedgeek.rtace.*
 import com.notedgeek.rtace.obj.Plane
 import com.notedgeek.rtace.obj.Sphere
+import com.notedgeek.rtace.pattern.Checkers
+import com.notedgeek.rtace.pattern.Stripes
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
-private const val width = 2000
-private const val height = 1000
+private const val width = 3000
+private const val height = 1400
 
 private val floor = Plane()
-    .withMaterial(Material(colour = Colour(1.0, 0.9, 0.9), specular = 0.0))
+    .withMaterial(Material(pattern = Checkers(Colour(1.0, 0.9, 0.9), Colour(0.5, 0.4, 0.4)).scale(0.25, 0.25, 0.25), specular = 0.0))
 
 private val backWall = Plane()
     .rotateX(-PI / 2)
     .translateZ(3.0)
-    .withMaterial(floor.material)
+    .withMaterial(floor.material.withPattern(Stripes(Colour(1.0, 0.9, 0.9), Colour(0.5, 0.4, 0.4)).scale(0.1, 1.0, 1.0)
+        .rotateY(PI / 4)))
 
 private val leftWall = Plane()
     .rotateZ(-PI / 2)
     .translateX(-3.0)
-    .withMaterial(floor.material)
+    .withMaterial(backWall.material)
 
 private val middle = Sphere()
     .translate(-0.5, 1.0, 0.5)

@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.`object`.Sphere
+import com.notedgeek.rtace.obj.Sphere
 import com.notedgeek.rtrace.graphics.PixelSource
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import java.awt.Color
@@ -26,11 +26,11 @@ private class ShadedSphere {
         val xs = shape.localIntersect(r)
         val hit = hit(xs)
         return if (hit != null) {
-            val Point = position(r, hit.t)
+            val point = position(r, hit.t)
             val o = hit.obj
-            val normal = o.normalAt(Point)
+            val normal = o.normalAt(point)
             val eyeV = - r.direction
-            lighting(o.material, light, Point, eyeV, normal).toAWT()
+            lighting(o.material, light, point, eyeV, normal, o).toAWT()
         } else {
             BLACK.toAWT()
         }
@@ -38,6 +38,6 @@ private class ShadedSphere {
 }
 
 fun main() {
-    val Sphere = ShadedSphere()
-    PixelSourceRenderer(PixelSource(Sphere.canvasPixels, Sphere.canvasPixels, Sphere::colorAt))
+    val sphere = ShadedSphere()
+    PixelSourceRenderer(PixelSource(sphere.canvasPixels, sphere.canvasPixels, sphere::colorAt))
 }
