@@ -1,8 +1,8 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.objects.Plane
-import com.notedgeek.rtace.objects.Sphere
+import com.notedgeek.rtace.`object`.Plane
+import com.notedgeek.rtace.`object`.Sphere
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
@@ -19,7 +19,6 @@ private val backWall = Plane()
 
 private val leftWall = Plane()
     .rotateZ(-PI / 2)
-    //.rotateY(PI / 4)
     .translateX(-3.0)
     .withMaterial(floor.material)
 

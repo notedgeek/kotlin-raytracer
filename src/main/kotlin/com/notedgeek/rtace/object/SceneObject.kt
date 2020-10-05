@@ -1,4 +1,4 @@
-package com.notedgeek.rtace.objects
+package com.notedgeek.rtace.`object`
 
 import com.notedgeek.rtace.*
 

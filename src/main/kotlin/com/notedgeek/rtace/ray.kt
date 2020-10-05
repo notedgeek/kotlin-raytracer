@@ -1,6 +1,6 @@
 package com.notedgeek.rtace
 
-import com.notedgeek.rtace.objects.SceneObject
+import com.notedgeek.rtace.`object`.SceneObject
 
 data class Intersection(val t: Double, val obj: SceneObject)
 

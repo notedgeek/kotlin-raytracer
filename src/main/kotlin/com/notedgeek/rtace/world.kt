@@ -1,6 +1,6 @@
 package com.notedgeek.rtace
 
-import com.notedgeek.rtace.objects.SceneObject
+import com.notedgeek.rtace.`object`.SceneObject
 
 class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
 
