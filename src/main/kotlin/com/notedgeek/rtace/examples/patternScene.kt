@@ -17,8 +17,7 @@ private val floor = Plane()
 private val backWall = Plane()
     .rotateX(-PI / 2)
     .translateZ(3.0)
-    .withMaterial(floor.material.withPattern(Stripes(Colour(1.0, 0.9, 0.9), Colour(0.5, 0.4, 0.4)).scale(0.1, 1.0, 1.0)
-        .rotateY(PI / 4)))
+    .withMaterial(Material(colour = Colour(1.0, 0.9, 0.9), specular = 0.0))
 
 private val leftWall = Plane()
     .rotateZ(-PI / 2)
@@ -40,10 +39,9 @@ private val right = Sphere()
 
 private val left = Sphere()
     .scale(0.33, 0.33, 0.33)
-    .translate(-1.5, 0.33, -0.75)
-    .colour(1.0, 0.8, 0.1)
-    .diffuse(0.7)
-    .specular(0.3)
+    .translate(-1.5, 0.33, -0.75).withMaterial(Material(
+        pattern = Stripes(Colour(0.5, 1.0, 0.1), Colour(0.1, 1.0, 0.5)).scale(0.1, 1.0, 1.0), diffuse = 0.7, specular = 0.3)
+    )
 
 
 private val lights = listOf(
@@ -56,7 +54,7 @@ private val world = World(lights, listOf(
 ))
 
 private val camera = Camera(width, height, PI / 3, viewTransformation(
-    Point(0.0, 1.5, -5.0), Point(0.0, 1.0, 0.0)))
+    Point(2.0, 2.0, -8.0), Point(0.0, 1.0, 0.0)))
 
 fun main() {
     PixelSourceRenderer(pixelSource(world, camera, width, height))

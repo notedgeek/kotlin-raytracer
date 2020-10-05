@@ -23,7 +23,7 @@ class ImageSourceRenderContextPanel(override var sizeX: Int, override var sizeY:
         data[loc] = alpha shl 24 or (0xff and r shl 16) or (0xff and g shl 8) or (0xff and b)
     }
 
-    fun writeToFile(file: File?) {
+    fun writeToFile(file: File) {
         val bi = BufferedImage(sizeX, sizeY, BufferedImage.TYPE_INT_RGB)
         val g2 = bi.createGraphics()
         paint(g2)
