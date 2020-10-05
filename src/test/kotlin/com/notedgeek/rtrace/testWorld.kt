@@ -42,7 +42,7 @@ class TestWorld {
         val w = defaultWorld
         val r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
         val s = w.objects[0]
-        val i = intersection(4.0, s)
+        val i = Intersection(4.0, s)
         val c = Comps(i, r)
         assertThat(w.shadeHit(w.lights[0], c)).isEqualTo(Colour(0.38066, 0.47583, 0.2855))
     }
@@ -52,7 +52,7 @@ class TestWorld {
         val w = World(PointLight(Point(0.0, 0.25, 0.0), WHITE), defaultWorld.objects)
         val r = Ray(Point(0, 0, 0), Vector(0, 0, 1))
         val s = w.objects[1]
-        val i = intersection(0.5, s)
+        val i = Intersection(0.5, s)
         val c = Comps(i, r)
 
         val amb = s.material.ambient
@@ -79,8 +79,8 @@ class TestWorld {
         val w = World(
             defaultWorld.lights[0],
             listOf(defaultWorld.objects[0].ambient(1.0), defaultWorld.objects[1].ambient(1.0)))
-        val Ray = Ray(Point(0.0, 0.0, 0.75), Vector(0, 0, -1))
-        assertThat(w.colourAt(Ray)).isEqualTo(defaultWorld.objects[1].material.colour)
+        val ray = Ray(Point(0.0, 0.0, 0.75), Vector(0, 0, -1))
+        assertThat(w.colourAt(ray)).isEqualTo(defaultWorld.objects[1].material.colour)
     }
 
     @Test

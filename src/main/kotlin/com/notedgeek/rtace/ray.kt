@@ -32,8 +32,6 @@ class Comps(intersection: Intersection, ray: Ray) {
 
 fun position(ray: Ray, t: Double) = ray.origin + ray.direction * t
 
-fun intersection(t: Double, obj: SceneObject) = Intersection(t, obj)
-
 fun intersections(vararg elems: Intersection): List<Intersection> {
     val result = ArrayList<Intersection>(elems.size)
     result.addAll(elems)

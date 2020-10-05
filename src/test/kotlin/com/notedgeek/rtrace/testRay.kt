@@ -78,8 +78,8 @@ class TestRay {
     @Test
     fun `aggregating intersections`() {
         val s = Sphere()
-        val i1 = intersection(1.0, s)
-        val i2 = intersection(2.0, s)
+        val i1 = Intersection(1.0, s)
+        val i2 = Intersection(2.0, s)
         val xs = intersections(i1, i2)
         assertThat(xs.size).isEqualTo(2)
         assertThat(xs[0].obj).isEqualTo(s)
@@ -99,8 +99,8 @@ class TestRay {
     @Test
     fun `the hit when all intersections have positive t`() {
         val s = Sphere()
-        val i1 = intersection(1.0, s)
-        val i2 = intersection(2.0, s)
+        val i1 = Intersection(1.0, s)
+        val i2 = Intersection(2.0, s)
         val xs = intersections(i1, i2)
         val i = hit(xs)
         assertThat(i).isEqualTo(i1)
@@ -109,8 +109,8 @@ class TestRay {
     @Test
     fun `the hit when some intersections have negative t`() {
         val s = Sphere()
-        val i1 = intersection(-1.0, s)
-        val i2 = intersection(1.0, s)
+        val i1 = Intersection(-1.0, s)
+        val i2 = Intersection(1.0, s)
         val xs = intersections(i1, i2)
         val i = hit(xs)
         assertThat(i).isEqualTo(i2)
@@ -119,8 +119,8 @@ class TestRay {
     @Test
     fun `the hit when all intersections have negative t`() {
         val s = Sphere()
-        val i1 = intersection(-2.0, s)
-        val i2 = intersection(-1.0, s)
+        val i1 = Intersection(-2.0, s)
+        val i2 = Intersection(-1.0, s)
         val xs = intersections(i1, i2)
         val i = hit(xs)
         assertThat(i).isNull()
@@ -129,10 +129,10 @@ class TestRay {
     @Test
     fun `the hit is the lowest non negative t`() {
         val s = Sphere()
-        val i1 = intersection(5.0, s)
-        val i2 = intersection(7.0, s)
-        val i3 = intersection(-3.0, s)
-        val i4 = intersection(2.0, s)
+        val i1 = Intersection(5.0, s)
+        val i2 = Intersection(7.0, s)
+        val i3 = Intersection(-3.0, s)
+        val i4 = Intersection(2.0, s)
         val xs = intersections(i1, i2, i3, i4)
         val i = hit(xs)
         assertThat(i).isEqualTo(i4)
@@ -255,7 +255,7 @@ class TestRay {
     fun `pre-computing the state of an intersection`() {
         val r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
         val s = Sphere()
-        val i = intersection(4.0, s)
+        val i = Intersection(4.0, s)
         val c = Comps(i, r)
         assertThat(c.t).isEqualTo(i.t)
         assertThat(c.obj).isEqualTo(s)
@@ -268,7 +268,7 @@ class TestRay {
     fun `the hit when an intersection occurs on the outside`() {
         val r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
         val s = Sphere()
-        val i = intersection(4.0, s)
+        val i = Intersection(4.0, s)
         val c = Comps(i, r)
         assertThat(c.inside).isFalse
     }
@@ -277,7 +277,7 @@ class TestRay {
     fun `the hit when an intersection occurs on the inside`() {
         val r = Ray(Point(0, 0, 0), Vector(0, 0, 1))
         val s = Sphere()
-        val i = intersection(1.0, s)
+        val i = Intersection(1.0, s)
         val c = Comps(i, r)
         assertThat(c.point).isEqualTo(Point(0, 0, 1))
         assertThat(c.eyeV).isEqualTo(Vector(0, 0, -1))

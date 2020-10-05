@@ -12,8 +12,8 @@ class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
         return result
     }
 
-    fun shadeHit(light: PointLight, comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV, comps.normal,
-        isShadowed(light, comps.overPoint))
+    fun shadeHit(light: PointLight, comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV,
+        comps.normal, isShadowed(light, comps.overPoint))
 
     fun colourAt(ray: Ray): Colour {
         val intersections = intersections(ray)

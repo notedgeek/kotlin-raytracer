@@ -6,10 +6,7 @@ import kotlin.math.sqrt
 class Sphere(
     material: Material = Material(),
     transformation: Matrix = I
-) : SceneObject(
-    material,
-    transformation
-) {
+) : SceneObject(material, transformation) {
 
     override fun withTransform(transform: Matrix): Sphere {
         return Sphere(material, transform)
@@ -29,8 +26,8 @@ class Sphere(
             emptyList()
         } else {
             listOf(
-                intersection((-b - sqrt(disc)) / (2 * a), this),
-                intersection((-b + sqrt(disc)) / (2 * a), this)
+                Intersection((-b - sqrt(disc)) / (2 * a), this),
+                Intersection((-b + sqrt(disc)) / (2 * a), this)
             )
         }
     }
