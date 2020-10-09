@@ -8,8 +8,8 @@ import com.notedgeek.rtace.pattern.Stripes
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
-private const val width = 3000
-private const val height = 1400
+private const val width = 1800
+private const val height = 900
 
 private val floor = Plane()
     .withMaterial(Material(pattern = Checkers(Colour(1.0, 0.9, 0.9), Colour(0.5, 0.4, 0.4)).scale(0.25, 0.25, 0.25), specular = 0.0))
@@ -40,7 +40,9 @@ private val right = Sphere()
 private val left = Sphere()
     .scale(0.33, 0.33, 0.33)
     .translate(-1.5, 0.33, -0.75).withMaterial(Material(
-        pattern = Stripes(Colour(0.5, 1.0, 0.1), Colour(0.1, 1.0, 0.5)).scale(0.1, 1.0, 1.0), diffuse = 0.7, specular = 0.3)
+        pattern = Stripes(Colour(0.5, 1.0, 0.1), Colour(0.1, 1.0, 0.5))
+            .rotateY(PI / 4)
+            .scale(0.1, 1.0, 1.0), diffuse = 0.7, specular = 0.3)
     )
 
 

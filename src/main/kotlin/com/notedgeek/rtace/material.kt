@@ -18,6 +18,7 @@ class Material(
             diffuse == other.diffuse && specular == other.specular && shininess == other.shininess
 
     override fun toString(): String {
-        return "Material(colour=$colour, ambient=$ambient, diffuse=$diffuse, specular=$specular, shininess=$shininess)"
+        return "Material(colour=$colour, ambient=$ambient, diffuse=$diffuse," +
+                "specular=$specular, shininess=$shininess)"
     }
 }
