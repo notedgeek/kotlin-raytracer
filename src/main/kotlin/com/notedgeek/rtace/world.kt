@@ -2,9 +2,13 @@ package com.notedgeek.rtace
 
 import com.notedgeek.rtace.obj.SceneObject
 
-class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
+class World(val lights: List<PointLight>, objs: List<SceneObject>) {
 
-    constructor(light: PointLight, objects: List<SceneObject>) : this(listOf(light), objects)
+    val objects = objs.toMutableList()
+
+    constructor(light: PointLight, objs: List<SceneObject>) : this(listOf(light), objs)
+
+    private var maxRecursiveDepth = 10
 
     fun intersections(ray: Ray): List<Intersection> {
         var result = emptyList<Intersection>()
@@ -12,10 +16,18 @@ class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
         return result
     }
 
-    fun shadeHit(light: PointLight, comps: Comps) = lighting(comps.obj.material, light, comps.point, comps.eyeV,
-        comps.normal, comps.obj, isShadowed(light, comps.overPoint))
+    fun shadeHit(light: PointLight, comps: Comps, recursiveLevel: Int = 1): Colour {
+        val shadowed = isShadowed(light, comps.overPoint)
+        val surface = lighting(comps.obj.material, light, comps.point, comps.eyeV,
+            comps.normal, comps.obj, shadowed)
+        val reflected = reflectedColour(comps, recursiveLevel)
+        return surface + reflected
+    }
 
-    fun colourAt(ray: Ray): Colour {
+    fun colourAt(ray: Ray, recursiveLevel: Int = 1): Colour {
+        if(recursiveLevel > maxRecursiveDepth) {
+            return BLACK
+        }
         val intersections = intersections(ray)
         val hit = hit(intersections)
         return if (hit == null) {
@@ -25,7 +37,7 @@ class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
             var result = Colour(0.0, 0.0, 0.0)
             lights.forEach {
                 val comps = Comps(hit, ray)
-                result += shadeHit(it, comps)
+                result += shadeHit(it, comps, recursiveLevel)
                 lightCount++
             }
             result / lightCount.toDouble()
@@ -39,6 +51,17 @@ class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
         val ray = Ray(point, direction)
         val hit = hit(intersections(ray))
         return hit != null && hit.t < distance
+    }
+
+    fun reflectedColour(comps: Comps, recursiveLevel: Int = 1): Colour {
+        val reflective = comps.obj.material.reflective
+        return if (closeTo(0.0, reflective)) {
+            BLACK
+        } else {
+            val reflectRay = Ray(comps.overPoint, comps.reflectV)
+            val color = colourAt(reflectRay, recursiveLevel + 1)
+            color * reflective
+        }
     }
 
     private fun intersectObject(obj: SceneObject, ray: Ray, currentIntersections: List<Intersection>): List<Intersection> {

@@ -8,11 +8,18 @@ import com.notedgeek.rtace.pattern.BlankPattern
 import com.notedgeek.rtace.pattern.Checkers
 import com.notedgeek.rtace.pattern.Pattern
 import com.notedgeek.rtace.pattern.Stripes
-import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
-fun makeScene(block: SceneBuilder.() -> Unit) = SceneBuilder().apply(block).toScene()
+fun buildScene(block: SceneBuilder.() -> Unit) = SceneBuilder().apply(block)
 
+fun makeScene(sceneBuilder: SceneBuilder = SceneBuilder(), block: SceneBuilder.() -> Unit) =
+    sceneBuilder.apply(block).toScene()
+
+
+@DslMarker
+annotation class SceneMarker
+
+@SceneMarker
 class SceneBuilder {
 
     private var width = 500
@@ -38,6 +45,10 @@ class SceneBuilder {
         lookAt = Point(x, y, z)
     }
 
+    fun fov(fov: Double) {
+        this.fov = fov
+    }
+
     fun light(block: LightBuilder.() -> Unit) {
         lights.add(LightBuilder().apply(block).toLight())
     }
@@ -54,7 +65,7 @@ class SceneBuilder {
 
     fun def(block: ObjectDefiner.() -> Unit) = ObjectDefiner().apply(block).toObject()
 
-    fun add(obj: SceneObject, block: ObjectBuilder.() -> Unit) {
+    fun add(obj: SceneObject = Sphere(), block: ObjectBuilder.() -> Unit) {
         objects.add(ObjectBuilder(obj).apply(block).toObject())
     }
 
@@ -63,6 +74,7 @@ class SceneBuilder {
 
 }
 
+@SceneMarker
 class ObjectDefiner {
 
     private var obj:SceneObject = Sphere()
@@ -74,6 +86,7 @@ class ObjectDefiner {
     fun toObject() = obj
 }
 
+@SceneMarker
 class ObjectBuilder(var obj: SceneObject){
 
     fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
@@ -105,13 +118,14 @@ class ObjectBuilder(var obj: SceneObject){
     }
 
     fun material(block: MaterialBuilder.() -> Unit) {
-        material(MaterialBuilder().apply(block).toMaterial())
+        material(MaterialBuilder(obj.material).apply(block).toMaterial())
     }
 
     fun toObject() = obj
 
 }
 
+@SceneMarker
 class LightBuilder {
 
     private var point = Point(-2, 2, -2)
@@ -124,9 +138,8 @@ class LightBuilder {
     fun toLight() = PointLight(point, intensity)
 }
 
-class MaterialBuilder {
-
-    private var material = Material()
+@SceneMarker
+class MaterialBuilder(var material: Material = Material()) {
 
     fun pattern(block: PatternBuilder.() -> Unit) {
         material = material.withPattern(PatternBuilder().apply(block).toPattern())
@@ -140,6 +153,16 @@ class MaterialBuilder {
         material = material.withSpecular(specular)
     }
 
+    fun shininess(shininess: Double) {
+        material = material.withShininess(shininess)
+    }
+
+    fun reflective(reflective: Double) {
+        material = material.withReflective(reflective)
+    }
+
+    fun colour(c: Colour) = colour(c.red, c.green, c.blue)
+
     fun colour(r: Double, g: Double, b: Double) {
         material = material.withColour(Colour(r, g, b))
     }
@@ -148,6 +171,7 @@ class MaterialBuilder {
 
 }
 
+@SceneMarker
 class PatternBuilder {
 
     private var pattern: Pattern = BlankPattern(WHITE)
@@ -166,14 +190,6 @@ class PatternBuilder {
 
     fun scale(x: Double, y: Double, z: Double) {
         transform(scaling(x, y, z))
-    }
-
-    fun rotateX(r: Double) {
-        transform(rotationY(r))
-    }
-
-    fun rotateY(r: Double) {
-        transform(rotationY(r))
     }
 
     fun rotateZ(r: Double) {

@@ -24,19 +24,23 @@ abstract class SceneObject(
 
     fun colour(colour: Colour) =
         withMaterial(Material(colour, BlankPattern(colour), material.ambient, material.diffuse,
-            material.specular, material.shininess))
+            material.specular, material.shininess, material.reflective))
 
     fun ambient(ambient: Double) =
         withMaterial(Material(material.colour, material.pattern, ambient, material.diffuse,
-            material.specular, material.shininess))
+            material.specular, material.shininess, material.reflective))
 
     fun diffuse(diffuse: Double) =
         withMaterial(Material(material.colour, material.pattern, material.ambient,
-            diffuse, material.specular, material.shininess))
+            diffuse, material.specular, material.shininess, material.reflective))
 
     fun specular(specular: Double) =
         withMaterial(Material(material.colour, material.pattern,material.ambient,
-            material.diffuse, specular, material.shininess))
+            material.diffuse, specular, material.shininess, material.reflective))
+
+    fun reflective(reflective: Double) =
+        withMaterial(Material(material.colour, material.pattern,material.ambient,
+            material.diffuse, material.specular, material.shininess, reflective))
 
     fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
