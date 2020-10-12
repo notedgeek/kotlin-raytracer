@@ -64,4 +64,9 @@ class World(val lights: List<PointLight>, val objects: List<SceneObject>) {
         }
         return result
     }
+
+    override fun toString(): String {
+        return "World(lights=$lights, objects=$objects)"
+    }
+
 }

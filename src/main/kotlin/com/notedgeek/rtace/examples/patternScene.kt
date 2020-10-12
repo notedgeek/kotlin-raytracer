@@ -41,7 +41,7 @@ private val left = Sphere()
     .scale(0.33, 0.33, 0.33)
     .translate(-1.5, 0.33, -0.75).withMaterial(Material(
         pattern = Stripes(Colour(0.5, 1.0, 0.1), Colour(0.1, 1.0, 0.5))
-            .rotateY(PI / 4)
+            .rotateY(PI / 4.0)
             .scale(0.1, 1.0, 1.0), diffuse = 0.7, specular = 0.3)
     )
 
@@ -59,5 +59,5 @@ private val camera = Camera(width, height, PI / 3, viewTransformation(
     Point(2.0, 2.0, -8.0), Point(0.0, 1.0, 0.0)))
 
 fun main() {
-    PixelSourceRenderer(pixelSource(world, camera, width, height))
+    PixelSourceRenderer(pixelSource(Scene(world, camera)))
 }

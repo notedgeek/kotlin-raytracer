@@ -17,7 +17,8 @@ fun viewTransformation(from: Point, to: Point, up: Vector = Vector(0, 1, 0)): Ma
     return orientation * translation(-from.x, -from.y, -from.z)
 }
 
-class Camera(val width: Int, val height: Int, val fov: Double, val transformation: Matrix = I) {
+class Camera(val width: Int, val height: Int, val fov: Double,
+             val transformation: Matrix = I) {
 
     val pixelSize: Double
 
@@ -48,7 +49,13 @@ class Camera(val width: Int, val height: Int, val fov: Double, val transformatio
         val direction = normalise(pixel - origin)
         return Ray(origin, direction)
     }
+
+    override fun toString(): String {
+        return "Camera(width=$width, height=$height, fov=$fov, transformation=$transformation)"
+    }
 }
 
-fun pixelSource(world: World, camera: Camera, width: Int, height: Int) =
-    PixelSource(width, height) { x, y -> world.colourAt(camera.rayForPixel(x, y)).toAWT()}
+fun pixelSource(scene: Scene) =
+    PixelSource(scene.camera.width, scene.camera.height) {
+            x, y -> scene.world.colourAt(scene.camera.rayForPixel(x, y)).toAWT()
+    }

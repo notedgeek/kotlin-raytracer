@@ -60,5 +60,5 @@ private val camera = Camera(width, height, PI / 3, viewTransformation(
     Point(0.0, 1.5, -5.0), Point(0.0, 1.0, 0.0)))
 
 fun main() {
-    PixelSourceRenderer(pixelSource(world, camera, width, height))
+    PixelSourceRenderer(pixelSource(Scene(world, camera)))
 }

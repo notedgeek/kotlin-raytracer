@@ -11,8 +11,14 @@ class Material(
     val specular: Double = 0.9,
     val shininess: Double = 200.0
 ) {
+    fun withColour(colour: Colour) = Material(colour, BlankPattern(colour), ambient, diffuse, specular, shininess)
 
     fun withPattern(pattern: Pattern) = Material(colour, pattern, ambient, diffuse, specular, shininess)
+
+    fun withDiffuse(diffuse: Double) = Material(colour, pattern, ambient, diffuse, specular, shininess)
+
+    fun withSpecular(specular: Double) = Material(colour, pattern, ambient, diffuse, specular, shininess)
+
 
     override fun equals(other: Any?) = other is Material && colour == other.colour && ambient == other.ambient &&
             diffuse == other.diffuse && specular == other.specular && shininess == other.shininess
