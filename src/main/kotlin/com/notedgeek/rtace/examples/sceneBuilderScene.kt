@@ -1,14 +1,14 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.pixelSource
-import com.notedgeek.rtace.sceneBuilder.makeScene
+import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 private fun scene() =
-    makeScene {
+    buildScene {
         size(1920, 1080)
         viewPoint(2.0, 2.0, -8.0)
         lookAt(0.0, 1.0, 0.0)

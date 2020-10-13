@@ -83,12 +83,4 @@ class TestView {
         assertThat(r.origin).isEqualTo(Point(0, 0, 0))
         assertThat(r.direction).isEqualTo(Vector(0.66519, 0.33259, -0.66851))
     }
-
-    @Test
-    fun `constructing a ray when the camera is transformed`() {
-        val c = Camera(201, 101, PI / 2, rotationY(PI / 4) * translation(0.0, -2.0, 5.0))
-        val r = c.rayForPixel(100, 50)
-        assertThat(r.origin).isEqualTo(Point(0, 2, -5))
-        assertThat(r.direction).isEqualTo(Vector(SQ2 / 2, 0.0, -SQ2 / 2))
-    }
 }

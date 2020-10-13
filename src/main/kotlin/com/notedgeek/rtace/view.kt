@@ -1,6 +1,7 @@
 package com.notedgeek.rtace
 
 import com.notedgeek.rtrace.graphics.PixelSource
+import kotlin.math.PI
 import kotlin.math.tan
 
 fun viewTransformation(from: Point, to: Point, up: Vector = Vector(0, 1, 0)): Matrix {
@@ -17,9 +18,11 @@ fun viewTransformation(from: Point, to: Point, up: Vector = Vector(0, 1, 0)): Ma
     return orientation * translation(-from.x, -from.y, -from.z)
 }
 
-class Camera(val width: Int, val height: Int, val fov: Double,
-             val transformation: Matrix = I) {
+class Camera(val width: Int = 1000, val height: Int = 500, val fov: Double = PI / 3,
+             val from: Point = Point(0, 0, 0), val to: Point = Point(0, 0, -1),
+             val up: Vector = Vector(0, 1, 0)) {
 
+    val transformation = viewTransformation(from, to, up)
     val pixelSize: Double
 
     private val halfView = tan(fov / 2)
@@ -49,6 +52,21 @@ class Camera(val width: Int, val height: Int, val fov: Double,
         val direction = normalise(pixel - origin)
         return Ray(origin, direction)
     }
+
+    fun withSize(width: Int, height: Int) = copy(width = width, height = height)
+
+    fun withFov(fov: Double) = copy(fov = fov)
+
+    fun withFrom(from: Point) = copy(from = from)
+
+    fun withTo(to: Point) = copy(to = to)
+
+    fun withUp(up: Vector) = copy(up = up)
+
+    private fun copy(width: Int = this.width, height: Int = this.height, fov: Double = this.fov,
+            from: Point = this.from, to: Point = this.to, up: Vector = this.up) =
+        Camera(width, height, fov, from, to, up)
+
 
     override fun toString(): String {
         return "Camera(width=$width, height=$height, fov=$fov, transformation=$transformation)"

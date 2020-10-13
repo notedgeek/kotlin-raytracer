@@ -10,43 +10,38 @@ import com.notedgeek.rtace.pattern.Pattern
 import com.notedgeek.rtace.pattern.Stripes
 import kotlin.math.PI
 
-fun buildScene(block: SceneBuilder.() -> Unit) = SceneBuilder().apply(block)
-
-fun makeScene(sceneBuilder: SceneBuilder = SceneBuilder(), block: SceneBuilder.() -> Unit) =
-    sceneBuilder.apply(block).toScene()
-
+fun buildScene(scene: Scene = Scene(World(emptyList(), emptyList()), Camera()),
+               block: SceneBuilder.() -> Unit) = SceneBuilder(scene).apply(block).toScene()
 
 @DslMarker
 annotation class SceneMarker
 
 @SceneMarker
-class SceneBuilder {
+class SceneBuilder(scene: Scene) {
 
-    private var width = 500
-    private var height = 250
-    private var fov = PI / 3
-    private var viewPoint = Point(0, 1, -5)
-    private var lookAt = Point(0, 0, 0)
-    private var upVector = Vector(0, 1, 0)
-
+    private var camera = scene.camera
     private val lights = ArrayList<PointLight>()
     private val objects = ArrayList<SceneObject>()
 
+    init {
+        lights.addAll(scene.world.lights)
+        objects.addAll(scene.world.objects)
+    }
+
     fun size(width: Int, height: Int) {
-        this.width = width
-        this.height = height
+        camera = camera.withSize(width, height)
     }
 
     fun viewPoint(x: Double, y: Double, z:Double) {
-        viewPoint = Point(x, y, z)
+        camera = camera.withFrom(Point(x, y, z))
     }
 
     fun lookAt(x: Double, y: Double, z:Double) {
-        lookAt = Point(x, y, z)
+        camera = camera.withTo(Point(x, y, z))
     }
 
     fun fov(fov: Double) {
-        this.fov = fov
+        camera = camera.withFov(fov)
     }
 
     fun light(block: LightBuilder.() -> Unit) {
@@ -69,8 +64,7 @@ class SceneBuilder {
         objects.add(ObjectBuilder(obj).apply(block).toObject())
     }
 
-    fun toScene() = Scene(World(lights, objects),
-        Camera(width, height, fov, viewTransformation(viewPoint, lookAt, upVector)))
+    fun toScene() = Scene(World(lights, objects), camera)
 
 }
 

@@ -2,14 +2,14 @@ package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.BLACK
 import com.notedgeek.rtace.pixelSource
-import com.notedgeek.rtace.sceneBuilder.makeScene
+import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 private val scene =
-    makeScene (backdrop1()){
+    buildScene (backdrop1){
         // left sphere
         sphere {
             material {

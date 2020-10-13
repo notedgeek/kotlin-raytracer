@@ -55,8 +55,7 @@ private val world = World(lights, listOf(
     floor, backWall, leftWall, middle, right, left
 ))
 
-private val camera = Camera(width, height, PI / 3, viewTransformation(
-    Point(2.0, 2.0, -8.0), Point(0.0, 1.0, 0.0)))
+private val camera = Camera(width, height, PI / 3, Point(2.0, 2.0, -8.0), Point(0.0, 1.0, 0.0))
 
 fun main() {
     PixelSourceRenderer(pixelSource(Scene(world, camera)))
