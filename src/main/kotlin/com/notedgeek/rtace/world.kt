@@ -3,7 +3,7 @@ package com.notedgeek.rtace
 import com.notedgeek.rtace.obj.SceneObject
 import kotlin.math.sqrt
 
-private var MAX_RECURSIVE_DEPTH = 10
+private var MAX_RECURSIVE_DEPTH = 7
 
 class World(val lights: List<PointLight>, objs: List<SceneObject>) {
 
@@ -22,28 +22,43 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
         val shadowed = isShadowed(light, comps.overPoint)
         val surface = lighting(comps.obj.material, light, comps.point, comps.eyeV,
             comps.normal, comps.obj, shadowed)
-        val reflected = reflectedColour(comps, remaining)
-        val refracted = refractedColour(comps, remaining)
+        val reflected = reflectedColour(light, comps, remaining)
+        val refracted = refractedColour(light, comps, remaining)
         return surface + reflected + refracted
     }
 
-    fun colourAt(ray: Ray, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
+    fun colourAt(ray: Ray): Colour {
+        var lightCount = 0
+        var result = Colour(0.0, 0.0, 0.0)
+        val intersections = intersections(ray)
+        val hit = hit(intersections)
+        lights.forEach {
+            result += colourAtForPointLight(it, ray, MAX_RECURSIVE_DEPTH, intersections, hit)
+            lightCount++
+        }
+        return result / lightCount.toDouble()
+    }
+
+    fun colourAtForPointLight(light: PointLight, ray: Ray, remaining: Int = MAX_RECURSIVE_DEPTH,
+                              pIntersections: List<Intersection>? = null, pHit: Intersection? = null): Colour {
         if(remaining == 0) {
             return BLACK
         }
-        val intersections = intersections(ray)
-        val hit = hit(intersections)
+        val intersections: List<Intersection>
+        val hit: Intersection?
+        if(pIntersections == null) {
+            intersections = intersections(ray)
+            hit = hit(intersections)
+        } else {
+            intersections = pIntersections
+            hit = pHit
+        }
+
         return if (hit == null) {
             BLACK
         } else {
-            var lightCount = 0
-            var result = Colour(0.0, 0.0, 0.0)
-            lights.forEach {
-                val comps = Comps(hit, ray, intersections)
-                result += shadeHit(it, comps, remaining)
-                lightCount++
-            }
-            result / lightCount.toDouble()
+            val comps = Comps(hit, ray, intersections)
+            return shadeHit(light, comps, remaining)
         }
     }
 
@@ -56,17 +71,17 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
         return hit != null && hit.t < distance
     }
 
-    fun reflectedColour(comps: Comps, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
+    fun reflectedColour(light: PointLight, comps: Comps, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
         val reflective = comps.obj.material.reflective
         return if (closeTo(0.0, reflective)) {
             BLACK
         } else {
             val reflectRay = Ray(comps.overPoint, comps.reflectV)
-            return colourAt(reflectRay, remaining - 1) * reflective
+            return colourAtForPointLight(light, reflectRay, remaining - 1) * reflective
         }
     }
 
-    fun refractedColour(comps: Comps, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
+    fun refractedColour(light: PointLight, comps: Comps, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
         val transparency = comps.obj.material.transparency
         if (remaining == 0 || closeTo(transparency, 0.0)) {
             return BLACK
@@ -84,7 +99,7 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
         val direction = comps.normal * (ratio * cosI - cosT) - comps.eyeV * ratio
         val refractRay = Ray(comps.underPoint, direction)
 
-        return colourAt(refractRay, remaining - 1) * transparency
+        return colourAtForPointLight(light, refractRay, remaining - 1) * transparency
     }
 
     private fun intersectObject(obj: SceneObject, ray: Ray, currentIntersections: List<Intersection>): List<Intersection> {

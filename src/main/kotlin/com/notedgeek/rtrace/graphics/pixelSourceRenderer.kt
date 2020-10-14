@@ -46,9 +46,9 @@ class PixelSourceRenderer(private val pixelSource: PixelSource) : Renderer {
         val renderFrame = RenderFrame("pixel source renderer", pixelSource.width, pixelSource.height, this)
         renderFrame.render()
         try {
-            renderFrame.writeToFile("render.png")
-        } catch (ioex: IOException) {
-            ioex.printStackTrace()
+            renderFrame.writeToFile("render${System.currentTimeMillis()}.png")
+        } catch (ioEx: IOException) {
+            ioEx.printStackTrace()
         }
     }
 }

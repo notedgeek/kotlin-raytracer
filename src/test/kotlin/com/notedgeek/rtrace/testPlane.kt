@@ -14,9 +14,9 @@ class TestPlane {
     @Test
     fun `the normal of a plane is constant everywhere`() {
         val p = Plane()
-        val n1 = p.localNormalAt(Point(0, 0, 0,))
-        val n2 = p.localNormalAt(Point(10, 0, -10,))
-        val n3 = p.localNormalAt(Point(-5, 0, 150,))
+        val n1 = p.localNormalAt(Point(0, 0, 0))
+        val n2 = p.localNormalAt(Point(10, 0, -10))
+        val n3 = p.localNormalAt(Point(-5, 0, 150))
         assertThat(n1).isEqualTo(Vector(0, 1, 0))
         assertThat(n2).isEqualTo(Vector(0, 1, 0))
         assertThat(n3).isEqualTo(Vector(0, 1, 0))

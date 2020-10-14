@@ -5,7 +5,7 @@ import com.notedgeek.rtace.obj.SceneObject
 
 abstract class Pattern(val transform: Matrix = I) {
 
-    val inverseTransform = -transform
+    private val inverseTransform = -transform
 
     fun colourAtObject(obj: SceneObject, worldPoint: Point): Colour {
         val objectPoint = obj.inverseTransform * worldPoint

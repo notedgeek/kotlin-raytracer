@@ -54,24 +54,21 @@ class TestWorld {
         val s = w.objects[1]
         val i = Intersection(0.5, s)
         val c = Comps(i, r)
-
-        val amb = s.material.ambient
-        // modified from 0.90498, 0.90498, 0.90498 - now that shading is considered
-        assertThat(w.shadeHit(w.lights[0], c)).isEqualTo(Colour(amb, amb, amb))
+        assertThat(w.shadeHit(w.lights[0], c)).isEqualTo(Colour(0.90498, 0.90498, 0.90498))
     }
 
     @Test
     fun `the colour when a ray misses`() {
         val w = defaultWorld()
         val r = Ray(Point(0, 0, -5), Vector(0, 1, 0))
-        assertThat(w.colourAt(r)).isEqualTo(BLACK)
+        assertThat(w.colourAtForPointLight(w.lights[0], r)).isEqualTo(BLACK)
     }
 
     @Test
     fun `the colour when a ray hits`() {
         val w = defaultWorld()
         val r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
-        assertThat(w.colourAt(r)).isEqualTo(Colour(0.38066, 0.47583, 0.2855))
+        assertThat(w.colourAtForPointLight(w.lights[0], r)).isEqualTo(Colour(0.38066, 0.47583, 0.2855))
     }
 
     @Test
@@ -81,7 +78,7 @@ class TestWorld {
             defaultWorld.lights[0],
             listOf(defaultWorld.objects[0].ambient(1.0), defaultWorld.objects[1].ambient(1.0)))
         val ray = Ray(Point(0.0, 0.0, 0.75), Vector(0, 0, -1))
-        assertThat(w.colourAt(ray)).isEqualTo(defaultWorld.objects[1].material.colour)
+        assertThat(w.colourAtForPointLight(w.lights[0], ray)).isEqualTo(defaultWorld.objects[1].material.colour)
     }
 
     @Test

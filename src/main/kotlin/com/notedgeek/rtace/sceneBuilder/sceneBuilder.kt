@@ -8,7 +8,6 @@ import com.notedgeek.rtace.pattern.BlankPattern
 import com.notedgeek.rtace.pattern.Checkers
 import com.notedgeek.rtace.pattern.Pattern
 import com.notedgeek.rtace.pattern.Stripes
-import kotlin.math.PI
 
 fun buildScene(scene: Scene = Scene(World(emptyList(), emptyList()), Camera()),
                block: SceneBuilder.() -> Unit) = SceneBuilder(scene).apply(block).toScene()
@@ -38,10 +37,6 @@ class SceneBuilder(scene: Scene) {
 
     fun lookAt(x: Double, y: Double, z:Double) {
         camera = camera.withTo(Point(x, y, z))
-    }
-
-    fun fov(fov: Double) {
-        camera = camera.withFov(fov)
     }
 
     fun light(block: LightBuilder.() -> Unit) {
@@ -87,8 +82,6 @@ class ObjectBuilder(var obj: SceneObject){
 
     fun translateX(x: Double) = transform(translation(x, 0.0, 0.0))
 
-    fun translateY(y: Double) = transform(translation(0.0, y, 0.0))
-
     fun translateZ(z: Double) = transform(translation(0.0, 0.0, z))
 
     fun scale(s: Double) = scale(s, s, s)
@@ -98,8 +91,6 @@ class ObjectBuilder(var obj: SceneObject){
     }
 
     fun rotateX(r: Double) = transform(rotationX(r))
-
-    fun rotateY(r: Double) = transform(rotationY(r))
 
     fun rotateZ(r: Double) = transform(rotationZ(r))
 

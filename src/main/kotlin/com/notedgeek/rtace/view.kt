@@ -19,8 +19,8 @@ fun viewTransformation(from: Point, to: Point, up: Vector = Vector(0, 1, 0)): Ma
 }
 
 class Camera(val width: Int = 1000, val height: Int = 500, val fov: Double = PI / 3,
-             val from: Point = Point(0, 0, 0), val to: Point = Point(0, 0, -1),
-             val up: Vector = Vector(0, 1, 0)) {
+             private val from: Point = Point(0, 0, 0), private val to: Point = Point(0, 0, -1),
+             private val up: Vector = Vector(0, 1, 0)) {
 
     val transformation = viewTransformation(from, to, up)
     val pixelSize: Double
@@ -55,13 +55,9 @@ class Camera(val width: Int = 1000, val height: Int = 500, val fov: Double = PI 
 
     fun withSize(width: Int, height: Int) = copy(width = width, height = height)
 
-    fun withFov(fov: Double) = copy(fov = fov)
-
     fun withFrom(from: Point) = copy(from = from)
 
     fun withTo(to: Point) = copy(to = to)
-
-    fun withUp(up: Vector) = copy(up = up)
 
     private fun copy(width: Int = this.width, height: Int = this.height, fov: Double = this.fov,
             from: Point = this.from, to: Point = this.to, up: Vector = this.up) =

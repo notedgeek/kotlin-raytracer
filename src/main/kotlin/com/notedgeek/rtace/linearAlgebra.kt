@@ -119,7 +119,7 @@ open class Matrix(vararg elems: Double) {
         val destArray = DoubleArray(dim * dim)
         for (r in 0 until dim) {
             for (c in 0 until dim) {
-                destArray[r * dim + c] = getMultCell(r, c, other)
+                destArray[r * dim + c] = getMultiplicationCell(r, c, other)
             }
         }
         return Matrix(*destArray)
@@ -170,7 +170,7 @@ open class Matrix(vararg elems: Double) {
             det
         }
 
-    fun submatrix(rSkip: Int, cSkip: Int): Matrix {
+    fun subMatrix(rSkip: Int, cSkip: Int): Matrix {
         if (dim < 2) {
             throw IllegalArgumentException("matrix of dimension: $dim, too small to take sub matrix")
         }
@@ -196,7 +196,7 @@ open class Matrix(vararg elems: Double) {
         if (dim < 3) {
             throw IllegalArgumentException("dim must be 3 or higher, was: $dim")
         }
-        return submatrix(r, c).det()
+        return subMatrix(r, c).det()
     }
 
     fun cofactor(r: Int, c: Int): Double = if ((r + c) % 2 == 1) -minor(r, c) else minor(r, c)
@@ -208,7 +208,7 @@ open class Matrix(vararg elems: Double) {
         val result = DoubleArray(4)
         val tuple =  doubleArrayOf(x, y, z, w)
         for(i in 0 until dim) {
-            result[i] = getTupleMultCell(i, tuple)
+            result[i] = getTupleMultiplicationCell(i, tuple)
         }
         return result
     }
@@ -245,7 +245,7 @@ open class Matrix(vararg elems: Double) {
         return sb.toString()
     }
 
-    private fun getMultCell(r: Int, c: Int, other: Matrix): Double {
+    private fun getMultiplicationCell(r: Int, c: Int, other: Matrix): Double {
         var result = 0.0
         for(i in 0 until dim) {
             result += contents[r][i] * other.contents[i][c]
@@ -253,7 +253,7 @@ open class Matrix(vararg elems: Double) {
         return result
     }
 
-    private fun getTupleMultCell(r: Int, tuple: DoubleArray): Double {
+    private fun getTupleMultiplicationCell(r: Int, tuple: DoubleArray): Double {
         var result = 0.0
         for(i in 0 until dim) {
             result += contents[r][i] * tuple[i]
@@ -270,7 +270,7 @@ fun transpose(m: Matrix) = m.transpose()
 
 fun det(m: Matrix) = m.det()
 
-fun submatrix(m: Matrix, r: Int, c: Int) = m.submatrix(r, c)
+fun subMatrix(m: Matrix, r: Int, c: Int) = m.subMatrix(r, c)
 
 fun minor(m: Matrix, r: Int, c: Int) = m.minor(r, c)
 

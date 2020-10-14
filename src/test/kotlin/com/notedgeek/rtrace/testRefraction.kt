@@ -32,7 +32,7 @@ class TestRefraction {
         val intersections = listOf(Intersection(2.0, a), Intersection(2.75, b), Intersection(3.25, c),
             Intersection(4.75, b), Intersection(5.25, c), Intersection(6.0, a))
 
-        val expectedVals = listOf(
+        val expectedValues = listOf(
             1.0 to 1.5,
             1.5 to 2.0,
             2.0 to 2.5,
@@ -43,8 +43,8 @@ class TestRefraction {
 
         for((index, intersection) in intersections.withIndex()) {
             val comps = Comps(intersection, ray, intersections)
-            assertThat(comps.n1).isCloseTo(expectedVals[index].first, offset(EPSILON))
-            assertThat(comps.n2).isCloseTo(expectedVals[index].second, offset(EPSILON))
+            assertThat(comps.n1).isCloseTo(expectedValues[index].first, offset(EPSILON))
+            assertThat(comps.n2).isCloseTo(expectedValues[index].second, offset(EPSILON))
         }
     }
 
@@ -66,7 +66,7 @@ class TestRefraction {
         val ray = Ray(Point(0, 0, -5), Vector(0, 0, 1))
         val xs = listOf(Intersection(4.0, shape), Intersection(6.0, shape))
         val comps = Comps(xs[0], ray, xs)
-        assertThat(w.refractedColour(comps)).isEqualTo(BLACK)
+        assertThat(w.refractedColour(w.lights[0], comps)).isEqualTo(BLACK)
     }
 
     @Test
@@ -78,7 +78,7 @@ class TestRefraction {
         val ray = Ray(Point(0, 0, -5), Vector(0, 0, 1))
         val xs = listOf(Intersection(4.0, shape), Intersection(6.0, shape))
         val comps = Comps(xs[0], ray, xs)
-        assertThat(w.refractedColour(comps, 0)).isEqualTo(BLACK)
+        assertThat(w.refractedColour(w.lights[0], comps, 0)).isEqualTo(BLACK)
     }
 
     @Test
@@ -90,7 +90,7 @@ class TestRefraction {
         val ray = Ray(Point(0.0, 0.0, SQ2 / 2), Vector(0, 1, 0))
         val xs = listOf(Intersection(-SQ2 / 2, shape), Intersection(SQ2 / 2, shape))
         val comps = Comps(xs[1], ray, xs)
-        assertThat(w.refractedColour(comps)).isEqualTo(BLACK)
+        assertThat(w.refractedColour(w.lights[0], comps)).isEqualTo(BLACK)
     }
 
     @Test

@@ -132,13 +132,13 @@ class TestMatrices {
         }
 
         @Test
-        fun `submatrix of a 3x3 matrix is a 2x2 matrix`() {
+        fun `sub matrix of a 3x3 matrix is a 2x2 matrix`() {
             val m = Matrix(
                 1.0, 5.0, 0.0,
                 -3.0, 2.0, 7.0,
                 0.0, 6.0, -3.0
             )
-            assertThat(submatrix(m, 0, 2)).isEqualTo(
+            assertThat(subMatrix(m, 0, 2)).isEqualTo(
                 Matrix(
                     -3.0, 2.0,
                     0.0, 6.0
@@ -147,14 +147,14 @@ class TestMatrices {
         }
 
         @Test
-        fun `submatrix of a 4x4 matrix is a 3x3 matrix`() {
+        fun `sub matrix of a 4x4 matrix is a 3x3 matrix`() {
             val m = Matrix(
                 -6.0, 1.0, 1.0, 6.0,
                 -8.0, 5.0, 8.0, 6.0,
                 -1.0, 0.0, 8.0, 2.0,
                 -7.0, 1.0, -1.0, 1.0
             )
-            assertThat(submatrix(m, 2, 1)).isEqualTo(
+            assertThat(subMatrix(m, 2, 1)).isEqualTo(
                 Matrix(
                     -6.0, 1.0, 6.0,
                     -8.0, 8.0, 6.0,
@@ -170,7 +170,7 @@ class TestMatrices {
                 2.0, -1.0, -7.0,
                 6.0, -1.0, 5.0
             )
-            val sm = submatrix(m, 1, 0)
+            val sm = subMatrix(m, 1, 0)
             assertThat(det(sm)).isCloseTo(25.0, offset(EPSILON))
             assertThat(minor(m, 1, 0)).isCloseTo(25.0, offset(EPSILON))
         }

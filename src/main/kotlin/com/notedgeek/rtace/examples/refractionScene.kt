@@ -3,7 +3,6 @@ package com.notedgeek.rtace.examples
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
-import kotlin.math.PI
 
 private val scene =
     buildScene (reflectScene){
@@ -20,6 +19,5 @@ private val scene =
     }
 
 fun main() {
-    //println(pixelSource(scene).colorAt(430, 250))
     PixelSourceRenderer(pixelSource(scene))
 }

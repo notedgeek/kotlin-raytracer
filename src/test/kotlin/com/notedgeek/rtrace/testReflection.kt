@@ -29,7 +29,7 @@ class TestReflection {
         val shape = w.objects[1].ambient(1.0)
         val i = Intersection(1.0, shape)
         val comps = Comps(i, ray)
-        assertThat(w.reflectedColour(comps)).isEqualTo(BLACK)
+        assertThat(w.reflectedColour(w.lights[0], comps)).isEqualTo(BLACK)
     }
 
     @Test
@@ -40,7 +40,7 @@ class TestReflection {
         w.objects.add(shape)
         val i = Intersection(SQ2, shape)
         val comps = Comps(i, ray)
-        assertThat(w.reflectedColour(comps)).isEqualTo(Colour(0.19033, 0.23792, 0.14275))
+        assertThat(w.reflectedColour(w.lights[0], comps)).isEqualTo(Colour(0.19033, 0.23792, 0.14275))
     }
 
     @Test
