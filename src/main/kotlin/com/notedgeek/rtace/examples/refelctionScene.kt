@@ -8,7 +8,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-private val scene =
+val reflectScene =
     buildScene (backdrop1){
         // left sphere
         sphere {
@@ -75,5 +75,5 @@ private val scene =
     }
 
 fun main() {
-    PixelSourceRenderer(pixelSource(scene))
+    PixelSourceRenderer(pixelSource(reflectScene))
 }

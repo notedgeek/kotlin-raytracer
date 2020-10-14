@@ -4,7 +4,7 @@ import com.notedgeek.rtace.sceneBuilder.buildScene
 import kotlin.math.PI
 
 val backdrop1 = buildScene {
-    size(3300, 1340)
+    size(3300 / 1, 1340 / 1)
     viewPoint(4.0, 6.0, -9.0)
     lookAt(-1.0, 1.0, 0.0)
     light {

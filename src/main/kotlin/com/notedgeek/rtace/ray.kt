@@ -1,34 +1,67 @@
 package com.notedgeek.rtace
 
 import com.notedgeek.rtace.obj.SceneObject
+import java.util.*
+import kotlin.collections.ArrayList
 
-data class Intersection(val t: Double, val obj: SceneObject)
+class Intersection(val t: Double, val obj: SceneObject)
 
 data class Ray(val origin: Point, val direction: Vector) {
     fun transform(t: Matrix) = Ray(t * origin, t * direction)
 }
 
-class Comps(intersection: Intersection, ray: Ray) {
-    val t = intersection.t
-    val obj = intersection.obj
+class Comps(hit: Intersection, ray: Ray, intersections: List<Intersection> = listOf(hit)) {
+    val t = hit.t
+    val obj = hit.obj
     val point = position(ray, t)
     val eyeV = -ray.direction
     val normal: Vector
     val inside: Boolean
     val overPoint: Point
+    val underPoint: Point
     val reflectV: Vector
+    var n1: Double = 1.0
+    var n2: Double = 1.0
 
     init {
-        val normal = obj.normalAt(point)
-        if (normal dot eyeV < 0.0) {
+        val normalAt = obj.normalAt(point)
+        if (normalAt dot eyeV < 0.0) {
             inside = true
-            this.normal = -normal
+            normal = -normalAt
         } else {
             inside = false
-            this.normal = normal
+            normal = normalAt
         }
         overPoint = point + normal * EPSILON
+        underPoint = point - normal * EPSILON
         reflectV = reflect(ray.direction, normal)
+
+        val containers = LinkedList<SceneObject>()
+
+        for (intersection in intersections) {
+            if(intersection == hit) {
+                n1 = if(containers.isEmpty()) {
+                    1.0
+                } else {
+                    containers.last.material.refractiveIndex
+                }
+            }
+
+            if(containers.contains(intersection.obj)) {
+                containers.remove(intersection.obj)
+            } else {
+                containers.addLast(intersection.obj)
+            }
+
+            if(intersection == hit) {
+                n2 = if(containers.isEmpty()) {
+                    1.0
+                } else {
+                    containers.last.material.refractiveIndex
+                }
+                break
+            }
+        }
     }
 }
 

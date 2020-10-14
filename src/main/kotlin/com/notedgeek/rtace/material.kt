@@ -10,12 +10,16 @@ class Material(
     val diffuse: Double = 0.9,
     val specular: Double = 0.9,
     val shininess: Double = 200.0,
-    val reflective: Double = 0.0
+    val reflective: Double = 0.0,
+    val transparency: Double = 0.0,
+    val refractiveIndex: Double = 1.0
 ) {
 
     fun withColour(colour: Colour) = copy(colour = colour).withPattern(BlankPattern(colour))
 
     fun withPattern(pattern: Pattern) = copy(pattern = pattern)
+
+    fun withAmbient(ambient: Double) = copy(ambient = ambient)
 
     fun withDiffuse(diffuse: Double) = copy(diffuse = diffuse)
 
@@ -25,16 +29,24 @@ class Material(
 
     fun withReflective(reflective: Double) = copy(reflective = reflective)
 
+    fun withTransparency(transparency: Double) = copy(transparency = transparency)
+
+    fun withRefractiveIndex(refractiveIndex: Double) = copy(refractiveIndex = refractiveIndex)
+
     private fun copy(colour: Colour = this.colour, pattern: Pattern = this.pattern, ambient: Double = this.ambient,
-             diffuse: Double = this.diffuse, specular: Double = this.specular, shininess: Double = this.shininess,
-             reflective: Double = this.reflective) =
-        Material(colour, pattern, ambient, diffuse, specular, shininess, reflective)
+                     diffuse: Double = this.diffuse, specular: Double = this.specular, shininess: Double = this.shininess,
+                     reflective: Double = this.reflective, transparency: Double = this.transparency,
+                     refractiveIndex: Double = this.refractiveIndex) =
+        Material(colour, pattern, ambient, diffuse, specular, shininess, reflective, transparency, refractiveIndex)
 
     override fun equals(other: Any?) = other is Material && colour == other.colour && ambient == other.ambient &&
             diffuse == other.diffuse && specular == other.specular && shininess == other.shininess
 
     override fun toString(): String {
-        return "Material(colour=$colour, ambient=$ambient, diffuse=$diffuse," +
-                "specular=$specular, shininess=$shininess)"
+        return "Material(colour=$colour, pattern=$pattern, ambient=$ambient, diffuse=$diffuse, " +
+                "specular=$specular, shininess=$shininess, reflective=$reflective, transparency=$transparency, " +
+                "refractiveIndex=$refractiveIndex)"
     }
+
+
 }

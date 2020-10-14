@@ -17,7 +17,6 @@ abstract class SceneObject(
         val localNormal = localNormalAt(localPoint)
         val worldNormal = transpose(inverseTransform) * localNormal
         return normalise(worldNormal)
-
     }
 
     fun colour(r: Double, g: Double, b: Double) = colour(Colour(r, g, b))

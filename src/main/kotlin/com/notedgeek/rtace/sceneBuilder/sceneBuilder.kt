@@ -143,6 +143,10 @@ class MaterialBuilder(var material: Material = Material()) {
         material = material.withDiffuse(diffuse)
     }
 
+    fun ambient(ambient: Double) {
+        material = material.withAmbient(ambient)
+    }
+
     fun specular(specular: Double) {
         material = material.withSpecular(specular)
     }
@@ -153,6 +157,14 @@ class MaterialBuilder(var material: Material = Material()) {
 
     fun reflective(reflective: Double) {
         material = material.withReflective(reflective)
+    }
+
+    fun transparency(transparency: Double) {
+        material = material.withTransparency(transparency)
+    }
+
+    fun refractiveIndex(refractiveIndex: Double) {
+        material = material.withRefractiveIndex(refractiveIndex)
     }
 
     fun colour(c: Colour) = colour(c.red, c.green, c.blue)
