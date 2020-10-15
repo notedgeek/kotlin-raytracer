@@ -7,10 +7,10 @@ val backdrop1 = buildScene {
     size(3300 / 1, 1340 / 1)
     viewPoint(4.0, 6.0, -9.0)
     lookAt(-1.0, 1.0, 0.0)
-    light {
+    pointLight {
         at(-1.0, 10.0, -9.0)
     }
-    light {
+    pointLight {
         at(5.0, 5.0, -5.0)
     }
     // floor

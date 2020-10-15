@@ -1,6 +1,7 @@
 package com.notedgeek.rtace.sceneBuilder
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.obj.Cube
 import com.notedgeek.rtace.obj.Plane
 import com.notedgeek.rtace.obj.SceneObject
 import com.notedgeek.rtace.obj.Sphere
@@ -39,7 +40,7 @@ class SceneBuilder(scene: Scene) {
         camera = camera.withTo(Point(x, y, z))
     }
 
-    fun light(block: LightBuilder.() -> Unit) {
+    fun pointLight(block: LightBuilder.() -> Unit) {
         lights.add(LightBuilder().apply(block).toLight())
     }
 
@@ -49,6 +50,10 @@ class SceneBuilder(scene: Scene) {
 
     fun plane(block: ObjectBuilder.() -> Unit) {
         objects.add(ObjectBuilder(Plane()).apply(block).toObject())
+    }
+
+    fun cube(block: ObjectBuilder.() -> Unit) {
+        objects.add(ObjectBuilder(Cube()).apply(block).toObject())
     }
 
     fun material(block: MaterialBuilder.() -> Unit) = MaterialBuilder().apply(block).toMaterial()
@@ -72,6 +77,10 @@ class ObjectDefiner {
         obj = ObjectBuilder(Sphere()).apply(block).toObject()
     }
 
+    fun cube(block: ObjectBuilder.() -> Unit) {
+        obj = ObjectBuilder(Cube()).apply(block).toObject()
+    }
+
     fun toObject() = obj
 }
 
@@ -82,6 +91,8 @@ class ObjectBuilder(var obj: SceneObject){
 
     fun translateX(x: Double) = transform(translation(x, 0.0, 0.0))
 
+    fun translateY(y: Double) = transform(translation(0.0, y, 0.0))
+
     fun translateZ(z: Double) = transform(translation(0.0, 0.0, z))
 
     fun scale(s: Double) = scale(s, s, s)
@@ -91,6 +102,8 @@ class ObjectBuilder(var obj: SceneObject){
     }
 
     fun rotateX(r: Double) = transform(rotationX(r))
+
+    fun rotateY(r: Double) = transform(rotationY(r))
 
     fun rotateZ(r: Double) = transform(rotationZ(r))
 

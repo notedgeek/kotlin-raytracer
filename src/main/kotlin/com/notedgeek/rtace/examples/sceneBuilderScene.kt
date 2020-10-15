@@ -12,10 +12,10 @@ private fun scene() =
         size(1920, 1080)
         viewPoint(2.0, 2.0, -8.0)
         lookAt(0.0, 1.0, 0.0)
-        light {
+        pointLight {
             at(-1.0, 10.0, -10.0)
         }
-        light {
+        pointLight {
             at(5.0, 5.0, -5.0)
         }
         // floor
