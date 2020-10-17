@@ -1,10 +1,7 @@
 package com.notedgeek.rtace.sceneBuilder
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.obj.Cube
-import com.notedgeek.rtace.obj.Plane
-import com.notedgeek.rtace.obj.SceneObject
-import com.notedgeek.rtace.obj.Sphere
+import com.notedgeek.rtace.obj.*
 import com.notedgeek.rtace.pattern.BlankPattern
 import com.notedgeek.rtace.pattern.Checkers
 import com.notedgeek.rtace.pattern.Pattern
@@ -54,6 +51,22 @@ class SceneBuilder(scene: Scene) {
 
     fun cube(block: ObjectBuilder.() -> Unit) {
         objects.add(ObjectBuilder(Cube()).apply(block).toObject())
+    }
+
+    fun cylinder(block: ObjectBuilder.() -> Unit) {
+        objects.add(ObjectBuilder(Cylinder()).apply(block).toObject())
+    }
+
+    fun cappedCylinder(block: ObjectBuilder.() -> Unit) {
+        objects.add(ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).toObject())
+    }
+
+    fun cone(block: ObjectBuilder.() -> Unit) {
+        objects.add(ObjectBuilder(Cone()).apply(block).toObject())
+    }
+
+    fun cappedCone(block: ObjectBuilder.() -> Unit) {
+        objects.add(ObjectBuilder(Cone(cappedBottom = true, cappedTop = true)).apply(block).toObject())
     }
 
     fun material(block: MaterialBuilder.() -> Unit) = MaterialBuilder().apply(block).toMaterial()

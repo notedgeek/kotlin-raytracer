@@ -35,7 +35,7 @@ class PixelSourceRenderer(private val pixelSource: PixelSource) : Renderer {
     override fun render(renderContext: RenderContext) {
         val width = renderContext.sizeX
         val height = renderContext.sizeY
-        val squareSize = 16
+        val squareSize = 32
         val boundsList = LinkedList<Bound>()
         var x1 = 0
         var y1 = 0
