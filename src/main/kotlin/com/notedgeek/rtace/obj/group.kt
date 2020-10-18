@@ -6,10 +6,9 @@ import java.util.*
 
 class Group(
     material: Material = Material(),
-    transformation: Matrix = I,
     parent: SceneObject? = null,
     private val children: MutableList<SceneObject> = LinkedList()
-) : SceneObject(material, transformation, parent) {
+) : SceneObject(material, I, parent) {
 
     fun addChild(child: SceneObject): Group {
         children.add(child.transform(transform))
@@ -21,7 +20,7 @@ class Group(
         for (child in children) {
             newList.add(child.transform(transform))
         }
-        return Group(material, transform * this.transform, parent, newList)
+        return Group(material, parent, newList)
     }
 
 
@@ -34,11 +33,11 @@ class Group(
         for (child in children) {
             newList.add(child.withMaterial(material))
         }
-        return Group(material, transform, parent, newList)
+        return Group(material, parent, newList)
     }
 
     override fun withParent(parent: SceneObject): Group {
-        return Group(material, transform, parent, children)
+        return Group(material, parent, children)
     }
 
     override fun intersect(ray: Ray): List<Intersection> {
@@ -50,6 +49,15 @@ class Group(
             }
         }
         return result
+    }
+
+    override fun includes(obj: SceneObject): Boolean {
+        for (child in children) {
+            if (child.includes(obj)) {
+                return true
+            }
+        }
+        return false
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

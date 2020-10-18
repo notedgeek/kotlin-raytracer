@@ -33,11 +33,16 @@ class Cone (
         val b = 2 * origin.x * direction.x - 2 * origin.y * direction.y + 2 * origin.z * direction.z
         val c = origin.x.pow(2) - origin.y.pow(2) + origin.z.pow(2)
         if(closeTo(0.0, a)) {
-            return if(closeTo(0.0, b)) {
-                emptyList()
+            if(closeTo(0.0, b)) {
+                return emptyList()
             } else {
                 val t = -c/(2 * b)
-                listOf(Intersection(t, this))
+                val y0 = localRay.origin.y + t * localRay.direction.y
+                if (min < y0 && y0 < max) {
+                    return listOf(Intersection(t, this))
+                } else {
+                    return emptyList()
+                }
             }
         }
 

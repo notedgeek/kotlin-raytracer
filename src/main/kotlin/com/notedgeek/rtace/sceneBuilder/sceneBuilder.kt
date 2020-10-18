@@ -53,6 +53,18 @@ abstract class ObjectCollectionBuilder {
         addObject(ObjectBuilder(Triangle(p1, p2, p3)).apply(block).toObject())
     }
 
+    fun difference(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) {
+        addObject(ObjectBuilder(CSG(left, right, Operation.DIFFERENCE)).apply(block).toObject())
+    }
+
+    fun union(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) {
+        addObject(ObjectBuilder(CSG(left, right, Operation.UNION)).apply(block).toObject())
+    }
+
+    fun intersect(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) {
+        addObject(ObjectBuilder(CSG(left, right, Operation.INTERSECT)).apply(block).toObject())
+    }
+
 }
 
 @SceneMarker
@@ -150,6 +162,14 @@ class ObjectDefiner {
         obj = ObjectBuilder(Cube()).apply(block).toObject()
     }
 
+    fun cylinder(block: ObjectBuilder.() -> Unit) {
+        obj = ObjectBuilder(Cylinder(cappedBottom = false, cappedTop = false)).apply(block).toObject()
+    }
+
+    fun cappedCylinder(block: ObjectBuilder.() -> Unit) {
+        obj = ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).toObject()
+    }
+
     fun toObject() = obj
 }
 
@@ -177,7 +197,7 @@ class ObjectBuilder(var obj: SceneObject){
     fun rotateZ(r: Double) = transform(rotationZ(r))
 
     fun transform(transform: Matrix) {
-        obj = obj.withTransform(transform * obj.transform)
+        obj = obj.transform(transform)
     }
 
     fun material(material: Material = obj.material, block: MaterialBuilder.() -> Unit = {}) {
@@ -206,6 +226,10 @@ class MaterialBuilder(var material: Material = Material()) {
 
     fun pattern(block: PatternBuilder.() -> Unit) {
         material = material.withPattern(PatternBuilder().apply(block).toPattern())
+    }
+
+    fun ambient(ambient: Double) {
+        material = material.withAmbient(ambient)
     }
 
     fun diffuse(diffuse: Double) {

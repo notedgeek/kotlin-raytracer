@@ -71,5 +71,11 @@ class Camera(val width: Int = 1000, val height: Int = 500, val fov: Double = PI 
 
 fun pixelSource(scene: Scene) =
     PixelSource(scene.camera.width, scene.camera.height) {
-            x, y -> scene.world.colourAt(scene.camera.rayForPixel(x, y)).toAWT()
+        x, y ->
+        if(y == 400 && x == 1920 / 2) {
+            val d = 5
+            println(scene.world.colourAt(scene.camera.rayForPixel(x, y)))
+            val e = 5
+        }
+        scene.world.colourAt(scene.camera.rayForPixel(x, y)).toAWT()
     }

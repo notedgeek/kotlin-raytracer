@@ -46,6 +46,8 @@ abstract class SceneObject(
         return withTransform(transform * this.transform)
     }
 
+    open fun includes(obj: SceneObject) = this == obj
+
     fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
 
     fun translateX(x: Double) = transform(translation(x, 0.0, 0.0))

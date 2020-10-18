@@ -8,7 +8,7 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 1
+    val scale = 10
     size(1920 / scale, 1080 / scale)
 
     viewPoint(0.0,  3.0, -6.0)

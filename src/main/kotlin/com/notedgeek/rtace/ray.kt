@@ -8,22 +8,22 @@ class Intersection(val t: Double, val obj: SceneObject, val u: Double = 0.0, val
 
 fun List<Intersection>.addIntersections(others: List<Intersection>): List<Intersection> {
     val size = this.size + others.size
-    var currentListIndex = 0
-    var listIndex = 0
+    var thisIndex = 0
+    var otherIndex = 0
     val result = ArrayList<Intersection>(size)
     for(i in 0 until size) {
-        if (this.isEmpty() || currentListIndex == this.size) {
-            result.add(others[listIndex])
-            listIndex++
-        } else if (others.isEmpty() || listIndex == others.size) {
-            result.add(this[currentListIndex])
-            currentListIndex++
-        } else if (this[currentListIndex].t < others[listIndex].t) {
-            result.add(this[currentListIndex])
-            currentListIndex++
+        if (this.isEmpty() || thisIndex == this.size) {
+            result.add(others[otherIndex])
+            otherIndex++
+        } else if (others.isEmpty() || otherIndex == others.size) {
+            result.add(this[thisIndex])
+            thisIndex++
+        } else if (this[thisIndex].t < others[otherIndex].t) {
+            result.add(this[thisIndex])
+            thisIndex++
         } else {
-            result.add(others[listIndex])
-            listIndex++
+            result.add(others[otherIndex])
+            otherIndex++
         }
     }
     return result
