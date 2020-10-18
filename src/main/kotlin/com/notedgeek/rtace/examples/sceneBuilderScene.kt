@@ -28,7 +28,7 @@ private fun scene() =
                 specular(0.0)
             }
         }
-        val wallMaterial = material {
+        val wallMaterial = defMaterial {
             colour(1.0, 0.9, 0.9)
             specular(0.0)
         }
@@ -78,7 +78,7 @@ private fun scene() =
             translate(1.5, 0.5, -0.5)
         }
 
-        val littleSphere = def {
+        val littleSphere = defObject {
             sphere {
                 material {
                     colour(0.8, 0.1, 0.8)

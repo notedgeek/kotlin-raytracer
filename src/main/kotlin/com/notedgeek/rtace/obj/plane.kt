@@ -5,17 +5,22 @@ import kotlin.math.abs
 
 class Plane(
     material: Material = Material(),
-    transformation: Matrix = I
-) : SceneObject(material, transformation) {
+    transform: Matrix = I,
+    parent: SceneObject? = null
+) : SceneObject(material, transform, parent) {
 
     private val normal = Vector(0, 1, 0)
 
-    override fun withTransform(transform: Matrix): SceneObject {
-        return Plane(material, transform)
+    override fun withTransform(transform: Matrix): Plane {
+        return Plane(material, transform,  parent)
     }
 
-    override fun withMaterial(material: Material): SceneObject {
-        return Plane(material, transform)
+    override fun withMaterial(material: Material): Plane {
+        return Plane(material, transform, parent)
+    }
+
+    override fun withParent(parent: SceneObject): Plane {
+        return Plane(material, transform, parent)
     }
 
     override fun localIntersect(localRay: Ray) =

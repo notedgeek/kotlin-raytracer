@@ -6,6 +6,29 @@ import kotlin.collections.ArrayList
 
 class Intersection(val t: Double, val obj: SceneObject)
 
+fun List<Intersection>.addIntersections(others: List<Intersection>): List<Intersection> {
+    val size = this.size + others.size
+    var currentListIndex = 0
+    var listIndex = 0
+    val result = ArrayList<Intersection>(size)
+    for(i in 0 until size) {
+        if (this.isEmpty() || currentListIndex == this.size) {
+            result.add(others[listIndex])
+            listIndex++
+        } else if (others.isEmpty() || listIndex == others.size) {
+            result.add(this[currentListIndex])
+            currentListIndex++
+        } else if (this[currentListIndex].t < others[listIndex].t) {
+            result.add(this[currentListIndex])
+            currentListIndex++
+        } else {
+            result.add(others[listIndex])
+            listIndex++
+        }
+    }
+    return result
+}
+
 data class Ray(val origin: Point, val direction: Vector) {
     fun transform(t: Matrix) = Ray(t * origin, t * direction)
 }

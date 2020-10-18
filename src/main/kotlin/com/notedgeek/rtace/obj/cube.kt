@@ -7,15 +7,20 @@ import kotlin.math.min
 
 class Cube(
     material: Material = Material(),
-    transformation: Matrix = I
-) : SceneObject(material, transformation) {
+    transform: Matrix = I,
+    parent: SceneObject? = null,
+) : SceneObject(material, transform, parent) {
 
-    override fun withTransform(transform: Matrix): SceneObject {
-        return Cube(material, transform)
+    override fun withTransform(transform: Matrix): Cube {
+        return Cube(material, transform, parent)
     }
 
-    override fun withMaterial(material: Material): SceneObject {
-        return Cube(material, transform)
+    override fun withMaterial(material: Material): Cube {
+        return Cube(material, transform, parent)
+    }
+
+    override fun withParent(parent: SceneObject): Cube {
+        return Cube(material, transform, parent)
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

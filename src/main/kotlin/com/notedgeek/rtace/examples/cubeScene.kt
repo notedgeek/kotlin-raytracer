@@ -1,6 +1,5 @@
 package com.notedgeek.rtace.examples
 
-import com.notedgeek.rtace.BLACK
 import com.notedgeek.rtace.closeTo
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
@@ -9,7 +8,7 @@ import kotlin.math.PI
 
 private val scene =
     buildScene (){
-        val scale = 1
+        val scale = 4
         size(3300 / scale, 1340 / scale)
         viewPoint(5.0, 5.0, -15.0)
         lookAt(0.0, 0.0, 0.0)
@@ -74,7 +73,7 @@ private val scene =
             }
         }
 
-        val cube1 = def {
+        val cube1 = defObject {
             cube {
                 scale(0.1, 0.2, 0.1)
                 material {

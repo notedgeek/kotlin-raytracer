@@ -23,7 +23,7 @@ val backdrop1 = buildScene {
             specular(0.0)
         }
     }
-    val wallMaterial = material {
+    val wallMaterial = defMaterial {
         colour(1.0, 0.9, 0.9)
         specular(0.0)
     }

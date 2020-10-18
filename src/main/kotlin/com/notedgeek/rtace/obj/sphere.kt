@@ -5,15 +5,20 @@ import kotlin.math.sqrt
 
 class Sphere(
     material: Material = Material(),
-    transformation: Matrix = I
-) : SceneObject(material, transformation) {
+    transform: Matrix = I,
+    parent: SceneObject? = null
+) : SceneObject(material, transform, parent) {
 
     override fun withTransform(transform: Matrix): Sphere {
-        return Sphere(material, transform)
+        return Sphere(material, transform, parent)
     }
 
     override fun withMaterial(material: Material): Sphere {
-        return Sphere(material, transform)
+        return Sphere(material, transform, parent)
+    }
+
+    override fun withParent(parent: SceneObject): SceneObject {
+        return Sphere(material, transform, parent)
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

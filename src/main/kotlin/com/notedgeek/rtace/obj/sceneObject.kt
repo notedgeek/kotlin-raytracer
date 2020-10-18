@@ -5,12 +5,13 @@ import com.notedgeek.rtace.pattern.BlankPattern
 
 abstract class SceneObject(
     val material: Material = Material(),
-    val transform: Matrix = I
+    val transform: Matrix = I,
+    val parent: SceneObject? = null
 ) {
 
     val inverseTransform = -transform
 
-    fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
+    open fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
 
     fun normalAt(worldPoint: Point): Vector {
         val localPoint = inverseTransform * worldPoint
@@ -41,7 +42,7 @@ abstract class SceneObject(
         withMaterial(Material(material.colour, material.pattern,material.ambient,
             material.diffuse, material.specular, material.shininess, reflective))
 
-    fun transform(transform: Matrix): SceneObject {
+    open fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
     }
 
@@ -66,6 +67,8 @@ abstract class SceneObject(
     abstract fun withTransform(transform: Matrix): SceneObject
 
     abstract fun withMaterial(material: Material): SceneObject
+
+    abstract fun withParent(parent: SceneObject): SceneObject
 
     abstract fun localNormalAt(localPoint: Point): Vector
 

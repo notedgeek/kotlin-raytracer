@@ -103,27 +103,7 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
     }
 
     private fun intersectObject(obj: SceneObject, ray: Ray, currentIntersections: List<Intersection>): List<Intersection> {
-        val list = obj.intersect(ray)
-        val size = currentIntersections.size + list.size
-        var currentListIndex = 0
-        var listIndex = 0
-        val result = ArrayList<Intersection>(size)
-        for(i in 0 until size) {
-            if (currentIntersections.isEmpty() || currentListIndex == currentIntersections.size) {
-                result.add(list[listIndex])
-                listIndex++
-            } else if (list.isEmpty() || listIndex == list.size) {
-                result.add(currentIntersections[currentListIndex])
-                currentListIndex++
-            } else if (currentIntersections[currentListIndex].t < list[listIndex].t) {
-                result.add(currentIntersections[currentListIndex])
-                currentListIndex++
-            } else {
-                result.add(list[listIndex])
-                listIndex++
-            }
-        }
-        return result
+        return currentIntersections.addIntersections(obj.intersect(ray))
     }
 
     override fun toString(): String {

@@ -5,20 +5,25 @@ import kotlin.math.*
 
 class Cylinder (
     material: Material = Material(),
-    transformation: Matrix = I,
+    transform: Matrix = I,
+    parent: SceneObject? = null,
     private val min: Double = 0.0,
     private val max: Double = 1.0,
     private val cappedBottom: Boolean = false,
     private val cappedTop: Boolean = false
 
-) : SceneObject(material, transformation) {
+) : SceneObject(material, transform, parent) {
 
-    override fun withTransform(transform: Matrix): SceneObject {
-        return Cylinder(material, transform, min, max, cappedBottom, cappedTop)
+    override fun withTransform(transform: Matrix): Cylinder {
+        return Cylinder(material, transform, parent, min, max, cappedBottom, cappedTop)
     }
 
-    override fun withMaterial(material: Material): SceneObject {
-        return Cylinder(material, transform, min, max, cappedBottom, cappedTop)
+    override fun withMaterial(material: Material): Cylinder {
+        return Cylinder(material, transform, parent, min, max, cappedBottom, cappedTop)
+    }
+
+    override fun withParent(parent: SceneObject): Cylinder {
+        return Cylinder(material, transform, parent, min, max, cappedBottom, cappedTop)
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

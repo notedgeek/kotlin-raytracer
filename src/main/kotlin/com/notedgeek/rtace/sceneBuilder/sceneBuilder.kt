@@ -13,8 +13,84 @@ fun buildScene(scene: Scene = Scene(World(emptyList(), emptyList()), Camera()),
 @DslMarker
 annotation class SceneMarker
 
+abstract class ObjectCollectionBuilder() {
+    
+    abstract fun addObject(obj: SceneObject)
+
+    fun sphere(block: ObjectBuilder.() -> Unit = {}) {
+        addObject(ObjectBuilder(Sphere()).apply(block).toObject())
+    }
+
+    fun plane(block: ObjectBuilder.() -> Unit) {
+        addObject(ObjectBuilder(Plane()).apply(block).toObject())
+    }
+
+    fun cube(block: ObjectBuilder.() -> Unit) {
+        addObject(ObjectBuilder(Cube()).apply(block).toObject())
+    }
+
+    fun cylinder(block: ObjectBuilder.() -> Unit) {
+        addObject(ObjectBuilder(Cylinder()).apply(block).toObject())
+    }
+
+    fun cappedCylinder(block: ObjectBuilder.() -> Unit) {
+        addObject(ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).toObject())
+    }
+
+    fun cone(block: ObjectBuilder.() -> Unit) {
+        addObject(ObjectBuilder(Cone()).apply(block).toObject())
+    }
+
+    fun cappedCone(block: ObjectBuilder.() -> Unit) {
+        addObject(ObjectBuilder(Cone(cappedBottom = true, cappedTop = true)).apply(block).toObject())
+    }
+
+    fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) {
+        addObject(GroupBuilder(group).apply(block).group)
+    }
+
+}
+
 @SceneMarker
-class SceneBuilder(scene: Scene) {
+class GroupBuilder(var group: Group = Group()) : ObjectCollectionBuilder() {
+
+    override fun addObject(obj: SceneObject) {
+        group = group.addChild(obj)
+    }
+
+    fun transform(transform: Matrix) {
+        group = group.transform(transform)
+    }
+
+    fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
+        group = group.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
+    }
+
+    fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
+
+    fun translateX(x: Double) = transform(translation(x, 0.0, 0.0))
+
+    fun translateY(y: Double) = transform(translation(0.0, y, 0.0))
+
+    fun translateZ(z: Double) = transform(translation(0.0, 0.0, z))
+
+    fun scale(s: Double) = scale(s, s, s)
+
+    fun scale(x: Double, y: Double, z: Double) {
+        transform(scaling(x, y, z))
+    }
+
+    fun rotateX(r: Double) = transform(rotationX(r))
+
+    fun rotateY(r: Double) = transform(rotationY(r))
+
+    fun rotateZ(r: Double) = transform(rotationZ(r))
+
+
+}
+
+@SceneMarker
+class SceneBuilder(scene: Scene) : ObjectCollectionBuilder() {
 
     private var camera = scene.camera
     private val lights = ArrayList<PointLight>()
@@ -23,6 +99,10 @@ class SceneBuilder(scene: Scene) {
     init {
         lights.addAll(scene.world.lights)
         objects.addAll(scene.world.objects)
+    }
+
+    override fun addObject(obj: SceneObject) {
+        objects.add(obj)
     }
 
     fun size(width: Int, height: Int) {
@@ -41,37 +121,11 @@ class SceneBuilder(scene: Scene) {
         lights.add(LightBuilder().apply(block).toLight())
     }
 
-    fun sphere(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Sphere()).apply(block).toObject())
-    }
+    fun defMaterial(block: MaterialBuilder.() -> Unit) = MaterialBuilder().apply(block).toMaterial()
 
-    fun plane(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Plane()).apply(block).toObject())
-    }
+    fun defObject(block: ObjectDefiner.() -> Unit) = ObjectDefiner().apply(block).toObject()
 
-    fun cube(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Cube()).apply(block).toObject())
-    }
-
-    fun cylinder(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Cylinder()).apply(block).toObject())
-    }
-
-    fun cappedCylinder(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).toObject())
-    }
-
-    fun cone(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Cone()).apply(block).toObject())
-    }
-
-    fun cappedCone(block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(Cone(cappedBottom = true, cappedTop = true)).apply(block).toObject())
-    }
-
-    fun material(block: MaterialBuilder.() -> Unit) = MaterialBuilder().apply(block).toMaterial()
-
-    fun def(block: ObjectDefiner.() -> Unit) = ObjectDefiner().apply(block).toObject()
+    fun defGroup(block: GroupBuilder.() -> Unit) = GroupBuilder().apply(block).group
 
     fun add(obj: SceneObject = Sphere(), block: ObjectBuilder.() -> Unit) {
         objects.add(ObjectBuilder(obj).apply(block).toObject())
@@ -124,12 +178,8 @@ class ObjectBuilder(var obj: SceneObject){
         obj = obj.withTransform(transform * obj.transform)
     }
 
-    fun material(material: Material) {
-        obj = obj.withMaterial(material)
-    }
-
-    fun material(block: MaterialBuilder.() -> Unit) {
-        material(MaterialBuilder(obj.material).apply(block).toMaterial())
+    fun material(material: Material = obj.material, block: MaterialBuilder.() -> Unit = {}) {
+        obj = obj.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
     }
 
     fun toObject() = obj

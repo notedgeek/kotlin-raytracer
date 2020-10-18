@@ -5,20 +5,25 @@ import kotlin.math.*
 
 class Cone (
         material: Material = Material(),
-        transformation: Matrix = translation(0.0, 1.0, 0.0),
+        transform: Matrix = translation(0.0, 1.0, 0.0),
+        parent: SceneObject? = null,
         private val min: Double = -1.0,
         private val max: Double = 0.0,
         private val cappedBottom: Boolean = false,
         private val cappedTop: Boolean = false
 
-) : SceneObject(material, transformation) {
+) : SceneObject(material, transform, parent) {
 
-    override fun withTransform(transform: Matrix): SceneObject {
-        return Cone(material, transform, min, max, cappedBottom, cappedTop)
+    override fun withTransform(transform: Matrix): Cone {
+        return Cone(material, transform, parent, min, max, cappedBottom, cappedTop)
     }
 
-    override fun withMaterial(material: Material): SceneObject {
-        return Cone(material, transform, min, max, cappedBottom, cappedTop)
+    override fun withMaterial(material: Material): Cone {
+        return Cone(material, transform, parent, min, max, cappedBottom, cappedTop)
+    }
+
+    override fun withParent(parent: SceneObject): Cone {
+        return Cone(material, transform, parent, min, max, cappedBottom, cappedTop)
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {

@@ -46,7 +46,7 @@ val reflectScene =
             translate(1.5, 0.5, -0.5)
         }
 
-        val littleSphere = def {
+        val littleSphere = defObject {
             sphere {
                 material {
                     colour(0.8, 0.1, 0.8)
