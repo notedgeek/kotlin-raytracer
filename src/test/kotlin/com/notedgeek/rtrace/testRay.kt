@@ -9,6 +9,8 @@ import kotlin.math.PI
 
 class TestRay {
 
+    private val dummyIntersection = Intersection(0.0, Sphere())
+
     @Test
     fun `creating and querying a ray`() {
         val o = Point(1, 2, 3)
@@ -189,49 +191,49 @@ class TestRay {
     @Test
     fun `normal on a sphere at a point on the x axis` () {
         val s = Sphere()
-        val n = s.normalAt(Point(1, 0, 0))
+        val n = s.normalAt(Point(1, 0, 0), dummyIntersection)
         assertThat(n).isEqualTo(Vector(1, 0, 0))
     }
 
     @Test
     fun `normal on a sphere at a point on the y axis` () {
         val s = Sphere()
-        val n = s.normalAt(Point(0, 1, 0))
+        val n = s.normalAt(Point(0, 1, 0), dummyIntersection)
         assertThat(n).isEqualTo(Vector(0, 1, 0))
     }
 
     @Test
     fun `normal on a sphere at a point on the z axis` () {
         val s = Sphere()
-        val n = s.normalAt(Point(0, 0, 1))
+        val n = s.normalAt(Point(0, 0, 1), dummyIntersection)
         assertThat(n).isEqualTo(Vector(0, 0, 1))
     }
 
     @Test
     fun `normal on a sphere at a non-axial point` () {
         val s = Sphere()
-        val n = s.normalAt(Point(SQ3 / 3, SQ3 / 3, SQ3 / 3))
+        val n = s.normalAt(Point(SQ3 / 3, SQ3 / 3, SQ3 / 3), dummyIntersection)
         assertThat(n).isEqualTo(Vector(SQ3 / 3, SQ3 / 3, SQ3 / 3))
     }
 
     @Test
     fun `normal is a normalized vector` () {
         val s = Sphere()
-        val n = s.normalAt(Point(SQ3 / 3, SQ3 / 3, SQ3 / 3))
+        val n = s.normalAt(Point(SQ3 / 3, SQ3 / 3, SQ3 / 3), dummyIntersection)
         assertThat(n).isEqualTo(normalise(n))
     }
 
     @Test
     fun `computing the normal on a translated sphere`() {
         val s = Sphere().translateY(1.0)
-        val n = s.normalAt(Point(0.0, 1.70711, -0.70711))
+        val n = s.normalAt(Point(0.0, 1.70711, -0.70711), dummyIntersection)
         assertThat(n).isEqualTo(Vector(0.0, 0.70711, -0.70711))
     }
 
     @Test
     fun `computing the normal on a transformed sphere`() {
         val s = Sphere().rotateZ(PI / 5).scale(1.0, 0.5, 1.0)
-        val n = s.normalAt(Point(0.0, SQ2 / 2, -SQ2 / 2))
+        val n = s.normalAt(Point(0.0, SQ2 / 2, -SQ2 / 2), dummyIntersection)
         assertThat(n).isEqualTo(Vector(0.0, 0.97014, -0.24254))
     }
 

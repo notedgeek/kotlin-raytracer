@@ -4,7 +4,7 @@ import com.notedgeek.rtace.obj.SceneObject
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Intersection(val t: Double, val obj: SceneObject)
+class Intersection(val t: Double, val obj: SceneObject, val u: Double = 0.0, val v: Double = 0.0)
 
 fun List<Intersection>.addIntersections(others: List<Intersection>): List<Intersection> {
     val size = this.size + others.size
@@ -47,7 +47,7 @@ class Comps(hit: Intersection, ray: Ray, intersections: List<Intersection> = lis
     var n2: Double = 1.0
 
     init {
-        val normalAt = obj.normalAt(point)
+        val normalAt = obj.normalAt(point, hit)
         if (normalAt dot eyeV < 0.0) {
             inside = true
             normal = -normalAt

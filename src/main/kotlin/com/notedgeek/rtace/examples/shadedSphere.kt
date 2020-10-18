@@ -28,7 +28,7 @@ private class ShadedSphere {
         return if (hit != null) {
             val point = position(r, hit.t)
             val o = hit.obj
-            val normal = o.normalAt(point)
+            val normal = o.normalAt(point, hit)
             val eyeV = - r.direction
             lighting(o.material, light, point, eyeV, normal, o).toAWT()
         } else {

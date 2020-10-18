@@ -96,7 +96,7 @@ class Cone (
         return (x.pow(2) + z.pow(2)) <= radius
     }
 
-    override fun localNormalAt(localPoint: Point): Vector {
+    override fun localNormalAt(localPoint: Point, hit: Intersection): Vector {
         val dist = localPoint.x.pow(2) + localPoint.z.pow(2)
 
         if(dist < 1.0 && localPoint.y >= max - EPSILON) {

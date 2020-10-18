@@ -1,10 +1,8 @@
 package com.notedgeek.rtrace.graphics
 
 import java.io.IOException
-import java.time.Clock
 import java.util.*
 import kotlin.math.min
-import kotlin.system.exitProcess
 
 
 typealias Bound = Pair<Pair<Int, Int>, Pair<Int, Int>>

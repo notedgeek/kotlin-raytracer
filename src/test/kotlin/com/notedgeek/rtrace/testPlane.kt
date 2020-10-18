@@ -1,9 +1,6 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.EPSILON
-import com.notedgeek.rtace.Point
-import com.notedgeek.rtace.Ray
-import com.notedgeek.rtace.Vector
+import com.notedgeek.rtace.*
 import com.notedgeek.rtace.obj.Plane
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset.offset
@@ -14,9 +11,10 @@ class TestPlane {
     @Test
     fun `the normal of a plane is constant everywhere`() {
         val p = Plane()
-        val n1 = p.localNormalAt(Point(0, 0, 0))
-        val n2 = p.localNormalAt(Point(10, 0, -10))
-        val n3 = p.localNormalAt(Point(-5, 0, 150))
+        val dummmyIntersection = Intersection(0.0, p)
+        val n1 = p.localNormalAt(Point(0, 0, 0), dummmyIntersection)
+        val n2 = p.localNormalAt(Point(10, 0, -10), dummmyIntersection)
+        val n3 = p.localNormalAt(Point(-5, 0, 150), dummmyIntersection)
         assertThat(n1).isEqualTo(Vector(0, 1, 0))
         assertThat(n2).isEqualTo(Vector(0, 1, 0))
         assertThat(n3).isEqualTo(Vector(0, 1, 0))

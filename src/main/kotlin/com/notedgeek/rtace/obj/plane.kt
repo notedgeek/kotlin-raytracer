@@ -32,5 +32,5 @@ class Plane(
         }
 
 
-    override fun localNormalAt(localPoint: Point) = normal
+    override fun localNormalAt(localPoint: Point, hit: Intersection) = normal
 }

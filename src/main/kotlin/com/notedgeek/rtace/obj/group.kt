@@ -8,7 +8,7 @@ class Group(
     material: Material = Material(),
     transformation: Matrix = I,
     parent: SceneObject? = null,
-    val children: LinkedList<SceneObject> = LinkedList()
+    private val children: MutableList<SceneObject> = LinkedList()
 ) : SceneObject(material, transformation, parent) {
 
     fun addChild(child: SceneObject): Group {
@@ -56,7 +56,7 @@ class Group(
         throw Exception("localIntersect should not be called on Groups")
     }
 
-    override fun localNormalAt(localPoint: Point): Vector {
+    override fun localNormalAt(localPoint: Point, hit: Intersection): Vector {
         throw Exception("localNormalAt should not be called on Groups")
     }
 

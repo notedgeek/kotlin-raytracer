@@ -35,7 +35,7 @@ class Cube(
             listOf(Intersection(tMin, this), Intersection(tMax, this)) else emptyList()
     }
 
-    override fun localNormalAt(localPoint: Point) =
+    override fun localNormalAt(localPoint: Point, hit: Intersection) =
         when (max(abs(localPoint.x), max(abs(localPoint.y), abs(localPoint.z)))) {
             abs(localPoint.x) -> Vector(localPoint.x, 0.0, 0.0)
             abs(localPoint.y) -> Vector(0.0, localPoint.y, 0.0)

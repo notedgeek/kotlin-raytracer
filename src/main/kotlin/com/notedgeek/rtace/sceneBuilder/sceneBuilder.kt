@@ -13,7 +13,7 @@ fun buildScene(scene: Scene = Scene(World(emptyList(), emptyList()), Camera()),
 @DslMarker
 annotation class SceneMarker
 
-abstract class ObjectCollectionBuilder() {
+abstract class ObjectCollectionBuilder {
     
     abstract fun addObject(obj: SceneObject)
 
@@ -47,6 +47,10 @@ abstract class ObjectCollectionBuilder() {
 
     fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) {
         addObject(GroupBuilder(group).apply(block).group)
+    }
+
+    fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit = {}) {
+        addObject(ObjectBuilder(Triangle(p1, p2, p3)).apply(block).toObject())
     }
 
 }
@@ -83,8 +87,6 @@ class GroupBuilder(var group: Group = Group()) : ObjectCollectionBuilder() {
     fun rotateX(r: Double) = transform(rotationX(r))
 
     fun rotateY(r: Double) = transform(rotationY(r))
-
-    fun rotateZ(r: Double) = transform(rotationZ(r))
 
 
 }
@@ -208,10 +210,6 @@ class MaterialBuilder(var material: Material = Material()) {
 
     fun diffuse(diffuse: Double) {
         material = material.withDiffuse(diffuse)
-    }
-
-    fun ambient(ambient: Double) {
-        material = material.withAmbient(ambient)
     }
 
     fun specular(specular: Double) {

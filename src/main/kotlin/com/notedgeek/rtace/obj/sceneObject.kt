@@ -13,9 +13,9 @@ abstract class SceneObject(
 
     open fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
 
-    fun normalAt(worldPoint: Point): Vector {
+    fun normalAt(worldPoint: Point, hit: Intersection): Vector {
         val localPoint = inverseTransform * worldPoint
-        val localNormal = localNormalAt(localPoint)
+        val localNormal = localNormalAt(localPoint, hit)
         val worldNormal = transpose(inverseTransform) * localNormal
         return normalise(worldNormal)
     }
@@ -70,6 +70,6 @@ abstract class SceneObject(
 
     abstract fun withParent(parent: SceneObject): SceneObject
 
-    abstract fun localNormalAt(localPoint: Point): Vector
+    abstract fun localNormalAt(localPoint: Point, hit: Intersection): Vector
 
 }

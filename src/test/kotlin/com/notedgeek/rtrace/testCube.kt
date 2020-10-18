@@ -1,5 +1,6 @@
 package com.notedgeek.rtrace
 
+import com.notedgeek.rtace.Intersection
 import com.notedgeek.rtace.Point
 import com.notedgeek.rtace.Ray
 import com.notedgeek.rtace.Vector
@@ -34,7 +35,6 @@ class TestCube {
     @Test
     fun `a ray misses a cube`() {
        val c = Cube()
-        class Example(val origin: Point, val direction: Vector, val t1: Double, val t2: Double)
         val examples = listOf(
             Point(-2, 0, 0) to Vector(0.2673, 0.5345, 0.8018),
             Point(0, -2, 0) to Vector(0.8018, 0.2673, 0.5345),
@@ -66,7 +66,7 @@ class TestCube {
         )
         for(example in examples) {
             val p = example.first
-            Assertions.assertThat(c.localNormalAt(p)).isEqualTo(example.second)
+            Assertions.assertThat(c.localNormalAt(p, Intersection(0.0, c))).isEqualTo(example.second)
         }
     }
 }
