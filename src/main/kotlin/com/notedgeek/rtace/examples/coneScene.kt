@@ -16,7 +16,7 @@ private val scene = buildScene {
     }
 
     // floor
-    plane {
+    +plane {
         material {
             pattern {
                 checkers(colour(1.0, 0.9, 0.9), colour(0.5, 0.4, 0.4))
@@ -27,14 +27,14 @@ private val scene = buildScene {
         translateY(-3.0)
     }
 
-    cone {
+    +cone {
         material {
             reflective(0.8)
         }
         rotateX(PI / 6.0)
         translateX(-1.2)
     }
-    cappedCone {
+    +cappedCone {
         material {
             reflective(0.8)
         }

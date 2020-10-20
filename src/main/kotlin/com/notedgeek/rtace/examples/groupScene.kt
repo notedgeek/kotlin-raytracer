@@ -17,7 +17,7 @@ private val scene = buildScene {
     }
 
     // floor
-    plane {
+    +plane {
         material {
             pattern {
                 checkers(colour(1.0, 0.9, 0.9), colour(0.5, 0.4, 0.4))
@@ -29,30 +29,27 @@ private val scene = buildScene {
     }
 
 
-    val group1 = defGroup {
-        group {
-            sphere { translateX(-1.0) }
-            sphere { translateX(1.0) }
-            scale(1.5)
-        }
-        scale(0.18)
+    val group1 = group {
+        +sphere { translateX(-1.0) }
+        +sphere { translateX(1.0) }
+        scale(0.25)
     }
 
-    group(group1) {
+    +group(group1) {
         material {
             colour(0.39, 0.26, 0.13)
         }
         translateX(-1.2)
     }
 
-    group(group1) {
+    +group(group1) {
         material {
             colour(0.2, 0.2, 0.2)
             reflective(0.9)
         }
     }
 
-    group(group1) {
+    +group(group1) {
         material {
             colour(1.0, 0.8, 0.8)
         }

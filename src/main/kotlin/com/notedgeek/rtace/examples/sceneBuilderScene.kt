@@ -19,7 +19,7 @@ private fun scene() =
             at(5.0, 5.0, -5.0)
         }
         // floor
-        plane {
+        +plane {
             material {
                 pattern {
                     checkers(colour(1.0, 0.9, 0.9), colour(0.5, 0.4, 0.4))
@@ -28,24 +28,24 @@ private fun scene() =
                 specular(0.0)
             }
         }
-        val wallMaterial = defMaterial {
+        val wallMaterial = material {
             colour(1.0, 0.9, 0.9)
             specular(0.0)
         }
         // back wall
-        plane {
+        +plane {
             material(wallMaterial)
             rotateX(-PI / 2)
             translateZ(3.0)
         }
         // left wall
-        plane {
+        +plane {
             material(wallMaterial)
             rotateZ(-PI / 2)
             translateX(-3.0)
         }
         // left sphere
-        sphere {
+        +sphere {
             material {
                 pattern {
                     stripes(colour(0.5, 1.0, 0.1), colour(0.1, 1.0, 0.5))
@@ -59,7 +59,7 @@ private fun scene() =
             translate(-1.5, 0.33, -0.75)
         }
         // middle sphere
-        sphere {
+        +sphere {
             material {
                 colour(0.1, 1.0, 0.5)
                 diffuse(0.7)
@@ -68,7 +68,7 @@ private fun scene() =
             translate(-0.5, 1.0, 0.5)
         }
         // right sphere
-        sphere {
+        +sphere {
             material {
                 colour(0.5, 1.0, 0.1)
                 diffuse(0.7)
@@ -78,22 +78,20 @@ private fun scene() =
             translate(1.5, 0.5, -0.5)
         }
 
-        val littleSphere = defObject {
-            sphere {
-                material {
-                    colour(0.8, 0.1, 0.8)
-                    diffuse(0.7)
-                    specular(0.3)
-                }
-                scale(0.1)
-                translate(0.0, 0.1, -1.8)
+        val littleSphere = sphere {
+            material {
+                colour(0.8, 0.1, 0.8)
+                diffuse(0.7)
+                specular(0.3)
             }
+            scale(0.1)
+            translate(0.0, 0.1, -1.8)
         }
 
         val sphereCount = 24
         val angleInc = PI * 2.0 / sphereCount
         for (i in 0 until sphereCount) {
-            add(littleSphere) {
+            +from(littleSphere) {
                 val angle = i * angleInc
                 translate(cos(angle), 0.0, sin(angle))
             }

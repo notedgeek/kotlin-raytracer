@@ -14,7 +14,7 @@ val backdrop1 = buildScene {
         at(5.0, 5.0, -5.0)
     }
     // floor
-    plane {
+    +plane {
         material {
             pattern {
                 checkers(colour(1.0, 0.9, 0.9), colour(0.5, 0.4, 0.4))
@@ -23,24 +23,24 @@ val backdrop1 = buildScene {
             specular(0.0)
         }
     }
-    val wallMaterial = defMaterial {
+    val wallMaterial = material {
         colour(1.0, 0.9, 0.9)
         specular(0.0)
     }
     // back wall
-    plane {
+    +plane {
         material(wallMaterial)
         rotateX(-PI / 2)
         translateZ(3.0)
     }
     // front wall
-    plane {
+    +plane {
         material(wallMaterial)
         rotateX(PI / 2)
         translateZ(-10.0)
     }
     // left wall
-    plane {
+    +plane {
         material {
             colour(0.0, 0.0, 0.0)
             diffuse(0.2)

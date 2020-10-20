@@ -7,7 +7,7 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 4
+    val scale = 15
     size(3300 / scale, 1340 / scale)
 
     viewPoint(0.0, 7.0, -10.0)
@@ -19,14 +19,14 @@ private val scene = buildScene {
         at(5.0, 5.0, -5.0)
     }
 
-    plane {
+    +plane {
         material {
             colour(1.0, 0.9, 0.9)
             specular(0.0)
         }
     }
 
-    group(fromObjectFile("dragon")) {
+    +group(fromObjectFile("dragon")) {
         material {
             colour(0.0, 0.6, 0.0)
         }

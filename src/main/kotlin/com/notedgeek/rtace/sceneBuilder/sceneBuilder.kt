@@ -13,74 +13,50 @@ fun buildScene(scene: Scene = Scene(World(emptyList(), emptyList()), Camera()),
 @DslMarker
 annotation class SceneMarker
 
-abstract class ObjectCollectionBuilder {
-    
-    abstract fun addObject(obj: SceneObject)
+interface SceneObjectCollector {
 
-    fun sphere(block: ObjectBuilder.() -> Unit = {}) {
-        addObject(ObjectBuilder(Sphere()).apply(block).toObject())
+    fun addObject(obj: SceneObject)
+
+    operator fun SceneObject.unaryPlus() {
+        addObject(this)
     }
 
-    fun plane(block: ObjectBuilder.() -> Unit) {
-        addObject(ObjectBuilder(Plane()).apply(block).toObject())
-    }
+    fun sphere(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Sphere()).apply(block).obj
 
-    fun cube(block: ObjectBuilder.() -> Unit) {
-        addObject(ObjectBuilder(Cube()).apply(block).toObject())
-    }
+    fun plane(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Plane()).apply(block).obj
 
-    fun cylinder(block: ObjectBuilder.() -> Unit) {
-        addObject(ObjectBuilder(Cylinder()).apply(block).toObject())
-    }
+    fun cube(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cube()).apply(block).obj
 
-    fun cappedCylinder(block: ObjectBuilder.() -> Unit) {
-        addObject(ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).toObject())
-    }
+    fun cylinder(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cylinder()).apply(block).obj
 
-    fun cone(block: ObjectBuilder.() -> Unit) {
-        addObject(ObjectBuilder(Cone()).apply(block).toObject())
-    }
+    fun cappedCylinder(block: ObjectBuilder.() -> Unit) =
+        ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).obj
 
-    fun cappedCone(block: ObjectBuilder.() -> Unit) {
-        addObject(ObjectBuilder(Cone(cappedBottom = true, cappedTop = true)).apply(block).toObject())
-    }
+    fun cone(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cone()).apply(block).obj
 
-    fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) {
-        addObject(GroupBuilder(group).apply(block).group)
-    }
+    fun cappedCone(block: ObjectBuilder.() -> Unit) =
+            ObjectBuilder(Cone(cappedBottom = true, cappedTop = true)).apply(block).obj
 
-    fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit = {}) {
-        addObject(ObjectBuilder(Triangle(p1, p2, p3)).apply(block).toObject())
-    }
+    fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =
+        ObjectBuilder(Triangle(p1, p2, p3)).apply(block).obj
 
-    fun difference(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) {
-        addObject(ObjectBuilder(CSG(left, right, Operation.DIFFERENCE)).apply(block).toObject())
-    }
+    fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) = GroupBuilder(group).apply(block).group
 
-    fun union(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) {
-        addObject(ObjectBuilder(CSG(left, right, Operation.UNION)).apply(block).toObject())
-    }
+    fun union(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
+        ObjectBuilder(CSG(left, right, Operation.UNION)).apply(block).obj
 
-    fun intersect(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) {
-        addObject(ObjectBuilder(CSG(left, right, Operation.INTERSECT)).apply(block).toObject())
-    }
+    fun intersect(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
+        ObjectBuilder(CSG(left, right, Operation.INTERSECT)).apply(block).obj
 
+    fun difference(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
+        ObjectBuilder(CSG(left, right, Operation.DIFFERENCE)).apply(block).obj
+
+    fun from(obj: SceneObject, block: ObjectBuilder.() -> Unit) = ObjectBuilder(obj).apply(block).obj
 }
 
-@SceneMarker
-class GroupBuilder(var group: Group = Group()) : ObjectCollectionBuilder() {
+interface Transformer {
 
-    override fun addObject(obj: SceneObject) {
-        group = group.addChild(obj)
-    }
-
-    fun transform(transform: Matrix) {
-        group = group.transform(transform)
-    }
-
-    fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
-        group = group.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
-    }
+    fun transform(transform: Matrix)
 
     fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
 
@@ -100,11 +76,13 @@ class GroupBuilder(var group: Group = Group()) : ObjectCollectionBuilder() {
 
     fun rotateY(r: Double) = transform(rotationY(r))
 
+    fun rotateZ(r: Double) = transform(rotationZ(r))
 
 }
 
+
 @SceneMarker
-class SceneBuilder(scene: Scene) : ObjectCollectionBuilder() {
+class SceneBuilder(scene: Scene) : SceneObjectCollector {
 
     private var camera = scene.camera
     private val lights = ArrayList<PointLight>()
@@ -135,68 +113,18 @@ class SceneBuilder(scene: Scene) : ObjectCollectionBuilder() {
         lights.add(LightBuilder().apply(block).toLight())
     }
 
-    fun defMaterial(block: MaterialBuilder.() -> Unit) = MaterialBuilder().apply(block).toMaterial()
+    fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) =
+            MaterialBuilder(material).apply(block).material
 
-    fun defObject(block: ObjectDefiner.() -> Unit) = ObjectDefiner().apply(block).toObject()
-
-    fun defGroup(block: GroupBuilder.() -> Unit) = GroupBuilder().apply(block).group
-
-    fun add(obj: SceneObject = Sphere(), block: ObjectBuilder.() -> Unit) {
-        objects.add(ObjectBuilder(obj).apply(block).toObject())
-    }
 
     fun toScene() = Scene(World(lights, objects), camera)
 
 }
 
 @SceneMarker
-class ObjectDefiner {
+class ObjectBuilder(var obj: SceneObject) : Transformer {
 
-    private var obj:SceneObject = Sphere()
-
-    fun sphere(block: ObjectBuilder.() -> Unit) {
-        obj = ObjectBuilder(Sphere()).apply(block).toObject()
-    }
-
-    fun cube(block: ObjectBuilder.() -> Unit) {
-        obj = ObjectBuilder(Cube()).apply(block).toObject()
-    }
-
-    fun cylinder(block: ObjectBuilder.() -> Unit) {
-        obj = ObjectBuilder(Cylinder(cappedBottom = false, cappedTop = false)).apply(block).toObject()
-    }
-
-    fun cappedCylinder(block: ObjectBuilder.() -> Unit) {
-        obj = ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).toObject()
-    }
-
-    fun toObject() = obj
-}
-
-@SceneMarker
-class ObjectBuilder(var obj: SceneObject){
-
-    fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
-
-    fun translateX(x: Double) = transform(translation(x, 0.0, 0.0))
-
-    fun translateY(y: Double) = transform(translation(0.0, y, 0.0))
-
-    fun translateZ(z: Double) = transform(translation(0.0, 0.0, z))
-
-    fun scale(s: Double) = scale(s, s, s)
-
-    fun scale(x: Double, y: Double, z: Double) {
-        transform(scaling(x, y, z))
-    }
-
-    fun rotateX(r: Double) = transform(rotationX(r))
-
-    fun rotateY(r: Double) = transform(rotationY(r))
-
-    fun rotateZ(r: Double) = transform(rotationZ(r))
-
-    fun transform(transform: Matrix) {
+    override fun transform(transform: Matrix) {
         obj = obj.transform(transform)
     }
 
@@ -204,7 +132,22 @@ class ObjectBuilder(var obj: SceneObject){
         obj = obj.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
     }
 
-    fun toObject() = obj
+}
+
+@SceneMarker
+class GroupBuilder(var group: Group) : SceneObjectCollector, Transformer {
+
+    override fun addObject(obj: SceneObject) {
+        group = group.addChild(obj)
+    }
+
+    override fun transform(transform: Matrix) {
+        group = group.transform(transform)
+    }
+
+    fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
+        group = group.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
+    }
 
 }
 
@@ -300,3 +243,45 @@ class PatternBuilder {
     }
 }
 
+fun main() {
+    val scene = buildScene {
+
+        +sphere {
+            material {
+                reflective(1.0)
+            }
+            rotateX(1.0)
+        }
+
+        val sphere1 = sphere {
+            material {
+
+            }
+        }
+
+        +sphere1
+
+        +group {
+            +sphere {  }
+            +sphere1
+        }
+
+        val group2 = group {
+            +cone {}
+            +cylinder {}
+        }
+
+        +group2
+
+        +union(
+            sphere1,
+            from(sphere1) {
+                material {
+                    colour(BLACK)
+                }
+            }
+        )
+    }
+
+    println(scene)
+}

@@ -20,7 +20,7 @@ private val scene = buildScene {
         at(5.0, 5.0, -5.0)
     }
 
-    plane {
+    +plane {
         material {
             pattern {
                 checkers(colour(0.8, 0.6, 0.6), colour(0.4, 0.2, 0.2))
@@ -31,7 +31,7 @@ private val scene = buildScene {
     }
 
     // back wall
-    plane {
+    +plane {
         material {
             colour(1.0, 0.9, 0.9)
             specular(0.0)
@@ -40,8 +40,7 @@ private val scene = buildScene {
         translateZ(4.0)
     }
 
-    group {
-        group(fromObjectFile("teapot-low", false)) {
+        +group(fromObjectFile("teapot-low", false)) {
             material {
                 colour(0.7, 0.0, 0.0)
             }
@@ -50,7 +49,7 @@ private val scene = buildScene {
             translateX(-1.5)
             translateZ( 1.5)
         }
-        group(fromObjectFile("teapot-low", true)) {
+        +group(fromObjectFile("teapot-low", true)) {
             material {
                 colour(0.7, 0.0, 0.0)
             }
@@ -59,7 +58,7 @@ private val scene = buildScene {
             translateX(1.5)
             translateZ( 1.5)
         }
-        group(fromObjectFile("teapot", true)) {
+        +group(fromObjectFile("teapot", true)) {
             material {
                 colour(0.2, 0.0, 0.0)
                 reflective(0.8)
@@ -67,7 +66,7 @@ private val scene = buildScene {
             scale(1.0 / 15)
             rotateX(-PI / 2)
         }
-        group(fromObjectFile("teapot", false)) {
+        +group(fromObjectFile("teapot", false)) {
             material {
                 colour(0.7, 0.0, 0.0)
             }
@@ -76,7 +75,7 @@ private val scene = buildScene {
             translateX(-1.5)
             translateZ( -1.5)
         }
-        group(fromObjectFile("teapot", true)) {
+        +group(fromObjectFile("teapot", true)) {
             material {
                 colour(0.7, 0.0, 0.0)
             }
@@ -85,7 +84,6 @@ private val scene = buildScene {
             translateX(1.5)
             translateZ( -1.5)
         }
-    }
 }
 
 fun main() {

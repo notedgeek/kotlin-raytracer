@@ -6,7 +6,7 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 
 private val scene =
     buildScene (reflectScene){
-        sphere {
+        +sphere {
             scale(0.8)
             translate(1.4,1.5, -2.8)
             material {

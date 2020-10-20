@@ -17,7 +17,7 @@ private val scene = buildScene {
     }
 
     // floor
-    plane {
+    +plane {
         material {
             pattern {
                 checkers(WHITE, BLACK)
@@ -28,7 +28,7 @@ private val scene = buildScene {
         translateY(-1.0)
     }
 
-    triangle(
+    +triangle(
             Point(-1, 0, 0),
             Point(1, 0, 0),
             Point(0, 2, 0)

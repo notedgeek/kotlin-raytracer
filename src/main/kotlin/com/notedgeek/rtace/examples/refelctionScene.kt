@@ -11,7 +11,7 @@ import kotlin.math.sin
 val reflectScene =
     buildScene (backdrop1){
         // left sphere
-        sphere {
+        +sphere {
             material {
                 pattern {
                     stripes(colour(0.5, 1.0, 0.1), colour(0.8, 0.1, 0.8))
@@ -25,7 +25,7 @@ val reflectScene =
             translate(0.0, 0.4, -1.8)
         }
         // middle sphere
-        sphere {
+        +sphere {
             material {
                 colour(0.1, 0.1, 0.1)
                 diffuse(0.7)
@@ -36,7 +36,7 @@ val reflectScene =
             translate(-0.5, 1.0, 0.5)
         }
         // right sphere
-        sphere {
+        +sphere {
             material {
                 colour(0.5, 1.0, 0.1)
                 diffuse(0.7)
@@ -46,22 +46,20 @@ val reflectScene =
             translate(1.5, 0.5, -0.5)
         }
 
-        val littleSphere = defObject {
-            sphere {
-                material {
-                    colour(0.8, 0.1, 0.8)
-                    diffuse(0.7)
-                    specular(0.3)
-                }
-                scale(0.1)
-                translate(0.0, 0.1, -1.8)
+        val littleSphere = sphere {
+            material {
+                colour(0.8, 0.1, 0.8)
+                diffuse(0.7)
+                specular(0.3)
             }
+            scale(0.1)
+            translate(0.0, 0.1, -1.8)
         }
 
         val sphereCount = 24
         val angleInc = PI * 2.0 / sphereCount
         for (i in 0 until sphereCount) {
-            add(littleSphere) {
+            +from(littleSphere) {
                 val angle = i * angleInc
                 translate(cos(angle), 0.4, sin(angle))
                 if (i % 2 == 0) {

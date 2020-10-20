@@ -20,7 +20,7 @@ private val scene =
         }
 
         // floor
-        plane {
+        +plane {
             material {
                 pattern {
                     checkers(colour(0.8, 0.6, 0.6), colour(0.4, 0.2, 0.2))
@@ -31,7 +31,7 @@ private val scene =
         }
 
         // back wall
-        plane {
+        +plane {
             material {
                 colour(0.1, 0.0, 0.0)
                 reflective(0.8)
@@ -42,7 +42,7 @@ private val scene =
         }
 
         // left wall
-        plane {
+        +plane {
             material {
                 colour(0.0, 0.0, 0.0)
                 diffuse(0.2)
@@ -54,7 +54,7 @@ private val scene =
         }
 
         // front wall
-        plane {
+        +plane {
             material {
                 colour(1.0, 0.9, 0.9)
                 specular(0.0)
@@ -63,7 +63,7 @@ private val scene =
             translateZ(-20.0)
         }
 
-        sphere {
+        +sphere {
             scale(2.5)
             material {
                 colour(0.0, 0.1, 0.0)
@@ -73,12 +73,10 @@ private val scene =
             }
         }
 
-        val cube1 = defObject {
-            cube {
-                scale(0.1, 0.2, 0.1)
-                material {
-                    reflective(0.4)
-                }
+        val cube1 = cube {
+            scale(0.1, 0.2, 0.1)
+            material {
+                reflective(0.4)
             }
         }
 
@@ -88,7 +86,7 @@ private val scene =
         val step = PI / (2 * perQuarter)
         for(i in 0 until count) {
             val angle = step * i
-            add(cube1) {
+            +from(cube1) {
                 material {
                     colour(0.4, 0.1, 0.2)
                 }
@@ -96,7 +94,7 @@ private val scene =
                 rotateZ(angle)
             }
             if (!closeTo((angle + PI / 2.0) % PI, 0.0)) {
-                add(cube1) {
+                +from(cube1) {
                     material {
                         colour(0.2, 0.4, 0.1)
                     }
@@ -105,7 +103,7 @@ private val scene =
                 }
             }
             if (!closeTo(angle % (PI / 2.0), 0.0)) {
-                add(cube1) {
+                +from(cube1) {
                     material {
                         colour(0.1, 0.2, 0.4)
                     }

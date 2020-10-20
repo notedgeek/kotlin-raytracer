@@ -16,11 +16,11 @@ class Group(
     }
 
     override fun transform(transform: Matrix): Group {
-        val newList = LinkedList<SceneObject>()
+        val newChildren = LinkedList<SceneObject>()
         for (child in children) {
-            newList.add(child.transform(transform))
+            newChildren.add(child.transform(transform))
         }
-        return Group(material, parent, newList)
+        return Group(material, parent, newChildren)
     }
 
 
@@ -29,11 +29,11 @@ class Group(
     }
 
     override fun withMaterial(material: Material): Group {
-        val newList = LinkedList<SceneObject>()
+        val newChildren = LinkedList<SceneObject>()
         for (child in children) {
-            newList.add(child.withMaterial(material))
+            newChildren.add(child.withMaterial(material))
         }
-        return Group(material, parent, newList)
+        return Group(material, parent, newChildren)
     }
 
     override fun withParent(parent: SceneObject): Group {

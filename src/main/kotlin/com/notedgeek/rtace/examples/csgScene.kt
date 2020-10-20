@@ -19,7 +19,7 @@ private val scene = buildScene {
     }
 
     // back wall
-    plane {
+    +plane {
         material {
             colour(1.0, 0.9, 0.9)
             specular(0.0)
@@ -29,19 +29,14 @@ private val scene = buildScene {
     }
 
 
-    val sphere1 = defObject {
-        sphere {
-        }
+    val sphere1 = sphere {}
+
+    val cylinder1 = cappedCylinder {
+        translateY(-0.5)
+        scale(0.5, 2.5, 0.5)
     }
 
-    val cylinder1 = defObject {
-        cappedCylinder {
-            translateY(-0.5)
-            scale(0.5, 2.5, 0.5)
-        }
-    }
-
-    intersect(sphere1, cylinder1) {
+    +intersect(sphere1, cylinder1) {
     }
 
 }
