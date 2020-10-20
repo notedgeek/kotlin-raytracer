@@ -1,6 +1,5 @@
 package com.notedgeek.rtace.examples
 
-import com.notedgeek.rtace.BLACK
 import com.notedgeek.rtace.obj.fromObjectFile
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
@@ -8,8 +7,8 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 10
-    size(1920 / scale, 1080 / scale)
+    val scale = 1
+    size(3300 / scale, 1340 / scale)
 
     viewPoint(0.0,  3.0, -6.0)
     lookAt(0.0, 0.0, 0.0)
