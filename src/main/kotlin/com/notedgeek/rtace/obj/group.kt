@@ -5,9 +5,10 @@ import com.notedgeek.rtace.Vector
 import java.util.*
 
 class Group(
-    material: Material = Material(),
-    parent: SceneObject? = null,
-    private val children: MutableList<SceneObject> = LinkedList()
+        private val children: MutableList<SceneObject> = LinkedList(),
+        private val boundingBox: BoundingBox? = null,
+        material: Material = Material(),
+        parent: SceneObject? = null
 ) : SceneObject(material, I, parent) {
 
     fun addChild(child: SceneObject): Group {
@@ -20,7 +21,10 @@ class Group(
         for (child in children) {
             newChildren.add(child.transform(transform))
         }
-        return Group(material, parent, newChildren)
+        val newBoundingBox = if(boundingBox == null) null else
+            BoundingBox(boundingBox.min, boundingBox.max, boundingBox.material,
+                    transform * boundingBox.transform, boundingBox.parent)
+        return Group(newChildren, newBoundingBox, material, parent)
     }
 
 
@@ -33,15 +37,18 @@ class Group(
         for (child in children) {
             newChildren.add(child.withMaterial(material))
         }
-        return Group(material, parent, newChildren)
+        return Group(newChildren, boundingBox, material, parent)
     }
 
     override fun withParent(parent: SceneObject): Group {
-        return Group(material, parent, children)
+        return Group(children, boundingBox, material, parent)
     }
 
     override fun intersect(ray: Ray): List<Intersection> {
         var result = emptyList<Intersection>()
+        if(boundingBox != null && boundingBox.intersect(ray).isEmpty()) {
+            return result
+        }
         for(child in children) {
             val intersections = child.intersect(ray)
             if (intersections.isNotEmpty()) {
@@ -66,6 +73,29 @@ class Group(
 
     override fun localNormalAt(localPoint: Point, hit: Intersection): Vector {
         throw Exception("localNormalAt should not be called on Groups")
+    }
+
+    fun split(threshhold: Int = 4): Group {
+        if(boundingBox == null || children.size < threshhold) {
+            return this
+        }
+        val (leftBox, rightBox) = boundingBox.split()
+        val leftChildren = LinkedList<SceneObject>()
+        val rightChildren = LinkedList<SceneObject>()
+        val orphans = LinkedList<SceneObject>()
+
+        for(child in children) {
+            if(leftBox.containsObject(child)) {
+                leftChildren.add(child)
+            } else if(rightBox.containsObject(child)){
+                rightChildren.add(child)
+            } else orphans.add(child)
+        }
+
+        val leftGroup = Group(leftChildren, leftBox, material, parent).split()
+        val rightGroup = Group(rightChildren, rightBox, material, parent).split()
+        val orphanGroup = Group(orphans, null, material, parent)
+        return Group(mutableListOf(leftGroup, rightGroup, orphanGroup), boundingBox, material, parent)
     }
 
 }

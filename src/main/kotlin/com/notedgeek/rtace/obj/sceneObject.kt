@@ -13,6 +13,10 @@ abstract class SceneObject(
 
     open fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
 
+    open fun bounds(): Pair<Point, Point> =
+            Pair(Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+                    Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY))
+
     fun normalAt(worldPoint: Point, hit: Intersection): Vector {
         val localPoint = inverseTransform * worldPoint
         val localNormal = localNormalAt(localPoint, hit)

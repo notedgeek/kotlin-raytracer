@@ -39,50 +39,53 @@ private val scene = buildScene {
         translateZ(4.0)
     }
 
-        +group(fromObjectFile("teapot-low", false)) {
-            material {
-                colour(0.7, 0.0, 0.0)
-            }
-            scale(1.0 / 15)
-            rotateX(-PI / 2)
-            translateX(-1.5)
-            translateZ( 1.5)
+    val b = true
+    val s = true
+
+    +group(fromObjectFile("teapot-low", false, bound = b, split = s)) {
+        material {
+            colour(0.7, 0.0, 0.0)
         }
-        +group(fromObjectFile("teapot-low", true)) {
-            material {
-                colour(0.7, 0.0, 0.0)
-            }
-            scale(1.0 / 15)
-            rotateX(-PI / 2)
-            translateX(1.5)
-            translateZ( 1.5)
+        scale(1.0 / 15)
+        rotateX(-PI / 2)
+        translateX(-1.5)
+        translateZ( 1.5)
+    }
+    +group(fromObjectFile("teapot-low", true, bound = b, split = s)) {
+        material {
+            colour(0.7, 0.0, 0.0)
         }
-        +group(fromObjectFile("teapot", true)) {
-            material {
-                colour(0.2, 0.0, 0.0)
-                reflective(0.8)
-            }
-            scale(1.0 / 15)
-            rotateX(-PI / 2)
+        scale(1.0 / 15)
+        rotateX(-PI / 2)
+        translateX(1.5)
+        translateZ( 1.5)
+    }
+    +group(fromObjectFile("teapot", true, bound = b, split = s)) {
+        material {
+            colour(0.2, 0.0, 0.0)
+            reflective(0.8)
         }
-        +group(fromObjectFile("teapot", false)) {
-            material {
-                colour(0.7, 0.0, 0.0)
-            }
-            scale(1.0 / 15)
-            rotateX(-PI / 2)
-            translateX(-1.5)
-            translateZ( -1.5)
+        scale(1.0 / 15)
+        rotateX(-PI / 2)
+    }
+    +group(fromObjectFile("teapot", false, bound = b, split = s)) {
+        material {
+            colour(0.7, 0.0, 0.0)
         }
-        +group(fromObjectFile("teapot", true)) {
-            material {
-                colour(0.7, 0.0, 0.0)
-            }
-            scale(1.0 / 15)
-            rotateX(-PI / 2)
-            translateX(1.5)
-            translateZ( -1.5)
+        scale(1.0 / 15)
+        rotateX(-PI / 2)
+        translateX(-1.5)
+        translateZ( -1.5)
+    }
+    +group(fromObjectFile("teapot", true, bound = b, split = s)) {
+        material {
+            colour(0.7, 0.0, 0.0)
         }
+        scale(1.0 / 15)
+        rotateX(-PI / 2)
+        translateX(1.5)
+        translateZ( -1.5)
+    }
 }
 
 fun main() {

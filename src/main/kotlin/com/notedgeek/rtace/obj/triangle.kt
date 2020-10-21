@@ -2,6 +2,8 @@ package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
 import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 open class Triangle(
         val p1: Point,
@@ -12,10 +14,21 @@ open class Triangle(
         parent: SceneObject? = null,
 ) : SceneObject(material, transform, parent) {
 
+    val minX = min((p1.x), min(p2.x, p3.x))
+    val maxX = max((p1.x), max(p2.x, p3.x))
+    val minY = min((p1.y), min(p2.y, p3.y))
+    val maxY = max((p1.y), max(p2.y, p3.y))
+    val minZ = min((p1.z), min(p2.z, p3.z))
+    val maxZ = max((p1.z), max(p2.z, p3.z))
+
     private val e1 = p2 - p1
     private val e2 = p3 - p1
 
     val normal = normalise(e2 cross e1)
+
+    override fun bounds(): Pair<Point, Point> {
+        return Pair(Point(minX, minY, minZ), Point(maxX, maxY, maxZ))
+    }
 
     override fun withTransform(transform: Matrix): Triangle {
         return Triangle(p1, p2, p3, material, transform, parent)
@@ -50,7 +63,7 @@ open class Triangle(
         return listOf(Intersection(t, this, u, v))
     }
 
-    override fun localNormalAt(localPoint: Point, intersection: Intersection) = normal
+    override fun localNormalAt(localPoint: Point, hit: Intersection) = normal
 
     override fun equals(other: Any?) = other is Triangle && p1 == p1 && p2 == p2 && p3 == p3 &&
             material == other.material && transform == other.transform

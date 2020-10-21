@@ -40,6 +40,10 @@ interface SceneObjectCollector {
     fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =
         ObjectBuilder(Triangle(p1, p2, p3)).apply(block).obj
 
+    fun boundingBox(x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double,
+                    block: ObjectBuilder.() -> Unit = {}) =
+            ObjectBuilder(BoundingBox(Point(x1, y1, z1), Point(x2, y2, z2))).apply(block).obj
+
     fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) = GroupBuilder(group).apply(block).group
 
     fun union(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
