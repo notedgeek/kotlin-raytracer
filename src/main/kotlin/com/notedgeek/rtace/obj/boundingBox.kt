@@ -8,10 +8,10 @@ import kotlin.math.min
 class BoundingBox(
     val min: Point,
     val max: Point,
-    material: Material = Material(),
-    transform: Matrix = I,
-    parent: SceneObject? = null,
-) : SceneObject(material, transform, parent) {
+    val transform: Matrix = I
+) {
+
+    private val inverseTransform = -transform
 
     fun containsObject(obj: SceneObject): Boolean {
         val (pMin, pMax) = obj.bounds()
@@ -21,19 +21,8 @@ class BoundingBox(
 
     }
 
-    override fun withTransform(transform: Matrix): BoundingBox {
-        return BoundingBox(min, max, material, transform, parent)
-    }
-
-    override fun withMaterial(material: Material): BoundingBox {
-        return BoundingBox(min, max, material, transform, parent)
-    }
-
-    override fun withParent(parent: SceneObject): BoundingBox {
-        return BoundingBox(min, max, material, transform, parent)
-    }
-
-    override fun localIntersect(localRay: Ray): List<Intersection> {
+    fun hitBy(ray: Ray): Boolean {
+        val localRay = ray.transform(inverseTransform)
         val (xTMin, xTMax) = checkAxis(localRay.origin.x, localRay.direction.x, min.x, max.x)
         val (yTMin, yTMax) = checkAxis(localRay.origin.y, localRay.direction.y, min.y, max.y)
         val (zTMin, zTMax) = checkAxis(localRay.origin.z, localRay.direction.z, min.z, max.z)
@@ -41,18 +30,8 @@ class BoundingBox(
         val tMin = max(xTMin, max(yTMin, zTMin))
         val tMax = min(xTMax, min(yTMax, zTMax))
 
-        return if (tMin <= tMax)
-            listOf(Intersection(tMin, this), Intersection(tMax, this)) else emptyList()
+        return tMin <= tMax
     }
-
-    override fun localNormalAt(localPoint: Point, hit: Intersection) =
-        when (max(abs(localPoint.x), max(abs(localPoint.y), abs(localPoint.z)))) {
-            abs(localPoint.x) -> Vector(localPoint.x, 0.0, 0.0)
-            abs(localPoint.y) -> Vector(0.0, localPoint.y, 0.0)
-            else -> Vector(0.0, 0.0, localPoint.z)
-        }
-
-    override fun equals(other: Any?) = other is BoundingBox && material == other.material && transform == other.transform
 
     fun split(): Pair<BoundingBox, BoundingBox> {
         val xLen = max.x - min.x
@@ -68,20 +47,20 @@ class BoundingBox(
 
     private fun splitX(): Pair<BoundingBox, BoundingBox> {
         val midX = min.x + (max.x - min.x) / 2
-        return BoundingBox(min, Point(midX, max.y, max.z), material, transform, parent) to
-                BoundingBox(Point(midX, min.y, min.z), max, material, transform, parent)
+        return BoundingBox(min, Point(midX, max.y, max.z)) to
+                BoundingBox(Point(midX, min.y, min.z), max)
     }
 
     private fun splitY(): Pair<BoundingBox, BoundingBox> {
         val midY = min.y + (max.y - min.y) / 2
-        return BoundingBox(min, Point(max.x, midY, max.z), material, transform, parent) to
-                BoundingBox(Point(min.x, midY, min.z), max, material, transform, parent)
+        return BoundingBox(min, Point(max.x, midY, max.z)) to
+                BoundingBox(Point(min.x, midY, min.z), max)
     }
 
     private fun splitZ(): Pair<BoundingBox, BoundingBox> {
         val midZ = min.z + (max.z - min.z) / 2
-        return BoundingBox(min, Point(max.x, max.y, midZ), material, transform, parent) to
-                BoundingBox(Point(min.x, min.y, midZ), max, material, transform, parent)
+        return BoundingBox(min, Point(max.x, max.y, midZ)) to
+                BoundingBox(Point(min.x, min.y, midZ), max)
     }
 
     private fun checkAxis(origin: Double, direction: Double, min: Double, max: Double): Pair<Double, Double> {

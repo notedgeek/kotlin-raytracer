@@ -22,8 +22,7 @@ class Group(
             newChildren.add(child.transform(transform))
         }
         val newBoundingBox = if(boundingBox == null) null else
-            BoundingBox(boundingBox.min, boundingBox.max, boundingBox.material,
-                    transform * boundingBox.transform, boundingBox.parent)
+            BoundingBox(boundingBox.min, boundingBox.max, transform * boundingBox.transform)
         return Group(newChildren, newBoundingBox, material, parent)
     }
 
@@ -46,7 +45,7 @@ class Group(
 
     override fun intersect(ray: Ray): List<Intersection> {
         var result = emptyList<Intersection>()
-        if(boundingBox != null && boundingBox.intersect(ray).isEmpty()) {
+        if(boundingBox != null && !boundingBox.hitBy(ray)) {
             return result
         }
         for(child in children) {
