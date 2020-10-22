@@ -55,7 +55,7 @@ interface SceneObjectCollector {
     fun difference(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
         ObjectBuilder(CSG(left, right, Operation.DIFFERENCE)).apply(block).obj
 
-    fun from(obj: SceneObject, block: ObjectBuilder.() -> Unit) = ObjectBuilder(obj).apply(block).obj
+    fun from(obj: SceneObject, block: ObjectBuilder.() -> Unit = {}) = ObjectBuilder(obj).apply(block).obj
 }
 
 interface Transformer {

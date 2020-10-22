@@ -1,5 +1,6 @@
 package com.notedgeek.rtace.examples
 
+import com.notedgeek.rtace.BLACK
 import com.notedgeek.rtace.obj.fromObjectFile
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
@@ -10,8 +11,9 @@ private val scene = buildScene {
     val scale = 1
     size(3300 / scale, 1340 / scale)
 
-    viewPoint(0.0,  3.0, -6.0)
+    viewPoint(0.0,  2.0, -6.0)
     lookAt(0.0, 0.0, 0.0)
+
     pointLight {
         at(-3.0, 5.0, -5.0)
     }
@@ -22,10 +24,10 @@ private val scene = buildScene {
     +plane {
         material {
             pattern {
-                checkers(colour(0.8, 0.6, 0.6), colour(0.4, 0.2, 0.2))
+                checkers(colour(0.8, 0.6, 0.6) * 0.05, colour(0.4, 0.2, 0.2) * 0.05)
                 scale(0.5)
             }
-            specular(0.0)
+            reflective(0.6)
         }
     }
 
@@ -85,6 +87,28 @@ private val scene = buildScene {
         rotateX(-PI / 2)
         translateX(1.5)
         translateZ( -1.5)
+    }
+
+    val glassSphere = sphere{
+        material {
+            colour(BLACK)
+            transparency(0.9)
+            refractiveIndex(1.1)
+        }
+        val scale = 0.6
+        translateY(scale)
+        scale(scale)
+        translateZ(-3.0)
+    }
+
+    val xTrans = 1.3
+
+    +from(glassSphere) {
+        translateX(-xTrans)
+    }
+
+    +from(glassSphere) {
+        translateX(xTrans)
     }
 }
 

@@ -79,7 +79,9 @@ class Group(
         if(boundingBox == null || children.size < threshhold) {
             return this
         }
+        //println("start bb: ${boundingBox.min} ${boundingBox.max} object count ${children.size}")
         val (leftBox, rightBox) = boundingBox.split()
+        //println("left: ${leftBox.min} ${leftBox.max} right: ${rightBox.min} ${rightBox.max}")
         val leftChildren = LinkedList<SceneObject>()
         val rightChildren = LinkedList<SceneObject>()
         val orphans = LinkedList<SceneObject>()
@@ -91,6 +93,8 @@ class Group(
                 rightChildren.add(child)
             } else orphans.add(child)
         }
+
+        //println("left: ${leftChildren.size} right: ${rightChildren.size} orpahns: ${orphans.size}")
 
         val leftGroup = Group(leftChildren, leftBox, material, parent).split()
         val rightGroup = Group(rightChildren, rightBox, material, parent).split()

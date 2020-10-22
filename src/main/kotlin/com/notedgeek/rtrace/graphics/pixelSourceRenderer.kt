@@ -20,8 +20,8 @@ class PixelSourceRenderer(private val pixelSource: PixelSource) : Renderer {
                         return
                     } else bound = bounds.removeFirst()
                 }
-                for (y in bound.first.second..bound.second.second) {
-                    for (x in bound.first.first..bound.second.first) {
+                for (y in bound.first.second .. bound.second.second) {
+                    for (x in bound.first.first .. bound.second.first) {
                         val c = pixelSource.colorAt(x, y)
                         renderContext.setRgb(x, y, c.red, c.green, c.blue)
                     }
