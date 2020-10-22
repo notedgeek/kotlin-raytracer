@@ -7,8 +7,15 @@ import com.notedgeek.rtace.pattern.Checkers
 import com.notedgeek.rtace.pattern.Pattern
 import com.notedgeek.rtace.pattern.Stripes
 
-fun buildScene(scene: Scene = Scene(World(emptyList(), emptyList()), Camera()),
+val EMPTY_SCENE = Scene(World(emptyList(), emptyList()), Camera())
+
+fun buildScene(scene: Scene = EMPTY_SCENE,
                block: SceneBuilder.() -> Unit) = SceneBuilder(scene).apply(block).toScene()
+
+fun buildObject(obj: SceneObject, block: ObjectBuilder.() -> Unit) = ObjectBuilder(obj).apply(block).obj
+
+fun buildGroup(block: GroupBuilder.() -> Unit) = GroupBuilder().apply(block).group
+
 
 @DslMarker
 annotation class SceneMarker
@@ -30,30 +37,25 @@ interface SceneObjectCollector {
     fun cylinder(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cylinder()).apply(block).obj
 
     fun cappedCylinder(block: ObjectBuilder.() -> Unit) =
-        ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true)).apply(block).obj
+        ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true, transform = translation(0.0, -0.5, 0.0)))
+                .apply(block).obj
 
     fun cone(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cone()).apply(block).obj
 
     fun cappedCone(block: ObjectBuilder.() -> Unit) =
-            ObjectBuilder(Cone(cappedBottom = true, cappedTop = true)).apply(block).obj
+            ObjectBuilder(Cone(cappedBottom = true, cappedTop = true, transform = translation(0.0, 0.5, 0.0)))
+                    .apply(block).obj
 
     fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =
         ObjectBuilder(Triangle(p1, p2, p3)).apply(block).obj
 
-    fun boundingBox(x1: Double, y1: Double, z1: Double, x2: Double, y2: Double, z2: Double,
-                    block: ObjectBuilder.() -> Unit = {}) =
-            ObjectBuilder(BoundingBox(Point(x1, y1, z1), Point(x2, y2, z2))).apply(block).obj
-
     fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) = GroupBuilder(group).apply(block).group
 
-    fun union(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
-        ObjectBuilder(CSG(left, right, Operation.UNION)).apply(block).obj
+    fun union(block: CsgBuilder.() -> Unit) = CsgBuilder(CSGOperation.UNION).apply(block).toCSG()
 
-    fun intersect(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
-        ObjectBuilder(CSG(left, right, Operation.INTERSECT)).apply(block).obj
+    fun difference(block: CsgBuilder.() -> Unit) = CsgBuilder(CSGOperation.DIFFERENCE).apply(block).toCSG()
 
-    fun difference(left: SceneObject, right: SceneObject, block: ObjectBuilder.() -> Unit = {}) =
-        ObjectBuilder(CSG(left, right, Operation.DIFFERENCE)).apply(block).obj
+    fun intersect(block: CsgBuilder.() -> Unit) = CsgBuilder(CSGOperation.INTERSECT).apply(block).toCSG()
 
     fun from(obj: SceneObject, block: ObjectBuilder.() -> Unit = {}) = ObjectBuilder(obj).apply(block).obj
 }
@@ -76,6 +78,10 @@ interface Transformer {
         transform(scaling(x, y, z))
     }
 
+    fun scaleY(y: Double) {
+        transform(scaling(1.0, y, 1.0))
+    }
+
     fun rotateX(r: Double) = transform(rotationX(r))
 
     fun rotateY(r: Double) = transform(rotationY(r))
@@ -84,9 +90,8 @@ interface Transformer {
 
 }
 
-
 @SceneMarker
-class SceneBuilder(scene: Scene) : SceneObjectCollector {
+open class SceneBuilder(scene: Scene) : SceneObjectCollector {
 
     private var camera = scene.camera
     private val lights = ArrayList<PointLight>()
@@ -139,7 +144,7 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
 }
 
 @SceneMarker
-class GroupBuilder(var group: Group) : SceneObjectCollector, Transformer {
+open class GroupBuilder(var group: Group = Group()) : SceneObjectCollector, Transformer {
 
     override fun addObject(obj: SceneObject) {
         group = group.addChild(obj)
@@ -151,6 +156,49 @@ class GroupBuilder(var group: Group) : SceneObjectCollector, Transformer {
 
     fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
         group = group.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
+    }
+
+}
+
+@SceneMarker
+class CsgBuilder(val operation: CSGOperation) : SceneObjectCollector, Transformer{
+
+    var csg: CSG? = null
+    var left: SceneObject? = null
+    var material: Material? = null
+
+    override fun addObject(obj: SceneObject) {
+        val csg = this.csg
+        val left = this.left
+        if(csg != null) {
+            this.csg = CSG(csg, obj, operation)
+        } else if(left != null) {
+            this.csg = CSG(left, obj, operation)
+        } else {
+            this.left = obj
+        }
+    }
+
+    override fun transform(transform: Matrix) {
+        val csg = this.csg ?: throw Exception("can't transform incomplete CSG")
+        this.csg = csg.transform(transform)
+    }
+
+    fun toCSG(): CSG {
+        val csg = this.csg
+        val material = this.material
+        if (csg == null) {
+            throw Exception("cannot get incomplete CSG")
+        }
+        return if (material != null) {
+            csg.withMaterial(material)
+        } else {
+            csg
+        }
+    }
+
+    fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
+        this.material = MaterialBuilder(material).apply(block).toMaterial()
     }
 
 }
@@ -245,47 +293,4 @@ class PatternBuilder {
     private fun transform(transform: Matrix) {
         pattern = pattern.transform(transform)
     }
-}
-
-fun main() {
-    val scene = buildScene {
-
-        +sphere {
-            material {
-                reflective(1.0)
-            }
-            rotateX(1.0)
-        }
-
-        val sphere1 = sphere {
-            material {
-
-            }
-        }
-
-        +sphere1
-
-        +group {
-            +sphere {  }
-            +sphere1
-        }
-
-        val group2 = group {
-            +cone {}
-            +cylinder {}
-        }
-
-        +group2
-
-        +union(
-            sphere1,
-            from(sphere1) {
-                material {
-                    colour(BLACK)
-                }
-            }
-        )
-    }
-
-    println(scene)
 }

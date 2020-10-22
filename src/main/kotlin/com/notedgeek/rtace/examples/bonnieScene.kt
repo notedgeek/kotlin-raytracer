@@ -9,7 +9,7 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 1
+    val scale = 10
     size(3300 / scale, 1340 / scale)
 
     viewPoint(0.0, 10.0, -20.0)
@@ -64,17 +64,6 @@ private val scene = buildScene {
         }
     }
 
-
-//    +from(bonnie) {
-//        translateX(-squareSize)
-//    }
-//    +from(bonnie) {
-//        translateZ(-squareSize)
-//    }
-//    +from(bonnie) {
-//        translateX(-squareSize)
-//        translateZ(-squareSize)
-//    }
 }
 
 fun main() {

@@ -4,14 +4,14 @@ import com.notedgeek.rtace.*
 import com.notedgeek.rtace.Vector
 import java.util.*
 
-enum class Operation {
+enum class CSGOperation {
     UNION, INTERSECT, DIFFERENCE
 }
 
 class CSG (
         pLeft: SceneObject,
         pRight: SceneObject,
-        private val operation: Operation,
+        private val operation: CSGOperation,
         material: Material = Material(),
         parent: SceneObject? = null,
 ) : SceneObject(material, I, parent) {
@@ -65,9 +65,9 @@ class CSG (
     }
 
     private fun intersectionAllowed(lHit: Boolean, inL: Boolean, inR: Boolean) = when (operation) {
-            Operation.UNION -> (lHit && !inR) || (!lHit && !inL)
-            Operation.INTERSECT -> (lHit && inR) || (!lHit && inL)
-            Operation.DIFFERENCE -> (lHit && !inR) || (!lHit && inL)
+            CSGOperation.UNION -> (lHit && !inR) || (!lHit && !inL)
+            CSGOperation.INTERSECT -> (lHit && inR) || (!lHit && inL)
+            CSGOperation.DIFFERENCE -> (lHit && !inR) || (!lHit && inL)
         }
 
 }
