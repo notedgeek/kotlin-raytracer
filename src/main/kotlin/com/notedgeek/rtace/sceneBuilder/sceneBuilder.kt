@@ -164,7 +164,7 @@ open class GroupBuilder() : SceneObjectCollector, Transformer {
         this.material = MaterialBuilder(material).apply(block).toMaterial()
     }
 
-    fun toGroup() = Group(children, material, transform)
+    fun toGroup() = Group(children, material, transform).split(4)
 
 }
 

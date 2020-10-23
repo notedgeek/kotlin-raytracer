@@ -9,7 +9,8 @@ class Cube(
     material: Material = Material(),
     transform: Matrix = I,
     parent: SceneObject? = null,
-) : SceneObject(material, transform, parent) {
+) : SceneObject(material, transform, parent,
+    BoundingBox(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0)) {
 
     override fun withTransform(transform: Matrix): Cube {
         return Cube(material, transform, parent)

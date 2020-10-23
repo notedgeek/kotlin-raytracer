@@ -8,7 +8,7 @@ import kotlin.math.PI
 
 private val scene =
     buildScene {
-        val scale = 4
+        val scale = 1
         size(3300 / scale, 1340 / scale)
         viewPoint(5.0, 5.0, -15.0)
         lookAt(0.0, 0.0, 0.0)
@@ -63,52 +63,54 @@ private val scene =
             translateZ(-20.0)
         }
 
-        +sphere {
-            scale(2.5)
-            material {
-                colour(0.0, 0.1, 0.0)
-                transparency(0.7)
-                refractiveIndex(1.08)
-                reflective(0.3)
-            }
-        }
-
-        val cube1 = cube {
-            scale(0.1, 0.2, 0.1)
-            material {
-                reflective(0.4)
-            }
-        }
-
-        val radius = 3.0
-        val perQuarter = 8
-        val count = perQuarter * 4
-        val step = PI / (2 * perQuarter)
-        for(i in 0 until count) {
-            val angle = step * i
-            +from(cube1) {
+        +group {
+            +sphere {
+                scale(2.5)
                 material {
-                    colour(0.4, 0.1, 0.2)
-                }
-                translateY(radius)
-                rotateZ(angle)
-            }
-            if (!closeTo((angle + PI / 2.0) % PI, 0.0)) {
-                +from(cube1) {
-                    material {
-                        colour(0.2, 0.4, 0.1)
-                    }
-                    translateZ(radius)
-                    rotateX(angle)
+                    colour(0.0, 0.1, 0.0)
+                    transparency(0.7)
+                    refractiveIndex(1.08)
+                    reflective(0.3)
                 }
             }
-            if (!closeTo(angle % (PI / 2.0), 0.0)) {
+
+            val cube1 = cube {
+                scale(0.1, 0.2, 0.1)
+                material {
+                    reflective(0.4)
+                }
+            }
+
+            val radius = 3.0
+            val perQuarter = 8
+            val count = perQuarter * 4
+            val step = PI / (2 * perQuarter)
+            for (i in 0 until count) {
+                val angle = step * i
                 +from(cube1) {
                     material {
-                        colour(0.1, 0.2, 0.4)
+                        colour(0.4, 0.1, 0.2)
                     }
-                    translateX(radius)
-                    rotateY(angle)
+                    translateY(radius)
+                    rotateZ(angle)
+                }
+                if (!closeTo((angle + PI / 2.0) % PI, 0.0)) {
+                    +from(cube1) {
+                        material {
+                            colour(0.2, 0.4, 0.1)
+                        }
+                        translateZ(radius)
+                        rotateX(angle)
+                    }
+                }
+                if (!closeTo(angle % (PI / 2.0), 0.0)) {
+                    +from(cube1) {
+                        material {
+                            colour(0.1, 0.2, 0.4)
+                        }
+                        translateX(radius)
+                        rotateY(angle)
+                    }
                 }
             }
         }
