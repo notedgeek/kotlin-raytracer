@@ -14,20 +14,20 @@ open class Triangle(
         parent: SceneObject? = null,
 ) : SceneObject(material, transform, parent) {
 
-    val minX = min((p1.x), min(p2.x, p3.x))
-    val maxX = max((p1.x), max(p2.x, p3.x))
-    val minY = min((p1.y), min(p2.y, p3.y))
-    val maxY = max((p1.y), max(p2.y, p3.y))
-    val minZ = min((p1.z), min(p2.z, p3.z))
-    val maxZ = max((p1.z), max(p2.z, p3.z))
+    private val minX = min((p1.x), min(p2.x, p3.x))
+    private val maxX = max((p1.x), max(p2.x, p3.x))
+    private val minY = min((p1.y), min(p2.y, p3.y))
+    private val maxY = max((p1.y), max(p2.y, p3.y))
+    private val minZ = min((p1.z), min(p2.z, p3.z))
+    private val maxZ = max((p1.z), max(p2.z, p3.z))
 
     private val e1 = p2 - p1
     private val e2 = p3 - p1
 
     val normal = normalise(e2 cross e1)
 
-    override fun bounds(): Pair<Point, Point> {
-        return Pair(Point(minX, minY, minZ), Point(maxX, maxY, maxZ))
+    override fun bounds(): BoundingBox {
+        return BoundingBox(Point(minX, minY, minZ), Point(maxX, maxY, maxZ))
     }
 
     override fun withTransform(transform: Matrix): Triangle {
