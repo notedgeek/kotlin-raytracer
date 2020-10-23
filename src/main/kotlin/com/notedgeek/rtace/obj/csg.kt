@@ -20,6 +20,22 @@ class CSG (
     val left = pLeft.withParent(this)
     val right = pRight.withParent(this)
 
+    private val parentSpaceBounds: BoundingBox
+
+    init {
+        bounds = calculateBounds()
+        parentSpaceBounds = bounds.transform(transform)
+    }
+
+    override fun parentSpaceBounds() = parentSpaceBounds
+
+    private fun calculateBounds(): BoundingBox {
+        var result = BoundingBox()
+        result = result.addBoundingBox(left.parentSpaceBounds())
+        result = result.addBoundingBox(right.parentSpaceBounds())
+        return result
+    }
+
     override fun withTransform(transform: Matrix): CSG {
         return CSG(left, right, operation, material, transform, parent)
     }
@@ -32,8 +48,12 @@ class CSG (
         return CSG(left, right, operation, material, transform, parent)
     }
 
-    override fun localIntersect(localRay: Ray) =
-            filterIntersections(left.intersect(localRay).addIntersections(right.intersect(localRay)))
+    override fun localIntersect(localRay: Ray) = if (!bounds().hitBy(localRay)) {
+        emptyList()
+    } else {
+        filterIntersections(left.intersect(localRay).addIntersections(right.intersect(localRay)))
+
+    }
 
     override fun localNormalAt(localPoint: Point, hit: Intersection) = Vector(0, 0, 0)
 

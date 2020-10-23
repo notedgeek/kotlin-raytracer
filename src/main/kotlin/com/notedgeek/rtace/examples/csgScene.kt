@@ -7,7 +7,7 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 2
+    val scale = 1
     size(1920 / scale, 1080 / scale)
     viewPoint(0.0, 0.0, -5.0)
     lookAt(0.0, 0.0, 0.0)
@@ -42,29 +42,53 @@ private val scene = buildScene {
         translateZ(4.0)
     }
 
-
+    val holeSize = 0.1
+    val doubleHoleCount = 6
     val hole = cappedCylinder {
-        scale(0.15, 2.01, 0.15)
+        scale(holeSize, 2.01, holeSize)
         rotateX(PI / 2)
     }
-
-    +difference {
-        material {
-            colour(BLACK)
-            transparency(0.5)
-            refractiveIndex(1.1)
-            reflective(0.5)
-        }
-        +sphere {  }
-        val doubleHoleCount = 4
-        for(i in 0 until doubleHoleCount) {
-            +from(hole) {
-                rotateY(i * PI / doubleHoleCount)
+    val holeyBall = group {
+        +difference {
+            material {
+                colour(BLACK)
+                transparency(0.5)
+                refractiveIndex(1.1)
+                reflective(0.5)
             }
+            +sphere { }
+            for (i in 0 until doubleHoleCount) {
+                +from(hole) {
+                    rotateY(i * PI / doubleHoleCount)
+                }
+            }
+            rotateX(PI / 20)
+            scale(0.5)
         }
-        rotateX(PI / 10)
     }
 
+    val twoBalls = group {
+        val offset = 0.8
+        +from(holeyBall) {
+            translateX(-offset)
+        }
+        +from(holeyBall) {
+            translateX(+offset)
+        }
+        rotateX(PI / 4)
+    }
+
+    +group {
+        val offset = 0.6
+        +from(twoBalls) {
+            translateY(-offset)
+        }
+        +from(twoBalls) {
+            translateY(+offset)
+        }
+        translateY(0.4)
+        rotateY(PI / 6)
+    }
 
 }
 
