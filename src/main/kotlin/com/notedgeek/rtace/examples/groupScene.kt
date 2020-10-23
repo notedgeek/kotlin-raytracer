@@ -35,27 +35,44 @@ private val scene = buildScene {
         scale(0.25)
     }
 
-    +group(group1) {
-        material {
-            colour(0.39, 0.26, 0.13)
+    val group2 = group {
+        +from(group1) {
+            material {
+                colour(0.39, 0.26, 0.13)
+            }
+            translateX(-1.2)
         }
-        translateX(-1.2)
+
+        +from(group1) {
+            material {
+                colour(0.2, 0.2, 0.2)
+                reflective(0.9)
+            }
+        }
+
+        +from(group1) {
+            material {
+                colour(1.0, 0.8, 0.8)
+            }
+            translateX(1.2)
+        }
     }
 
-    +group(group1) {
-        material {
-            colour(0.2, 0.2, 0.2)
-            reflective(0.9)
+    val group3 = group {
+        for(i in 0 until 3) {
+            +from(group2) {
+                translateY(0.5 * i)
+            }
         }
     }
 
-    +group(group1) {
-        material {
-            colour(1.0, 0.8, 0.8)
+    +group {
+        for(i in 0 until 3) {
+            +from(group3) {
+                translateZ(0.5 * i)
+            }
         }
-        translateX(1.2)
     }
-
 }
 
 fun main() {

@@ -147,11 +147,11 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
 open class GroupBuilder(var group: Group = Group()) : SceneObjectCollector, Transformer {
 
     override fun addObject(obj: SceneObject) {
-        group = group.addChild(obj)
+        group.addChild(obj)
     }
 
     override fun transform(transform: Matrix) {
-        group = group.transform(transform)
+        group = group.transform(transform) as Group
     }
 
     fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
@@ -181,7 +181,7 @@ class CsgBuilder(val operation: CSGOperation) : SceneObjectCollector, Transforme
 
     override fun transform(transform: Matrix) {
         val csg = this.csg ?: throw Exception("can't transform incomplete CSG")
-        this.csg = csg.transform(transform)
+        this.csg = csg.transform(transform) as CSG
     }
 
     fun toCSG(): CSG {

@@ -116,6 +116,12 @@ open class Matrix(vararg elems: Double) {
         if (dim != other.dim) {
             throw IllegalArgumentException("cannot multiply different sized matrices this: $dim other: ${other.dim}")
         }
+        if(this === I) {
+            return other
+        }
+        if(other === I) {
+            return this
+        }
         val destArray = DoubleArray(dim * dim)
         for (r in 0 until dim) {
             for (c in 0 until dim) {
@@ -126,11 +132,17 @@ open class Matrix(vararg elems: Double) {
     }
 
     operator fun times(p: Point) : Point {
+        if(this === I) {
+            return p
+        }
         val tuple = times(p.x, p.y, p.z, 1.0)
         return Point(tuple[0], tuple[1], tuple[2])
     }
 
     operator fun times(v: Vector) : Vector {
+        if(this === I) {
+            return v
+        }
         val tuple = times(v.x, v.y, v.z, 0.0)
         return Vector(tuple[0], tuple[1], tuple[2])
     }
@@ -150,6 +162,9 @@ open class Matrix(vararg elems: Double) {
     }
 
     fun transpose(): Matrix {
+        if(this === I) {
+            return I
+        }
         val destArray = DoubleArray(dim * dim)
         for (c in 0 until dim) {
             for (r in 0 until dim) {

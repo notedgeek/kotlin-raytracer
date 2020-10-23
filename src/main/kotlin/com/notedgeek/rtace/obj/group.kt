@@ -5,60 +5,44 @@ import com.notedgeek.rtace.Vector
 import java.util.*
 
 class Group(
-        private val children: MutableList<SceneObject> = LinkedList(),
+        children: List<SceneObject> = emptyList(),
         private val boundingBox: BoundingBox? = null,
         material: Material = Material(),
+        transform: Matrix = I,
         parent: SceneObject? = null
-) : SceneObject(material, I, parent) {
+) : SceneObject(material, transform, parent) {
+
+    private val _children: MutableList<SceneObject> = LinkedList()
+
+    init {
+        for(child in children) {
+            _children.add(child.withParent(this))
+        }
+    }
 
     fun addChild(child: SceneObject): Group {
-        children.add(child.transform(transform))
+        _children.add(child.withParent(this))
         return this
     }
 
-    override fun transform(transform: Matrix): Group {
-        val newChildren = LinkedList<SceneObject>()
-        for (child in children) {
-            newChildren.add(child.transform(transform))
-        }
-        val newBoundingBox = if(boundingBox == null) null else
-            BoundingBox(boundingBox.min, boundingBox.max, transform * boundingBox.transform)
-        return Group(newChildren, newBoundingBox, material, parent)
-    }
-
-
     override fun withTransform(transform: Matrix): Group {
-        throw Exception("withTransform should not be called on Groups")
+        return Group(_children, boundingBox, material, transform, parent)
     }
 
     override fun withMaterial(material: Material): Group {
         val newChildren = LinkedList<SceneObject>()
-        for (child in children) {
+        for (child in _children) {
             newChildren.add(child.withMaterial(material))
         }
-        return Group(newChildren, boundingBox, material, parent)
+        return Group(newChildren, boundingBox, material, transform, parent)
     }
 
     override fun withParent(parent: SceneObject): Group {
-        return Group(children, boundingBox, material, parent)
-    }
-
-    override fun intersect(ray: Ray): List<Intersection> {
-        var result = emptyList<Intersection>()
-        if(boundingBox != null && !boundingBox.hitBy(ray)) {
-            return result
-        }
-        for(child in children) {
-            val intersections = child.intersect(ray)
-            if (intersections.isNotEmpty()) {
-                result = result.addIntersections(intersections)
-            }
-        }
-        return result
+        return Group(_children, boundingBox, material, transform, parent)
     }
 
     override fun includes(obj: SceneObject): Boolean {
-        for (child in children) {
+        for (child in _children) {
             if (child.includes(obj)) {
                 return true
             }
@@ -67,15 +51,19 @@ class Group(
     }
 
     override fun localIntersect(localRay: Ray): List<Intersection> {
-        throw Exception("localIntersect should not be called on Groups")
+        var result = emptyList<Intersection>()
+        for(child in _children) {
+            result = result.addIntersections(child.intersect(localRay))
+        }
+        return result
     }
 
     override fun localNormalAt(localPoint: Point, hit: Intersection): Vector {
         throw Exception("localNormalAt should not be called on Groups")
     }
 
-    fun split(threshhold: Int = 4): Group {
-        if(boundingBox == null || children.size < threshhold) {
+    fun split(threshold: Int = 4): Group {
+        if(boundingBox == null || _children.size < threshold) {
             return this
         }
         //println("start bb: ${boundingBox.min} ${boundingBox.max} object count ${children.size}")
@@ -85,7 +73,7 @@ class Group(
         val rightChildren = LinkedList<SceneObject>()
         val orphans = LinkedList<SceneObject>()
 
-        for(child in children) {
+        for(child in _children) {
             if(leftBox.containsObject(child)) {
                 leftChildren.add(child)
             } else if(rightBox.containsObject(child)){
@@ -95,10 +83,10 @@ class Group(
 
         //println("left: ${leftChildren.size} right: ${rightChildren.size} orpahns: ${orphans.size}")
 
-        val leftGroup = Group(leftChildren, leftBox, material, parent).split()
-        val rightGroup = Group(rightChildren, rightBox, material, parent).split()
-        val orphanGroup = Group(orphans, null, material, parent)
-        return Group(mutableListOf(leftGroup, rightGroup, orphanGroup), boundingBox, material, parent)
+        val leftGroup = Group(leftChildren, leftBox, material, transform, parent).split()
+        val rightGroup = Group(rightChildren, rightBox, material, transform, parent).split()
+        val orphanGroup = Group(orphans, null, material, transform, parent)
+        return Group(mutableListOf(leftGroup, rightGroup, orphanGroup), boundingBox, material, transform, parent)
     }
 
 }

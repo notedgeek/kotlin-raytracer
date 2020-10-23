@@ -13,33 +13,29 @@ class CSG (
         pRight: SceneObject,
         private val operation: CSGOperation,
         material: Material = Material(),
+        transform: Matrix = I,
         parent: SceneObject? = null,
-) : SceneObject(material, I, parent) {
+) : SceneObject(material, transform, parent) {
 
-    val left = pLeft.transform(transform)
-    val right = pRight.transform(transform)
+    val left = pLeft.withParent(this)
+    val right = pRight.withParent(this)
 
-    override fun transform(transform: Matrix): CSG {
-        return CSG(left.transform(transform), right.transform(transform),
-                operation, material, parent)
-    }
-
-    override fun withTransform(transform: Matrix): Group {
-        throw Exception("withTransform should not be called on CSGs")
+    override fun withTransform(transform: Matrix): CSG {
+        return CSG(left, right, operation, material, transform, parent)
     }
 
     override fun withMaterial(material: Material): CSG {
-        return CSG(left.withMaterial(material), right.withMaterial(material), operation, material, parent)
+        return CSG(left.withMaterial(material), right.withMaterial(material), operation, material, transform, parent)
     }
 
     override fun withParent(parent: SceneObject): CSG {
-        return CSG(left, right, operation, material, parent)
+        return CSG(left, right, operation, material, transform, parent)
     }
 
     override fun localIntersect(localRay: Ray) =
             filterIntersections(left.intersect(localRay).addIntersections(right.intersect(localRay)))
 
-    override fun localNormalAt(localPoint: Point, intersection: Intersection) = Vector(0, 0, 0)
+    override fun localNormalAt(localPoint: Point, hit: Intersection) = Vector(0, 0, 0)
 
     override fun includes(obj: SceneObject) = left.includes(obj) || right.includes(obj)
 

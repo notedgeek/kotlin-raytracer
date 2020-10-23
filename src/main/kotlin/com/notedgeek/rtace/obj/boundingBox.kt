@@ -6,12 +6,35 @@ import kotlin.math.max
 import kotlin.math.min
 
 class BoundingBox(
-    val min: Point,
-    val max: Point,
-    val transform: Matrix = I
+        val min: Point = Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+        val max: Point = Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+        val transform: Matrix = I
 ) {
 
     private val inverseTransform = -transform
+
+    private fun fitForPoint(point: Point): BoundingBox = BoundingBox(
+            Point(min(min.x, point.x), min(min.y, point.y), min(min.z, point.z)),
+            Point(max(max.x, point.x), max(max.y, point.y), max(max.z, point.z)),
+            transform
+    )
+
+    fun transform(transform: Matrix): BoundingBox {
+        var boundingBox = BoundingBox()
+        for(point in arrayOf(
+                min,
+                Point(min.x, min.y, max.z),
+                Point(min.x, max.y, min.z),
+                Point(min.x, max.y, max.z),
+                Point(max.x, min.y, min.z),
+                Point(max.x, min.y, max.z),
+                Point(max.x, max.y, min.z),
+                max
+        )) {
+            boundingBox = fitForPoint(transform * point)
+        }
+        return boundingBox
+    }
 
     fun containsObject(obj: SceneObject): Boolean {
         val (pMin, pMax) = obj.bounds()

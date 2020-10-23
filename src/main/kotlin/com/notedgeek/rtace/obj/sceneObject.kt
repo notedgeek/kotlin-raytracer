@@ -9,19 +9,34 @@ abstract class SceneObject(
     val parent: SceneObject? = null
 ) {
 
-    val inverseTransform = -transform
+    val inverseTransform = if(transform === I) I else -transform
 
-    open fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
+    fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
 
     open fun bounds(): Pair<Point, Point> =
             Pair(Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
                     Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY))
 
     fun normalAt(worldPoint: Point, hit: Intersection): Vector {
-        val localPoint = inverseTransform * worldPoint
+        val localPoint = worldToObject(worldPoint)
         val localNormal = localNormalAt(localPoint, hit)
-        val worldNormal = transpose(inverseTransform) * localNormal
-        return normalise(worldNormal)
+        return normalToWorld(localNormal)
+    }
+
+    private fun worldToObject(point: Point): Point {
+        var p = point
+        if(parent != null) {
+            p = parent.worldToObject(p)
+        }
+        return inverseTransform * p
+    }
+
+    private fun normalToWorld(normal: Vector): Vector {
+        var n = normalise(transpose(inverseTransform) * normal)
+        if(parent != null) {
+            n = parent.normalToWorld(n)
+        }
+        return n
     }
 
     fun colour(r: Double, g: Double, b: Double) = colour(Colour(r, g, b))
@@ -46,7 +61,7 @@ abstract class SceneObject(
         withMaterial(Material(material.colour, material.pattern,material.ambient,
             material.diffuse, material.specular, material.shininess, reflective))
 
-    open fun transform(transform: Matrix): SceneObject {
+    fun transform(transform: Matrix): SceneObject {
         return withTransform(transform * this.transform)
     }
 

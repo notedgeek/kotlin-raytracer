@@ -8,7 +8,7 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 4
+    val scale = 1
     size(3300 / scale, 1340 / scale)
 
     viewPoint(0.0,  2.0, -6.0)
@@ -41,10 +41,10 @@ private val scene = buildScene {
         translateZ(4.0)
     }
 
-    val b = true
-    val s = true
+    val bound = true
+    val split = true
 
-    +group(fromObjectFile("teapot-low", false, bound = b, split = s)) {
+    +group(fromObjectFile("teapot-low", false, bound = bound, split = split)) {
         material {
             colour(0.7, 0.0, 0.0)
         }
@@ -53,7 +53,7 @@ private val scene = buildScene {
         translateX(-1.5)
         translateZ( 1.5)
     }
-    +group(fromObjectFile("teapot-low", true, bound = b, split = s)) {
+    +group(fromObjectFile("teapot-low", true, bound = bound, split = split)) {
         material {
             colour(0.7, 0.0, 0.0)
         }
@@ -62,7 +62,7 @@ private val scene = buildScene {
         translateX(1.5)
         translateZ( 1.5)
     }
-    +group(fromObjectFile("teapot", true, bound = b, split = s)) {
+    +group(fromObjectFile("teapot", true, bound = bound, split = split)) {
         material {
             colour(0.2, 0.0, 0.0)
             reflective(0.8)
@@ -70,7 +70,7 @@ private val scene = buildScene {
         scale(1.0 / 15)
         rotateX(-PI / 2)
     }
-    +group(fromObjectFile("teapot", false, bound = b, split = s)) {
+    +group(fromObjectFile("teapot", false, bound = bound, split = split)) {
         material {
             colour(0.7, 0.0, 0.0)
         }
@@ -79,7 +79,7 @@ private val scene = buildScene {
         translateX(-1.5)
         translateZ( -1.5)
     }
-    +group(fromObjectFile("teapot", true, bound = b, split = s)) {
+    +group(fromObjectFile("teapot", true, bound = bound, split = split)) {
         material {
             colour(0.7, 0.0, 0.0)
         }
