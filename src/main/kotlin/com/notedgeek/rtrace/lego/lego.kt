@@ -78,8 +78,6 @@ class LegoContext: GroupBuilder() {
                 .translateZ(y.toDouble()))
     }
 
-    fun toGroup() = group
-
     fun boundBy(xMin: Double, yMin: Double, zMin: Double, xMax: Double, yMax: Double, zMax:Double) {
         boundingBox = BoundingBox(Point(xMin, yMin, zMin), Point(xMax, yMax, zMax))
     }

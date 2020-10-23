@@ -14,10 +14,12 @@ class BoundingBox(
         Point(xMin, yMin, zMin), Point(xMax, yMax, zMax)
     )
 
-    private fun fitForPoint(point: Point): BoundingBox = BoundingBox(
+    private fun addPoint(point: Point): BoundingBox = BoundingBox(
             Point(min(min.x, point.x), min(min.y, point.y), min(min.z, point.z)),
             Point(max(max.x, point.x), max(max.y, point.y), max(max.z, point.z))
     )
+
+    fun addBoundingBox(boundingBox: BoundingBox) = addPoint(boundingBox.min).addPoint(boundingBox.max)
 
     fun transform(transform: Matrix): BoundingBox {
         var boundingBox = BoundingBox()
@@ -31,13 +33,13 @@ class BoundingBox(
                 Point(max.x, max.y, min.z),
                 max
         )) {
-            boundingBox = fitForPoint(transform * point)
+            boundingBox = boundingBox.addPoint(transform * point)
         }
         return boundingBox
     }
 
     fun containsObject(obj: SceneObject): Boolean {
-        val bb = obj.bounds()
+        val bb = obj.parentSpaceBounds()
         val pMin = bb.min
         val pMax = bb.max
         return min.x <= pMin.x && max.x >= pMax.x &&

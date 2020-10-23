@@ -6,6 +6,8 @@ import com.notedgeek.rtace.pattern.BlankPattern
 import com.notedgeek.rtace.pattern.Checkers
 import com.notedgeek.rtace.pattern.Pattern
 import com.notedgeek.rtace.pattern.Stripes
+import java.util.*
+import kotlin.collections.ArrayList
 
 val EMPTY_SCENE = Scene(World(emptyList(), emptyList()), Camera())
 
@@ -14,7 +16,7 @@ fun buildScene(scene: Scene = EMPTY_SCENE,
 
 fun buildObject(obj: SceneObject, block: ObjectBuilder.() -> Unit) = ObjectBuilder(obj).apply(block).obj
 
-fun buildGroup(block: GroupBuilder.() -> Unit) = GroupBuilder().apply(block).group
+fun buildGroup(block: GroupBuilder.() -> Unit) = GroupBuilder().apply(block).toGroup()
 
 
 @DslMarker
@@ -49,7 +51,7 @@ interface SceneObjectCollector {
     fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =
         ObjectBuilder(Triangle(p1, p2, p3)).apply(block).obj
 
-    fun group(group: Group = Group(), block: GroupBuilder.() -> Unit = {}) = GroupBuilder(group).apply(block).group
+    fun group(block: GroupBuilder.() -> Unit = {}) = GroupBuilder().apply(block).toGroup()
 
     fun union(block: CsgBuilder.() -> Unit) = CsgBuilder(CSGOperation.UNION).apply(block).toCSG()
 
@@ -144,19 +146,25 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
 }
 
 @SceneMarker
-open class GroupBuilder(var group: Group = Group()) : SceneObjectCollector, Transformer {
+open class GroupBuilder() : SceneObjectCollector, Transformer {
+
+    val children = LinkedList<SceneObject>()
+    var material = Material()
+    var transform = I
 
     override fun addObject(obj: SceneObject) {
-        group.addChild(obj)
+        children.add(obj)
     }
 
     override fun transform(transform: Matrix) {
-        group = group.transform(transform) as Group
+        this.transform = transform * this.transform
     }
 
     fun material(material: Material = Material(), block: MaterialBuilder.() -> Unit) {
-        group = group.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
+        this.material = MaterialBuilder(material).apply(block).toMaterial()
     }
+
+    fun toGroup() = Group(children, material, transform)
 
 }
 

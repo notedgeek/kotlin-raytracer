@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.Colour
-import com.notedgeek.rtace.obj.fromObjectFile
+import com.notedgeek.rtace.obj.objectFileGroup
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
@@ -43,7 +43,7 @@ private val scene = buildScene {
         }
     }
 
-    val gake = group(fromObjectFile("armadilo")) {
+    val gake = from(objectFileGroup("armadilo")) {
         translateY(54.2415)
         scale(0.06)
         rotateY(PI / 6)

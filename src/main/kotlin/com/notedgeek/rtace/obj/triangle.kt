@@ -24,11 +24,15 @@ open class Triangle(
     private val e1 = p2 - p1
     private val e2 = p3 - p1
 
+    private val _parentSpaceBounds = bounds().transform(transform)
+
     val normal = normalise(e2 cross e1)
 
     override fun bounds(): BoundingBox {
         return BoundingBox(Point(minX, minY, minZ), Point(maxX, maxY, maxZ))
     }
+
+    override fun parentSpaceBounds() = _parentSpaceBounds
 
     override fun withTransform(transform: Matrix): Triangle {
         return Triangle(p1, p2, p3, material, transform, parent)

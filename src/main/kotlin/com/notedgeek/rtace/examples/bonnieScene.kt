@@ -2,7 +2,7 @@ package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.BLACK
 import com.notedgeek.rtace.WHITE
-import com.notedgeek.rtace.obj.fromObjectFile
+import com.notedgeek.rtace.obj.objectFileGroup
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
@@ -44,7 +44,7 @@ private val scene = buildScene {
         }
     }
 
-    val bonnie = group(fromObjectFile("bonnie")) {
+    val bonnie = from(objectFileGroup("bonnie")) {
         material {
             colour(0.4, 0.0, 0.0)
             reflective(0.2)

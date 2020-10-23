@@ -1,6 +1,6 @@
 package com.notedgeek.rtace.examples
 
-import com.notedgeek.rtace.obj.fromObjectFile
+import com.notedgeek.rtace.obj.objectFileGroup
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
@@ -40,7 +40,7 @@ private val scene = buildScene {
         }
     }
 
-    val dragon = group(fromObjectFile("dragon")) {
+    val dragon = from(objectFileGroup("dragon")) {
         scale(0.8)
         rotateY(-PI / 6)
         material {

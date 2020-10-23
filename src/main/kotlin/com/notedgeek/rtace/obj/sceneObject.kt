@@ -6,15 +6,19 @@ import com.notedgeek.rtace.pattern.BlankPattern
 abstract class SceneObject(
     val material: Material = Material(),
     val transform: Matrix = I,
-    val parent: SceneObject? = null
+    val parent: SceneObject? = null,
+    var bounds: BoundingBox = BoundingBox(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
 ) {
 
-    val inverseTransform = if(transform === I) I else -transform
+    val inverseTransform = if (transform === I) I else -transform
+    private val parentSpaceBounds = bounds.transform(transform)
 
     fun intersect(ray: Ray): List<Intersection> = localIntersect(ray.transform(inverseTransform))
 
-    open fun bounds(): BoundingBox = BoundingBox(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
-            Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
+    open fun bounds(): BoundingBox = bounds
+
+    open fun parentSpaceBounds() = parentSpaceBounds
 
     fun normalAt(worldPoint: Point, hit: Intersection): Vector {
         val localPoint = worldToObject(worldPoint)

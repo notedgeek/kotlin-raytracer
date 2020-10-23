@@ -5,7 +5,7 @@ import com.notedgeek.rtace.Vector
 import java.io.File
 import java.util.regex.Pattern
 
-fun fromObjectFile(name: String, smoothIfPossible: Boolean = true, bound: Boolean = true, split: Boolean = true): Group {
+fun objectFileGroup(name: String, smoothIfPossible: Boolean = true, bound: Boolean = true, split: Boolean = true): Group {
 
     val lines = File("src/main/resources/$name.obj").readLines()
 
@@ -79,12 +79,12 @@ fun fromObjectFile(name: String, smoothIfPossible: Boolean = true, bound: Boolea
     println("vertices: ${vertices.size} normals: ${normals.size} triangles: ${triangles.size}")
     println("xMin: $xMin, xMax: $xMax, yMin: $yMin, yMax: $yMax, zMin: $zMin, zMax: $zMax")
 
-    val boundingBox = if(bound) BoundingBox(Point(xMin, yMin, zMin), Point(xMax, yMax, zMax)) else null
+//    val boundingBox = if(bound) BoundingBox(Point(xMin, yMin, zMin), Point(xMax, yMax, zMax)) else null
 
-    var group =  Group(children = triangles.toMutableList(), boundingBox)
+    var group =  Group(children = triangles)
 
     if(bound && split) {
-        group = group.split(3)
+        group = group.split(5)
     }
 
     return group
