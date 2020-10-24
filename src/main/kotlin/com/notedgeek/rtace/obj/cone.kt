@@ -1,3 +1,5 @@
+@file:Suppress("EqualsOrHashCode","DuplicatedCode")
+
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
@@ -35,15 +37,15 @@ class Cone (
         val b = 2 * origin.x * direction.x - 2 * origin.y * direction.y + 2 * origin.z * direction.z
         val c = origin.x.pow(2) - origin.y.pow(2) + origin.z.pow(2)
         if(closeTo(0.0, a)) {
-            if(closeTo(0.0, b)) {
-                return emptyList()
+            return if(closeTo(0.0, b)) {
+                emptyList()
             } else {
                 val t = -c/(2 * b)
                 val y0 = localRay.origin.y + t * localRay.direction.y
                 if (min < y0 && y0 < max) {
-                    return listOf(Intersection(t, this))
+                    listOf(Intersection(t, this))
                 } else {
-                    return emptyList()
+                    emptyList()
                 }
             }
         }

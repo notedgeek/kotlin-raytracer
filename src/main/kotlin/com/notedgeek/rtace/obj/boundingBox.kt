@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
@@ -9,8 +11,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class BoundingBox(
-        val min: Point = Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
-        val max: Point = Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+        private val min: Point = Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+        private val max: Point = Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
 ) {
 
     constructor(xMin: Double, yMin: Double, zMin: Double, xMax: Double, yMax: Double, zMax: Double) : this(

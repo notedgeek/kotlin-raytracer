@@ -14,10 +14,10 @@ class TestPlane {
     @Test
     fun `the normal of a plane is constant everywhere`() {
         val p = Plane()
-        val dummmyIntersection = Intersection(0.0, p)
-        val n1 = p.localNormalAt(Point(0, 0, 0), dummmyIntersection)
-        val n2 = p.localNormalAt(Point(10, 0, -10), dummmyIntersection)
-        val n3 = p.localNormalAt(Point(-5, 0, 150), dummmyIntersection)
+        val dummyIntersection = Intersection(0.0, p)
+        val n1 = p.localNormalAt(Point(0, 0, 0), dummyIntersection)
+        val n2 = p.localNormalAt(Point(10, 0, -10), dummyIntersection)
+        val n3 = p.localNormalAt(Point(-5, 0, 150), dummyIntersection)
         assertThat(n1).isEqualTo(Vector(0, 1, 0))
         assertThat(n2).isEqualTo(Vector(0, 1, 0))
         assertThat(n3).isEqualTo(Vector(0, 1, 0))

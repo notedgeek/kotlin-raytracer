@@ -1,3 +1,5 @@
+@file:Suppress("EqualsOrHashCode", "DuplicatedCode")
+
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*

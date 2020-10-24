@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.notedgeek.rtrace.lego
 
 import com.notedgeek.rtace.maths.Point
@@ -62,9 +64,9 @@ class LegoSceneBuilder: SceneBuilder(EMPTY_SCENE) {
 
 class LegoContext: GroupBuilder() {
 
-    var gridX: Int = 0
-    var gridY: Int = 0
-    var gridZ: Int = 0
+    private var gridX: Int = 0
+    private var gridY: Int = 0
+    private var gridZ: Int = 0
 
     var boundingBox: BoundingBox = BoundingBox(
             Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),

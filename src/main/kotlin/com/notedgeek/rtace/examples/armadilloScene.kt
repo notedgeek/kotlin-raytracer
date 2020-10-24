@@ -35,21 +35,16 @@ private val scene = buildScene {
 
     +plane {
         material {
-//            pattern {
-//                checkers(BLACK, WHITE)
-//                scale(squareSize)
-//            }
-//            reflective(0.6)
         }
     }
 
-    val gake = from(objectFileGroup("armadilo")) {
+    val armadillo = from(objectFileGroup("armadillo")) {
         translateY(54.2415)
         scale(0.06)
         rotateY(PI / 6)
     }
 
-    +from(gake) {
+    +from(armadillo) {
         material {
             colour(0.0, 0.5, 0.0)
         }

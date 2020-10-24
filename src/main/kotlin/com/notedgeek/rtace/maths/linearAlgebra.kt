@@ -1,3 +1,5 @@
+@file:Suppress("EqualsOrHashCode")
+
 package com.notedgeek.rtace.maths
 
 import kotlin.math.abs

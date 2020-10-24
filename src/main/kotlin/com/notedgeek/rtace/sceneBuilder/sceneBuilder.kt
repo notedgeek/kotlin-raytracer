@@ -152,9 +152,9 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
 }
 
 @SceneMarker
-open class GroupBuilder() : SceneObjectCollector, Transformer {
+open class GroupBuilder : SceneObjectCollector, Transformer {
 
-    val children = LinkedList<SceneObject>()
+    private val children = LinkedList<SceneObject>()
     var material = Material()
     var transform = I
 
@@ -175,21 +175,25 @@ open class GroupBuilder() : SceneObjectCollector, Transformer {
 }
 
 @SceneMarker
-class CsgBuilder(val operation: CSGOperation) : SceneObjectCollector, Transformer{
+class CsgBuilder(private val operation: CSGOperation) : SceneObjectCollector, Transformer{
 
-    var csg: CSG? = null
+    private var csg: CSG? = null
     var left: SceneObject? = null
     var material: Material? = null
 
     override fun addObject(obj: SceneObject) {
         val csg = this.csg
         val left = this.left
-        if(csg != null) {
-            this.csg = CSG(csg, obj, operation)
-        } else if(left != null) {
-            this.csg = CSG(left, obj, operation)
-        } else {
-            this.left = obj
+        when {
+            csg != null -> {
+                this.csg = CSG(csg, obj, operation)
+            }
+            left != null -> {
+                this.csg = CSG(left, obj, operation)
+            }
+            else -> {
+                this.left = obj
+            }
         }
     }
 

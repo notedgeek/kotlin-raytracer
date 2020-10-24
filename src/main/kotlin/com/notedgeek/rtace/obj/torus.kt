@@ -1,16 +1,15 @@
 package com.notedgeek.rtace.obj
 
-import com.notedgeek.rtace.*
+import com.notedgeek.rtace.Intersection
+import com.notedgeek.rtace.Material
+import com.notedgeek.rtace.Ray
 import com.notedgeek.rtace.maths.*
 import com.notedgeek.rtace.maths.Vector
-import com.notedgeek.rtace.maths.closeTo
 import java.util.*
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 class Torus(
-        val rMaj: Double = 1.0,
-        var rMin: Double = 1 / 3.0,
+        private val rMaj: Double = 1.0,
+        private var rMin: Double = 1 / 3.0,
         material: Material = Material(),
         transform: Matrix = I,
         parent: SceneObject? = null
@@ -72,6 +71,4 @@ class Torus(
         ))
     }
 
-    override fun equals(other: Any?) = other is Torus && closeTo(rMaj, other.rMaj) && closeTo(rMin, other.rMin) &&
-            material == other.material && transform == other.transform
 }

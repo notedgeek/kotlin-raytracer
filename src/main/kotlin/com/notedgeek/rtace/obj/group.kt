@@ -76,7 +76,7 @@ class Group(
     }
 
     fun split(threshold: Int = 5): Group {
-        if(bounds == null || _children.size < threshold) {
+        if(_children.size < threshold) {
             return this
         }
         //println("start bb: ${boundingBox.min} ${boundingBox.max} object count ${children.size}")
@@ -87,11 +87,15 @@ class Group(
         val orphans = LinkedList<SceneObject>()
 
         for(child in _children) {
-            if(leftBox.containsObject(child)) {
-                leftChildren.add(child)
-            } else if(rightBox.containsObject(child)){
-                rightChildren.add(child)
-            } else orphans.add(child)
+            when {
+                leftBox.containsObject(child) -> {
+                    leftChildren.add(child)
+                }
+                rightBox.containsObject(child) -> {
+                    rightChildren.add(child)
+                }
+                else -> orphans.add(child)
+            }
         }
 
         //println("left: ${leftChildren.size} right: ${rightChildren.size} orphans: ${orphans.size}")

@@ -1,13 +1,12 @@
 package com.notedgeek.rtace.examples
 
-import com.notedgeek.rtace.BLACK
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    var scale = 1
+    val scale = 1
     size(1920 / scale, 1080 / scale)
     viewPoint(0.0, 0.0, -5.0)
     pointLight {

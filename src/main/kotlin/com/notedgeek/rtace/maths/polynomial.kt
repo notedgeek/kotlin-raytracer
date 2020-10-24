@@ -58,11 +58,9 @@ private class Polynomial(vararg val data: Double) {
 
     operator fun times(other: Polynomial): Polynomial {
         var result = Polynomial(0.0)
-        var power = 0
-        for (i in 0 until other.order) {
-            var subResult = this.padLTo(order + power) * other.data[i]
+        for ((power, i) in (0 until other.order).withIndex()) {
+            val subResult = this.padLTo(order + power) * other.data[i]
             result += subResult
-            power++
         }
         return result
     }
@@ -113,7 +111,7 @@ private const val EQN_EPS = 1e-64
 private fun isZero(x: Double) = abs(x) < EQN_EPS
 
 private fun DoubleArray.push(d: Double): DoubleArray {
-    var result = DoubleArray(this.size + 1)
+    val result = DoubleArray(this.size + 1)
     for (i in result.indices) {
         if(i == this.size) {
             result[i] = d
@@ -125,7 +123,7 @@ private fun DoubleArray.push(d: Double): DoubleArray {
 }
 
 private fun DoubleArray.concat(other: DoubleArray): DoubleArray {
-    var result = DoubleArray(this.size + other.size)
+    val result = DoubleArray(this.size + other.size)
     for (i in result.indices) {
         if(i >= this.size) {
             result[i] = other[i - this.size]
@@ -163,17 +161,17 @@ fun solve3(c: DoubleArray): DoubleArray {
     if (c.size != 4) {
         throw IllegalArgumentException("order must be 3 - ${c.size - 1}")
     }
-    val a = c[2] / c[3]
-    val b = c[1] / c[3]
-    val c = c[0] / c[3]
-    val sqA = a * a
-    val p = 1.0 / 3 * (-1.0 / 3 * sqA + b)
-    val q = 1.0 / 2 * (2.0 / 27 * a * sqA - 1.0 / 3 * a * b + c)
+    val aA = c[2] / c[3]
+    val bB = c[1] / c[3]
+    val cC = c[0] / c[3]
+    val sqA = aA * aA
+    val p = 1.0 / 3 * (-1.0 / 3 * sqA + bB)
+    val q = 1.0 / 2 * (2.0 / 27 * aA * sqA - 1.0 / 3 * aA * bB + cC)
 
     val cbP = p * p * p
     val d = q * q + cbP
 
-    var s: DoubleArray? = null
+    val s: DoubleArray?
 
     when {
         isZero(d) -> {
@@ -197,7 +195,7 @@ fun solve3(c: DoubleArray): DoubleArray {
         }
     }
 
-    val sub = 1.0 / 3 * a
+    val sub = 1.0 / 3 * aA
 
     for(i in s.indices) {
         s[i] -= sub
@@ -220,7 +218,7 @@ fun solve4(c: DoubleArray): DoubleArray {
     val q = 1.0 / 8 * sqA * aA - 1.0 / 2 * aA * bB + cC
     val r = -3.0 / 256 * sqA * sqA + 1.0 / 16 * sqA * bB - 1.0 / 4 * aA * cC + dD
 
-    var s: DoubleArray? = null
+    var s: DoubleArray?
 
     if(isZero(r)) {
         val coeffs = doubleArrayOf(q, p, 0.0, 1.0)

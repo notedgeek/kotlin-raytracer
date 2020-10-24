@@ -29,7 +29,7 @@ open class Triangle(
 
     val normal = normalise(e2 cross e1)
 
-    override fun bounds(): BoundingBox {
+    final override fun bounds(): BoundingBox {
         return BoundingBox(Point(minX, minY, minZ), Point(maxX, maxY, maxZ))
     }
 
@@ -69,8 +69,5 @@ open class Triangle(
     }
 
     override fun localNormalAt(localPoint: Point, hit: Intersection) = normal
-
-    override fun equals(other: Any?) = other is Triangle && p1 == p1 && p2 == p2 && p3 == p3 &&
-            material == other.material && transform == other.transform
 
 }

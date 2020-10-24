@@ -1,3 +1,5 @@
+@file:Suppress("EqualsOrHashCode")
+
 package com.notedgeek.rtace
 
 import com.notedgeek.rtace.maths.closeTo

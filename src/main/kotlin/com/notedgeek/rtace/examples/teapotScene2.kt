@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.obj.objectFileGroup

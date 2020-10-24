@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.Intersection
@@ -53,7 +55,7 @@ class TestCube {
     @Test
     fun `normal on the surface of a cube`() {
        val c = Cube()
-        class Example(val origin: Point, val direction: Vector, val t1: Double, val t2: Double)
+        class Example(val direction: Vector, val t1: Double, val t2: Double)
         val examples = listOf(
             Point(1.0, 0.5, -0.8) to Vector(1, 0, 0),
             Point(-1.0, -0.2, 0.9) to Vector(-1, 0, 0),
