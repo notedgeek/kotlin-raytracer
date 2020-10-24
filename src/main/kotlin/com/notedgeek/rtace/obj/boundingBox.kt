@@ -1,6 +1,9 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.EPSILON
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min

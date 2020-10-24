@@ -1,5 +1,9 @@
 package com.notedgeek.rtace
 
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.closeTo
+import com.notedgeek.rtace.maths.mag
+import com.notedgeek.rtace.maths.normalise
 import com.notedgeek.rtace.obj.SceneObject
 import kotlin.math.sqrt
 

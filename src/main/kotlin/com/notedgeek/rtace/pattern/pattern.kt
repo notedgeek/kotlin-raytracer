@@ -1,6 +1,9 @@
 package com.notedgeek.rtace.pattern
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.I
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
 import com.notedgeek.rtace.obj.SceneObject
 
 abstract class Pattern(val transform: Matrix = I) {

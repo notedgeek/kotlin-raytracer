@@ -1,6 +1,8 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.normalise
 import com.notedgeek.rtace.obj.Sphere
 import com.notedgeek.rtrace.graphics.PixelSource
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer

@@ -1,6 +1,6 @@
 package com.notedgeek.rtrace.lego
 
-import com.notedgeek.rtace.Point
+import com.notedgeek.rtace.maths.Point
 import com.notedgeek.rtace.obj.*
 import com.notedgeek.rtace.sceneBuilder.*
 

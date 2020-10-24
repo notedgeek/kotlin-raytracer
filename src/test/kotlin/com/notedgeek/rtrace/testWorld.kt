@@ -1,6 +1,9 @@
 package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.EPSILON
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.Vector
 import com.notedgeek.rtace.obj.Sphere
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.offset

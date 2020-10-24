@@ -1,14 +1,15 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.*
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
 class Cube(
-    material: Material = Material(),
-    transform: Matrix = I,
-    parent: SceneObject? = null,
+        material: Material = Material(),
+        transform: Matrix = I,
+        parent: SceneObject? = null,
 ) : SceneObject(material, transform, parent,
     BoundingBox(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0)) {
 

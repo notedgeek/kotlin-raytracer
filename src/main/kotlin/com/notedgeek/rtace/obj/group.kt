@@ -1,7 +1,10 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
-import com.notedgeek.rtace.Vector
+import com.notedgeek.rtace.maths.I
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.Vector
 import java.util.*
 
 class Group(
@@ -20,6 +23,7 @@ class Group(
             _children.add(child.withParent(this))
         }
         bounds = calculateBounds()
+
         parentSpaceBounds = bounds.transform(transform)
     }
 

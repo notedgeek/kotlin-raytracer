@@ -1,13 +1,14 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.*
 import com.notedgeek.rtace.pattern.BlankPattern
 
 abstract class SceneObject(
-    val material: Material = Material(),
-    val transform: Matrix = I,
-    val parent: SceneObject? = null,
-    var bounds: BoundingBox = BoundingBox(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+        val material: Material = Material(),
+        val transform: Matrix = I,
+        val parent: SceneObject? = null,
+        var bounds: BoundingBox = BoundingBox(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
             Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
 ) {
 

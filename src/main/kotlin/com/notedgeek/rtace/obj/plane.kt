@@ -1,12 +1,13 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.*
 import kotlin.math.abs
 
 class Plane(
-    material: Material = Material(),
-    transform: Matrix = I,
-    parent: SceneObject? = null
+        material: Material = Material(),
+        transform: Matrix = I,
+        parent: SceneObject? = null
 ) : SceneObject(material, transform, parent) {
 
     private val normal = Vector(0, 1, 0)

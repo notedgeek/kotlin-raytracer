@@ -1,12 +1,16 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.I
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.Vector
 import kotlin.math.sqrt
 
 class Sphere(
-    material: Material = Material(),
-    transform: Matrix = I,
-    parent: SceneObject? = null
+        material: Material = Material(),
+        transform: Matrix = I,
+        parent: SceneObject? = null
 ) : SceneObject(material, transform, parent,
         BoundingBox(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0)) {
 

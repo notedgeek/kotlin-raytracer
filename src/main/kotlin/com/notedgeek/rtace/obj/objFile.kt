@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.obj
 
-import com.notedgeek.rtace.Point
-import com.notedgeek.rtace.Vector
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.Vector
 import java.io.File
 import java.util.regex.Pattern
 

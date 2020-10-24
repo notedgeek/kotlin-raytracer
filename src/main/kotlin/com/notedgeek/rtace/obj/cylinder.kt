@@ -1,16 +1,18 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.*
+import com.notedgeek.rtace.maths.closeTo
 import kotlin.math.*
 
 class Cylinder (
-    material: Material = Material(),
-    transform: Matrix = I,
-    parent: SceneObject? = null,
-    private val min: Double = 0.0,
-    private val max: Double = 1.0,
-    private val cappedBottom: Boolean = false,
-    private val cappedTop: Boolean = false
+        material: Material = Material(),
+        transform: Matrix = I,
+        parent: SceneObject? = null,
+        private val min: Double = 0.0,
+        private val max: Double = 1.0,
+        private val cappedBottom: Boolean = false,
+        private val cappedTop: Boolean = false
 
 ) : SceneObject(material, transform, parent,
     BoundingBox(-1.0, min, -1.0, 1.0, max, 1.0)) {

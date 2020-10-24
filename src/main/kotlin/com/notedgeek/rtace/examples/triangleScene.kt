@@ -1,7 +1,7 @@
 package com.notedgeek.rtace.examples
 
 import com.notedgeek.rtace.BLACK
-import com.notedgeek.rtace.Point
+import com.notedgeek.rtace.maths.Point
 import com.notedgeek.rtace.WHITE
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene

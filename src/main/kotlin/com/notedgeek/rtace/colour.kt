@@ -1,5 +1,6 @@
 package com.notedgeek.rtace
 
+import com.notedgeek.rtace.maths.closeTo
 import java.awt.Color
 import kotlin.math.min
 

@@ -1,6 +1,6 @@
 package com.notedgeek.rtace.examples
 
-import com.notedgeek.rtace.closeTo
+import com.notedgeek.rtace.maths.closeTo
 import com.notedgeek.rtace.pixelSource
 import com.notedgeek.rtace.sceneBuilder.buildScene
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer

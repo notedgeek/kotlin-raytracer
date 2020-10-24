@@ -1,5 +1,9 @@
 package com.notedgeek.rtace
 
+import com.notedgeek.rtace.maths.EPSILON
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.Vector
 import com.notedgeek.rtace.obj.SceneObject
 import java.util.*
 import kotlin.collections.ArrayList
@@ -98,7 +102,7 @@ fun intersections(vararg elems: Intersection): List<Intersection> {
 }
 
 fun hit(intersections: Iterable<Intersection>): Intersection? {
-    intersections.forEach{if (it.t >= 0.0) {
+    intersections.forEach{if (it.t >= 0) {
         return it
     } }
     return null

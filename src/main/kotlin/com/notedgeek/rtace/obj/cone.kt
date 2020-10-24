@@ -1,6 +1,8 @@
 package com.notedgeek.rtace.obj
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.*
+import com.notedgeek.rtace.maths.closeTo
 import kotlin.math.*
 
 class Cone (

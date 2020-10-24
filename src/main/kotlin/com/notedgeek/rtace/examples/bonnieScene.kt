@@ -9,18 +9,14 @@ import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import kotlin.math.PI
 
 private val scene = buildScene {
-    val scale = 5
-    size(3300 / scale, 1340 / scale)
+    val scale = 1
+    size(3300 * 4 / scale, 1340 * 4 / scale)
 
     viewPoint(0.0, 10.0, -20.0)
     lookAt(0.0, 3.0, 0.0)
     pointLight {
-        at(-6.0, 10.0, -10.0)
+        at(-12.0, 20.0, -20.0)
     }
-    pointLight {
-        at(10.0, 10.0, -10.0)
-    }
-
     val squareSize = 6.0
 
     // back wall
@@ -40,15 +36,11 @@ private val scene = buildScene {
                 checkers(BLACK, WHITE)
                 scale(squareSize)
             }
-            reflective(0.6)
+            reflective(0.2)
         }
     }
 
     val bonnie = from(objectFileGroup("bonnie")) {
-        material {
-            colour(0.4, 0.0, 0.0)
-            reflective(0.2)
-        }
         scale(0.075)
         rotateY(PI)
         translateX(squareSize/ 2)
@@ -59,6 +51,10 @@ private val scene = buildScene {
         +group {
             for (x in 0..7) {
                 +from(bonnie) {
+                    material {
+                        colour(if((x + y) % 2 == 0) WHITE else BLACK)
+                        reflective(0.2)
+                    }
                     translateX((x - 4) * squareSize)
                     translateZ(-squareSize * y)
                 }

@@ -1,6 +1,9 @@
 package com.notedgeek.rtrace
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.SQ2
+import com.notedgeek.rtace.maths.Vector
 import com.notedgeek.rtace.obj.Plane
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

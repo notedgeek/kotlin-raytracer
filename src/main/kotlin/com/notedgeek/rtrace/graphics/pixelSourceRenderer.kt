@@ -52,7 +52,7 @@ class PixelSourceRenderer(private val pixelSource: PixelSource) : Renderer {
             }
         }
         val start = System.currentTimeMillis()
-        val count = 8
+        val count = 1
         val threads: MutableList<Thread> = ArrayList()
         for (i in 0 until count) {
             val thread = Thread(RenderRunner(boundsList, renderContext))

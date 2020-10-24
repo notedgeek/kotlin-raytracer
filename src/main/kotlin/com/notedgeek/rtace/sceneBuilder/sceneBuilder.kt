@@ -1,6 +1,9 @@
 package com.notedgeek.rtace.sceneBuilder
 
 import com.notedgeek.rtace.*
+import com.notedgeek.rtace.maths.I
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
 import com.notedgeek.rtace.obj.*
 import com.notedgeek.rtace.pattern.BlankPattern
 import com.notedgeek.rtace.pattern.Checkers
@@ -50,6 +53,9 @@ interface SceneObjectCollector {
 
     fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =
         ObjectBuilder(Triangle(p1, p2, p3)).apply(block).obj
+
+    fun torus(rMaj: Double = 1.0, rMin: Double = 1 / 3.0, block: ObjectBuilder.() -> Unit = {}) =
+        ObjectBuilder(Torus(rMaj, rMin)).apply(block).obj
 
     fun group(block: GroupBuilder.() -> Unit = {}) = GroupBuilder().apply(block).toGroup()
 

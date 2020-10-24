@@ -1,4 +1,4 @@
-package com.notedgeek.rtace
+package com.notedgeek.rtace.maths
 
 import kotlin.math.abs
 import kotlin.math.sqrt

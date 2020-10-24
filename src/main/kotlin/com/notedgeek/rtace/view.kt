@@ -1,5 +1,9 @@
 package com.notedgeek.rtace
 
+import com.notedgeek.rtace.maths.Matrix
+import com.notedgeek.rtace.maths.Point
+import com.notedgeek.rtace.maths.Vector
+import com.notedgeek.rtace.maths.normalise
 import com.notedgeek.rtrace.graphics.PixelSource
 import kotlin.math.PI
 import kotlin.math.tan
@@ -60,7 +64,7 @@ class Camera(val width: Int = 1000, val height: Int = 500, val fov: Double = PI 
     fun withTo(to: Point) = copy(to = to)
 
     private fun copy(width: Int = this.width, height: Int = this.height, fov: Double = this.fov,
-            from: Point = this.from, to: Point = this.to, up: Vector = this.up) =
+                     from: Point = this.from, to: Point = this.to, up: Vector = this.up) =
         Camera(width, height, fov, from, to, up)
 
 
