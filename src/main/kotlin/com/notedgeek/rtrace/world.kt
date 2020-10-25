@@ -18,7 +18,7 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
 
     fun intersections(ray: Ray): List<Intersection> {
         var result = emptyList<Intersection>()
-        objects.forEach { result = intersectObject(it, ray, result) }
+        objects.forEach { result = result.addIntersections(it.intersect(ray)) }
         return result
     }
 
@@ -104,10 +104,6 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
         val refractRay = Ray(comps.underPoint, direction)
 
         return colourAtForPointLight(light, refractRay, remaining - 1) * transparency
-    }
-
-    private fun intersectObject(obj: SceneObject, ray: Ray, currentIntersections: List<Intersection>): List<Intersection> {
-        return currentIntersections.addIntersections(obj.intersect(ray))
     }
 
     override fun toString(): String {
