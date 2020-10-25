@@ -11,25 +11,10 @@ private var MAX_RECURSIVE_DEPTH = 7
 
 class World(val lights: List<PointLight>, objs: List<SceneObject>) {
 
-    val objects = objs.toMutableList()
-
     constructor(light: PointLight, objs: List<SceneObject>) : this(listOf(light), objs)
 
-
-    fun intersections(ray: Ray): List<Intersection> {
-        var result = emptyList<Intersection>()
-        objects.forEach { result = result.addIntersections(it.intersect(ray)) }
-        return result
-    }
-
-    fun shadeHit(light: PointLight, comps: Comps, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
-        val shadowed = isShadowed(light, comps.overPoint)
-        val surface = lighting(comps.obj.material, light, comps.point, comps.eyeV,
-            comps.normal, comps.obj, shadowed)
-        val reflected = reflectedColour(light, comps, remaining)
-        val refracted = refractedColour(light, comps, remaining)
-        return surface + reflected + refracted
-    }
+    // only mutable for testing
+    val objects = objs.toMutableList()
 
     fun colourAt(ray: Ray): Colour {
         var lightCount = 0
@@ -64,6 +49,21 @@ class World(val lights: List<PointLight>, objs: List<SceneObject>) {
             val comps = Comps(hit, ray, intersections)
             return shadeHit(light, comps, remaining)
         }
+    }
+
+    fun intersections(ray: Ray): List<Intersection> {
+        var result = emptyList<Intersection>()
+        objects.forEach { result = result.addIntersections(it.intersect(ray)) }
+        return result
+    }
+
+    fun shadeHit(light: PointLight, comps: Comps, remaining: Int = MAX_RECURSIVE_DEPTH): Colour {
+        val shadowed = isShadowed(light, comps.overPoint)
+        val surface = surfaceColour(comps.obj.material, light, comps.point, comps.eyeV,
+            comps.normal, comps.obj, shadowed)
+        val reflected = reflectedColour(light, comps, remaining)
+        val refracted = refractedColour(light, comps, remaining)
+        return surface + reflected + refracted
     }
 
     fun isShadowed(light: PointLight, point: Point): Boolean {

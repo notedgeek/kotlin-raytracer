@@ -18,7 +18,7 @@ class TestLighting {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal, dummyObj)
+        val result = surfaceColour(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(1.9, 1.9, 1.9))
     }
 
@@ -27,7 +27,7 @@ class TestLighting {
         val eyeV = Vector(0.0, SQ2 / 2, SQ2 / 2)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal, dummyObj)
+        val result = surfaceColour(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(1.0, 1.0, 1.0))
     }
 
@@ -36,7 +36,7 @@ class TestLighting {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 10, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal, dummyObj)
+        val result = surfaceColour(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(0.7364, 0.7364, 0.7364))
     }
 
@@ -45,7 +45,7 @@ class TestLighting {
         val eyeV = Vector(0.0, -SQ2 / 2, -SQ2 / 2)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 10, -10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal, dummyObj)
+        val result = surfaceColour(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(1.6364, 1.6364, 1.6364))
     }
 
@@ -54,7 +54,7 @@ class TestLighting {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, 10), WHITE)
-        val result = lighting(material, light, position, eyeV, normal, dummyObj)
+        val result = surfaceColour(material, light, position, eyeV, normal, dummyObj)
         Assertions.assertThat(result).isEqualTo(Colour(0.1, 0.1, 0.1))
     }
 
@@ -64,7 +64,7 @@ class TestLighting {
         val normal = Vector(0, 0, -1)
         val light = PointLight(Point(0, 0, -10), WHITE)
         val inShadow = true
-        val result = lighting(material, light, position, eyeV, normal, dummyObj, inShadow)
+        val result = surfaceColour(material, light, position, eyeV, normal, dummyObj, inShadow)
         Assertions.assertThat(result).isEqualTo(Colour(0.1, 0.1, 0.1))
     }
 }

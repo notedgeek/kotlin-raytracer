@@ -6,7 +6,7 @@ import com.notedgeek.rtrace.maths.normalise
 import com.notedgeek.rtrace.obj.SceneObject
 import kotlin.math.pow
 
-fun lighting(
+fun surfaceColour(
         material: Material, light: PointLight, point: Point, eyeV: Vector,
         normal: Vector, obj: SceneObject, inShadow: Boolean = false,
 ): Colour {

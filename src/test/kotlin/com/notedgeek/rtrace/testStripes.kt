@@ -51,8 +51,8 @@ class TestStripes {
         val eyeV = Vector(0, 0, -1)
         val normal = Vector(0, 0,-1)
         val light = PointLight(Point(0, 0, -10), WHITE)
-        val c1 = lighting(m , light, Point(0.9, 0.0, 0.0), eyeV, normal, dummyObj)
-        val c2 = lighting(m , light, Point(1.1, 0.0, 0.0), eyeV, normal, dummyObj)
+        val c1 = surfaceColour(m , light, Point(0.9, 0.0, 0.0), eyeV, normal, dummyObj)
+        val c2 = surfaceColour(m , light, Point(1.1, 0.0, 0.0), eyeV, normal, dummyObj)
         assertThat(c1).isEqualTo(WHITE)
         assertThat(c2).isEqualTo(BLACK)
     }
