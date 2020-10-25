@@ -2,11 +2,9 @@
 
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.Intersection
-import com.notedgeek.rtace.maths.Point
-import com.notedgeek.rtace.Ray
-import com.notedgeek.rtace.maths.Vector
-import com.notedgeek.rtace.obj.Cube
+import com.notedgeek.rtrace.maths.Point
+import com.notedgeek.rtrace.maths.Vector
+import com.notedgeek.rtrace.obj.Cube
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 

@@ -1,8 +1,6 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.Colour
-import com.notedgeek.rtace.maths.Point
-import com.notedgeek.rtace.PointLight
+import com.notedgeek.rtrace.maths.Point
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

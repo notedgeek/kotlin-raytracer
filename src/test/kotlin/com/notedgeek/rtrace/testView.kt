@@ -1,15 +1,14 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.*
-import com.notedgeek.rtace.maths.I
-import com.notedgeek.rtace.maths.Matrix
-import com.notedgeek.rtace.maths.Point
-import com.notedgeek.rtace.maths.Vector
+import com.notedgeek.rtrace.maths.I
+import com.notedgeek.rtrace.maths.Matrix
+import com.notedgeek.rtrace.maths.Point
+import com.notedgeek.rtrace.maths.Vector
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
-import com.notedgeek.rtace.maths.EPSILON as EPSILON1
+import com.notedgeek.rtrace.maths.EPSILON as EPSILON1
 
 class TestView {
 

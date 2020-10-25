@@ -1,6 +1,6 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.maths.*
+import com.notedgeek.rtrace.maths.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.offset
 import org.junit.jupiter.api.Nested

@@ -2,9 +2,9 @@
 
 package com.notedgeek.rtrace.lego
 
-import com.notedgeek.rtace.maths.Point
-import com.notedgeek.rtace.obj.*
-import com.notedgeek.rtace.sceneBuilder.*
+import com.notedgeek.rtrace.maths.Point
+import com.notedgeek.rtrace.obj.*
+import com.notedgeek.rtrace.sceneBuilder.*
 
 private const val SCALE = 1.0 / 8
 

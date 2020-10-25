@@ -1,10 +1,9 @@
 package com.notedgeek.rtrace
 
-import com.notedgeek.rtace.*
-import com.notedgeek.rtace.maths.Point
-import com.notedgeek.rtace.maths.Vector
-import com.notedgeek.rtace.obj.Sphere
-import com.notedgeek.rtace.pattern.Stripes
+import com.notedgeek.rtrace.maths.Point
+import com.notedgeek.rtrace.maths.Vector
+import com.notedgeek.rtrace.obj.Sphere
+import com.notedgeek.rtrace.pattern.Stripes
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
