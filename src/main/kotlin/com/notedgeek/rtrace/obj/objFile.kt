@@ -88,8 +88,7 @@ fun objectFileGroup(name: String, smoothIfPossible: Boolean = true, bound: Boole
     var group =  Group(children = triangles)
 
     if(bound && split) {
-        // fudge to stop artifacts when edge between faces is perpendicular to axis - TODO - find a better fix
-        group = group.split(5).withTransform(rotationX(EPSILON) * rotationY(EPSILON) * rotationZ(EPSILON))
+        group = group.split(5)
     }
 
     return group

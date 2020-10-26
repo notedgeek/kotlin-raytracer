@@ -104,8 +104,8 @@ class BoundingBox(
             tMin = tMinNumerator / direction
             tMax = tMaxNumerator / direction
         } else {
-            tMin = tMinNumerator * Double.POSITIVE_INFINITY
-            tMax = tMaxNumerator * Double.POSITIVE_INFINITY
+            tMin = if(tMinNumerator == 0.0) 0.0 else tMinNumerator * Double.POSITIVE_INFINITY
+            tMax = if(tMaxNumerator == 0.0) 0.0 else tMaxNumerator * Double.POSITIVE_INFINITY
         }
         return if (tMin <= tMax) tMin to tMax else tMax to tMin
     }

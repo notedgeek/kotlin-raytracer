@@ -10,7 +10,7 @@ import kotlin.math.PI
 
 private val scene = buildScene {
     val scale = 1
-    size(3300 * 4 / scale, 1340 * 4 / scale)
+    size(3300 / scale, 1340 / scale)
 
     viewPoint(0.0, 10.0, -20.0)
     lookAt(0.0, 3.0, 0.0)
