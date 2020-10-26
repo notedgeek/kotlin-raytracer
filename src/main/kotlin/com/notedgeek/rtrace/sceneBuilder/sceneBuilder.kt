@@ -21,6 +21,7 @@ fun buildObject(obj: SceneObject, block: ObjectBuilder.() -> Unit) = ObjectBuild
 
 fun buildGroup(block: GroupBuilder.() -> Unit) = GroupBuilder().apply(block).toGroup()
 
+fun buildCsg(operation: CSGOperation, block: CsgBuilder.() -> Unit) = CsgBuilder(operation).apply(block).toCSG()
 
 @DslMarker
 annotation class SceneMarker
@@ -42,13 +43,13 @@ interface SceneObjectCollector {
     fun cylinder(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cylinder()).apply(block).obj
 
     fun cappedCylinder(block: ObjectBuilder.() -> Unit) =
-            ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true, transform = translation(0.0, -0.5, 0.0)))
+            ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true))
                     .apply(block).obj
 
     fun cone(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cone()).apply(block).obj
 
     fun cappedCone(block: ObjectBuilder.() -> Unit) =
-            ObjectBuilder(Cone(cappedBottom = true, cappedTop = true, transform = translation(0.0, 0.5, 0.0)))
+            ObjectBuilder(Cone(cappedBottom = true, cappedTop = true, transform = translation(0.0, 1.0, 0.0)))
                     .apply(block).obj
 
     fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =

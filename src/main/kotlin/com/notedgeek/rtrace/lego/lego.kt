@@ -5,6 +5,7 @@ package com.notedgeek.rtrace.lego
 import com.notedgeek.rtrace.maths.Point
 import com.notedgeek.rtrace.obj.*
 import com.notedgeek.rtrace.sceneBuilder.*
+import kotlin.math.PI
 
 private const val SCALE = 1.0 / 8
 
@@ -21,20 +22,86 @@ val baseCube = buildObject(Cube()) {
     scale(0.5)
 }
 
-val brickCube = buildObject(baseCube) {
-    scaleY(BRICK_HEIGHT)
+fun pieceCube(height: Double) = buildGroup {
+    val overlap = 0.01
+    val bevelSize = 0.02
+    val xBevel = buildObject(baseCube) {
+        scale(1 + overlap, bevelSize, bevelSize)
+        translate(-overlap / 2, -bevelSize / 2, -bevelSize / 2)
+        rotateX(PI / 4)
+    }
+    val yBevel = buildObject(baseCube) {
+        scale(bevelSize, height + overlap, bevelSize)
+        translate(-bevelSize / 2, -overlap / 2, -bevelSize / 2)
+        rotateY(PI / 4)
+    }
+    val zBevel = buildObject(baseCube) {
+        scale(bevelSize, bevelSize, 1 + overlap)
+        translate(-bevelSize / 2, -bevelSize / 2, -overlap / 2)
+        rotateZ(PI / 4)
+    }
+    +difference {
+        +from(baseCube) {
+            scaleY(height)
+        }
+        +xBevel
+        +from(xBevel) {
+            translateY(height)
+        }
+        +from(xBevel) {
+            translateZ(1.0)
+        }
+        +from(xBevel) {
+            translate(0.0, height, 1.0)
+        }
+        +yBevel
+        +from(yBevel) {
+            translateZ(1.0)
+        }
+        +from(yBevel) {
+            translateX(1.0)
+        }
+        +from(yBevel) {
+            translate(1.0, 0.0, 1.0)
+        }
+        +zBevel
+        +from(zBevel) {
+            translateY(height)
+        }
+        +from(zBevel) {
+            translateX(1.0)
+        }
+        +from(zBevel) {
+            translate(1.0, height, 0.0)
+        }
+    }
 }
 
-val plateCube = buildObject(baseCube) {
-    scaleY(PLATE_HEIGHT)
+val brickSquare = pieceCube(BRICK_HEIGHT)
+
+val plateSquare = pieceCube(PLATE_HEIGHT)
+
+val stud = buildGroup {
+    +difference {
+        +cappedCylinder {
+            scale(STUD_RADIUS, STUD_HEIGHT, STUD_RADIUS)
+        }
+        +difference {
+            +cappedCylinder {
+                scale(STUD_RADIUS * 1.1, STUD_HEIGHT, STUD_RADIUS * 1.1)
+            }
+            +cappedCone {
+                scale(STUD_RADIUS, STUD_HEIGHT, STUD_RADIUS)
+            }
+            translateY(STUD_HEIGHT * 0.9)
+        }
+    }
+
 }
 
-val stud = buildObject(Cylinder(min = 0.0, max = STUD_HEIGHT, cappedTop = true)) {
-    scale(STUD_RADIUS, 1.0, STUD_RADIUS)
-}
-fun brickCuboid(width: Int, length: Int) = buildObject(brickCube) { scale(width.toDouble(), 1.0, length.toDouble()) }
+fun brickCuboid(width: Int, length: Int) = buildObject(brickSquare) { scale(width.toDouble(), 1.0, length.toDouble()) }
 
-fun plateCuboid(width: Int, length: Int) = buildObject(plateCube) { scale(width.toDouble(), 1.0, length.toDouble()) }
+fun plateCuboid(width: Int, length: Int) = buildObject(plateSquare) { scale(width.toDouble(), 1.0, length.toDouble()) }
 
 fun brick(width: Int, length: Int) = studObject(brickCuboid(width, length), width, BRICK_HEIGHT, length)
 

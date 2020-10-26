@@ -5,7 +5,7 @@ package com.notedgeek.rtrace.maths
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-const val EPSILON = 0.00001
+const val EPSILON = 0.00000001
 val SQ3 = sqrt(3.0)
 val SQ2 = sqrt(2.0)
 

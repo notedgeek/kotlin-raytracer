@@ -6,10 +6,10 @@ import com.notedgeek.rtrace.lego.*
 import kotlin.math.PI
 
 private var scene = buildLegoScene {
-    val scale = 2
+    val scale = 1
     size(1920 / scale, 1080 / scale)
-    viewPoint(0.0, 20.0, -15.0)
-    lookAt(0.0, 2.0, 0.0)
+    viewPoint(2.0, 5.0, -5.0)
+    lookAt(2.0, 0.0, 2.0)
 
     pointLight {
         at(-5.0, 5.0, -5.0)
@@ -30,37 +30,27 @@ private var scene = buildLegoScene {
         }
     }
 
-    val l = lego {
-        place(plate(2, 1))
-        place(plate(1,1), y = 1)
+    +lego {+from(brick(2, 3)){
+        material {
+            reflective(0.05)
+        }
         rotateY(PI / 4)
-    }
+    } }
 
-    val compound1 = lego {
-        +from(l) {
-            scale(2.0)
-        }
-        +from(l) {
-            translateY(PLATE_HEIGHT * 4)
-            rotateY(PI / 8)
-        }
-    }
+//    +lego {
+//        val dim = 8
+//        for(x in 1 .. dim) {
+//            for (y in 1 .. dim) {
+//                for (z in 1 .. dim) {
+//                    place(plate(1, 1), x - 1, y - 1, z - 1)
+//                }
+//            }
+//        }
+//        translate(-dim / 5.0, 0.0, -dim / 5.0)
+//        rotateY(PI / 4)
+//        translate(dim / 5.0, 0.0, dim / 5.0)
+//    }
 
-    val compound2 = group {
-        +compound1
-        +from(compound1) {
-            rotateX(-PI / 2)
-            translateZ(8.0)
-            translateY(4.0)
-        }
-    }
-
-    +group {
-        +compound2
-        +from(compound2) {
-            translateX(-5.0)
-        }
-    }
 }
 
 fun main() {

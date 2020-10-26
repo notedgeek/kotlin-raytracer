@@ -19,7 +19,7 @@ class Cone (
         private val cappedBottom: Boolean = false,
         private val cappedTop: Boolean = false
 
-) : SceneObject(material, transform, parent) {
+) : SceneObject(material, transform, parent, BoundingBox(-1.0, min, -1.0, 1.0, max, 1.0)) {
 
     override fun withTransform(transform: Matrix): Cone {
         return Cone(material, transform, parent, min, max, cappedBottom, cappedTop)

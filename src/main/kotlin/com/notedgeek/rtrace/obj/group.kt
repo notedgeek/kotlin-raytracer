@@ -105,13 +105,13 @@ class Group(
 
         val listToAdd = LinkedList<SceneObject>()
         if(!leftChildren.isEmpty()) {
-            listToAdd.add(Group(leftChildren, material, transform, parent).split(threshold))
+            listToAdd.add(Group(leftChildren, material, I, parent).split(threshold))
         }
         if(!rightChildren.isEmpty()) {
-            listToAdd.add(Group(rightChildren, material, transform, parent).split(threshold))
+            listToAdd.add(Group(rightChildren, material, I, parent).split(threshold))
         }
         if(!orphans.isEmpty()) {
-            listToAdd.add(Group(orphans, material, transform, parent))
+            listToAdd.add(Group(orphans, material, I, parent))
         }
         return Group(listToAdd, material, transform, parent)
     }
