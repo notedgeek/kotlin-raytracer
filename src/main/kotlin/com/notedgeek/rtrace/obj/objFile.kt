@@ -1,7 +1,11 @@
 package com.notedgeek.rtrace.obj
 
+import com.notedgeek.rtrace.maths.EPSILON
 import com.notedgeek.rtrace.maths.Point
 import com.notedgeek.rtrace.maths.Vector
+import com.notedgeek.rtrace.rotationX
+import com.notedgeek.rtrace.rotationY
+import com.notedgeek.rtrace.rotationZ
 import java.io.File
 import java.util.regex.Pattern
 
@@ -84,7 +88,8 @@ fun objectFileGroup(name: String, smoothIfPossible: Boolean = true, bound: Boole
     var group =  Group(children = triangles)
 
     if(bound && split) {
-        group = group.split(5)
+        // fudge to stop artifacts when edge between faces is perpendicular to axis - TODO - find a better fix
+        group = group.split(5).withTransform(rotationX(EPSILON) * rotationY(EPSILON) * rotationZ(EPSILON))
     }
 
     return group
