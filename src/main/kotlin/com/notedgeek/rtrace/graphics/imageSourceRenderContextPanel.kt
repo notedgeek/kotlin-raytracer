@@ -2,6 +2,8 @@ package com.notedgeek.rtrace.graphics
 
 import java.awt.Dimension
 import java.awt.Graphics
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import java.awt.image.BufferedImage
 import java.awt.image.MemoryImageSource
 import java.io.File
@@ -14,6 +16,15 @@ class ImageSourceRenderContextPanel(override var sizeX: Int, override var sizeY:
 
     init {
         preferredSize = Dimension(sizeX, sizeY)
+        addMouseListener(object : MouseAdapter() {
+            override fun mouseClicked(e: MouseEvent) {
+                val x = e.x
+                val y = e.y
+                System.out.println("($x, $y)")
+            }
+
+
+        })
     }
 
     override fun setRgb(x: Int, y: Int, r: Int, g: Int, b: Int) {

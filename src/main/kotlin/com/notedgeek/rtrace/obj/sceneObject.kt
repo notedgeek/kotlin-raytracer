@@ -1,8 +1,21 @@
 package com.notedgeek.rtrace.obj
 
-import com.notedgeek.rtrace.*
+import com.notedgeek.rtrace.Colour
+import com.notedgeek.rtrace.Intersection
+import com.notedgeek.rtrace.Material
+import com.notedgeek.rtrace.Ray
+import com.notedgeek.rtrace.maths.I
+import com.notedgeek.rtrace.maths.Matrix
+import com.notedgeek.rtrace.maths.Point
+import com.notedgeek.rtrace.maths.Vector
+import com.notedgeek.rtrace.maths.normalise
+import com.notedgeek.rtrace.maths.transpose
 import com.notedgeek.rtrace.pattern.BlankPattern
-import com.notedgeek.rtrace.maths.*
+import com.notedgeek.rtrace.rotationX
+import com.notedgeek.rtrace.rotationY
+import com.notedgeek.rtrace.rotationZ
+import com.notedgeek.rtrace.scaling
+import com.notedgeek.rtrace.translation
 
 abstract class SceneObject(
         val material: Material = Material(),
@@ -69,7 +82,7 @@ abstract class SceneObject(
         return withTransform(transform * this.transform)
     }
 
-    open fun includes(obj: SceneObject) = this == obj
+    open fun includes(obj: SceneObject) = this === obj
 
     fun translate(x: Double, y: Double, z: Double) = transform(translation(x, y, z))
 

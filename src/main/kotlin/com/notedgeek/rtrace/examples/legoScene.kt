@@ -2,12 +2,12 @@ package com.notedgeek.rtrace.examples
 
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import com.notedgeek.rtrace.lego.buildLegoScene
-import com.notedgeek.rtrace.lego.pegEnd
+import com.notedgeek.rtrace.lego.peg
 import com.notedgeek.rtrace.pixelSource
 import kotlin.math.PI
 
 private var scene = buildLegoScene {
-    val scale = 2
+    val scale = 1
     size(1920 / scale, 1080 / scale)
     viewPoint(2.0, 5.0, -5.0)
     lookAt(2.0, 0.0, 2.0)
@@ -21,7 +21,7 @@ private var scene = buildLegoScene {
     }
 
 
-    // floor
+    //floor
     +plane {
         material {
             pattern {
@@ -31,11 +31,22 @@ private var scene = buildLegoScene {
         }
     }
 
-    +pegEnd
+    val piece = from(peg) {
+        material { colour(0.8, 0.8, 0.8) }
+    }
 
-    +from(pegEnd) {
+    +from(piece) {
+    }
+
+    +from(piece) {
         translateX(2.0)
         rotateX(-PI / 2)
+        translateY(1.0)
+    }
+
+    +from(piece) {
+        translateX(4.0)
+        rotateX(PI / 4)
         translateY(1.0)
     }
 }

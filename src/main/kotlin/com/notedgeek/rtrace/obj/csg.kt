@@ -57,8 +57,7 @@ class CSG (
     override fun localIntersect(localRay: Ray) = if (!bounds().hitBy(localRay)) {
         emptyList()
     } else {
-        filterIntersections(left.intersect(localRay).addIntersections(right.intersect(localRay)))
-
+       filterIntersections(left.intersect(localRay).addIntersections(right.intersect(localRay)))
     }
 
     override fun localNormalAt(localPoint: Point, hit: Intersection) = Vector(0, 0, 0)

@@ -3,11 +3,18 @@
 package com.notedgeek.rtrace.lego
 
 import com.notedgeek.rtrace.maths.Point
-import com.notedgeek.rtrace.obj.*
-import com.notedgeek.rtrace.sceneBuilder.*
+import com.notedgeek.rtrace.obj.BoundingBox
+import com.notedgeek.rtrace.obj.Cube
+import com.notedgeek.rtrace.obj.Group
+import com.notedgeek.rtrace.obj.SceneObject
+import com.notedgeek.rtrace.sceneBuilder.EMPTY_SCENE
+import com.notedgeek.rtrace.sceneBuilder.GroupBuilder
+import com.notedgeek.rtrace.sceneBuilder.SceneBuilder
+import com.notedgeek.rtrace.sceneBuilder.buildGroup
+import com.notedgeek.rtrace.sceneBuilder.buildObject
 import kotlin.math.PI
 
-private const val SCALE = 1.0 / 8
+internal const val SCALE = 1.0 / 8
 
 const val BRICK_WIDTH = 8.0 * SCALE
 const val BRICK_HEIGHT = 9.6 * SCALE
@@ -121,35 +128,6 @@ private fun studObject(piece: SceneObject, width: Int, height: Double, length: I
                 translateY(height)
                 translateZ(BRICK_WIDTH * (0.5 + z))
             }
-        }
-    }
-}
-
-val pegEnd = buildCsg(CSGOperation.UNION) {
-    val ridgeRad = 0.1 * SCALE
-    val ridgeHeight = 0.1 * SCALE
-
-    +cappedCylinder {
-        scale(TECH_HOLE_RADIUS + ridgeRad, ridgeHeight, TECH_HOLE_RADIUS + ridgeRad)
-        translateY(1 - ridgeHeight)
-    }
-    +difference {
-        +cappedCylinder {
-            scale(TECH_SHOULDER_RADIUS, 1.0, TECH_SHOULDER_RADIUS)
-        }
-        +difference {
-            +cappedCylinder {
-                scale(TECH_SHOULDER_RADIUS * 1.01, 1.0, TECH_SHOULDER_RADIUS * 1.01)
-            }
-            +cappedCylinder {
-                scale(TECH_HOLE_RADIUS, 1.01, TECH_HOLE_RADIUS)
-                translateY(-0.005)
-            }
-            translateY(TECH_SHOULDER_DEPTH)
-        }
-        +cappedCylinder {
-            scale(TECH_PEG_INNER_HOLE_RADIUS, 1.01, TECH_PEG_INNER_HOLE_RADIUS)
-            translateY(-0.005)
         }
     }
 }
