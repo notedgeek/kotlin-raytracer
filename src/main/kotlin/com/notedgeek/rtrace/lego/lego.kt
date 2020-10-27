@@ -14,6 +14,11 @@ const val BRICK_HEIGHT = 9.6 * SCALE
 const val PLATE_HEIGHT = BRICK_HEIGHT / 3
 const val STUD_HEIGHT = 1.6 * SCALE
 const val STUD_RADIUS = 2.4 * SCALE
+const val TECH_HOLE_RADIUS = 2.4 * SCALE
+const val TECH_SHOULDER_RADIUS = 3.1 * SCALE
+const val TECH_SHOULDER_DEPTH = 0.8 * SCALE
+const val TECH_INNER_STUD_HOLE_RADIUS = 1.6 * SCALE
+const val TECH_PEG_INNER_HOLE_RADIUS = 2.2 * SCALE
 
 val baseCube = buildObject(Cube()) {
     translateY(1.0)
@@ -116,6 +121,35 @@ private fun studObject(piece: SceneObject, width: Int, height: Double, length: I
                 translateY(height)
                 translateZ(BRICK_WIDTH * (0.5 + z))
             }
+        }
+    }
+}
+
+val pegEnd = buildCsg(CSGOperation.UNION) {
+    val ridgeRad = 0.1 * SCALE
+    val ridgeHeight = 0.1 * SCALE
+
+    +cappedCylinder {
+        scale(TECH_HOLE_RADIUS + ridgeRad, ridgeHeight, TECH_HOLE_RADIUS + ridgeRad)
+        translateY(1 - ridgeHeight)
+    }
+    +difference {
+        +cappedCylinder {
+            scale(TECH_SHOULDER_RADIUS, 1.0, TECH_SHOULDER_RADIUS)
+        }
+        +difference {
+            +cappedCylinder {
+                scale(TECH_SHOULDER_RADIUS * 1.01, 1.0, TECH_SHOULDER_RADIUS * 1.01)
+            }
+            +cappedCylinder {
+                scale(TECH_HOLE_RADIUS, 1.01, TECH_HOLE_RADIUS)
+                translateY(-0.005)
+            }
+            translateY(TECH_SHOULDER_DEPTH)
+        }
+        +cappedCylinder {
+            scale(TECH_PEG_INNER_HOLE_RADIUS, 1.01, TECH_PEG_INNER_HOLE_RADIUS)
+            translateY(-0.005)
         }
     }
 }
