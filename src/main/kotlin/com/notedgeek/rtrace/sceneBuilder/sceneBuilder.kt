@@ -1,14 +1,35 @@
 package com.notedgeek.rtrace.sceneBuilder
 
+import com.notedgeek.rtrace.Camera
+import com.notedgeek.rtrace.Colour
+import com.notedgeek.rtrace.Material
+import com.notedgeek.rtrace.PointLight
+import com.notedgeek.rtrace.Scene
+import com.notedgeek.rtrace.WHITE
+import com.notedgeek.rtrace.World
 import com.notedgeek.rtrace.maths.I
 import com.notedgeek.rtrace.maths.Matrix
 import com.notedgeek.rtrace.maths.Point
+import com.notedgeek.rtrace.obj.CSG
+import com.notedgeek.rtrace.obj.CSGOperation
+import com.notedgeek.rtrace.obj.Cone
+import com.notedgeek.rtrace.obj.Cube
+import com.notedgeek.rtrace.obj.Cylinder
+import com.notedgeek.rtrace.obj.Group
+import com.notedgeek.rtrace.obj.Plane
+import com.notedgeek.rtrace.obj.SceneObject
+import com.notedgeek.rtrace.obj.Sphere
+import com.notedgeek.rtrace.obj.Torus
+import com.notedgeek.rtrace.obj.Triangle
 import com.notedgeek.rtrace.pattern.BlankPattern
 import com.notedgeek.rtrace.pattern.Checkers
 import com.notedgeek.rtrace.pattern.Pattern
-import com.notedgeek.rtrace.*
-import com.notedgeek.rtrace.obj.*
 import com.notedgeek.rtrace.pattern.Stripes
+import com.notedgeek.rtrace.rotationX
+import com.notedgeek.rtrace.rotationY
+import com.notedgeek.rtrace.rotationZ
+import com.notedgeek.rtrace.scaling
+import com.notedgeek.rtrace.translation
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,10 +67,11 @@ interface SceneObjectCollector {
             ObjectBuilder(Cylinder(cappedBottom = true, cappedTop = true))
                     .apply(block).obj
 
+
     fun cone(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Cone()).apply(block).obj
 
-    fun cappedCone(block: ObjectBuilder.() -> Unit) =
-            ObjectBuilder(Cone(cappedBottom = true, cappedTop = true, transform = translation(0.0, 1.0, 0.0)))
+    fun cappedCone(min: Double = -1.0, max: Double = 0.0, block: ObjectBuilder.() -> Unit) =
+            ObjectBuilder(Cone(min = min, max = max, cappedBottom = true, cappedTop = true, transform = translation(0.0, 1.0, 0.0)))
                     .apply(block).obj
 
     fun triangle(p1: Point, p2: Point, p3: Point, block: ObjectBuilder.() -> Unit) =
