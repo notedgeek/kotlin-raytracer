@@ -1,11 +1,10 @@
 package com.notedgeek.rtrace.lego
 
-import com.notedgeek.rtrace.obj.Sphere
 import com.notedgeek.rtrace.sceneBuilder.buildGroup
 import kotlin.math.PI
 
-private const val RIDGE_WIDTH = 0.3 * SCALE
-private const val RIDGE_HEIGHT = 0.3 * SCALE
+private const val RIDGE_WIDTH = 0.4 * SCALE
+private const val RIDGE_HEIGHT = 0.4 * SCALE
 private const val SLIT_DEPTH = 3.5 * SCALE
 private const val SLIT_WIDTH = 0.8 * SCALE
 private const val SECOND_SLIT_DEPTH = 7 * SCALE
@@ -92,22 +91,22 @@ val pegSlit = buildGroup {
     }
 }
 
-
 val peg = buildGroup {
     +difference {
         +union {
-            +from(pegHalf)
+            +from(pegHalf) {
+                material { colour(0.0, 1.0, 0.0) }
+            }
             +from(pegHalf) {
                 rotateX(PI)
+                material { colour(1.0, 0.0, 0.0) }
             }
         }
         +from(pegSlit) {
             translateY(-SECOND_SLIT_DEPTH / 2)
         }
     }
-    translateY(BRICK_WIDTH)
 }
-
 
 val pegOneTwo = buildGroup {
     +difference {
@@ -124,18 +123,6 @@ val pegOneTwo = buildGroup {
             translateY(-SECOND_SLIT_DEPTH / 2)
         }
     }
-    translateY(BRICK_WIDTH)
 }
 
-val test = buildGroup {
-    +difference {
-        +sphere { }
-        +from(Sphere()) {
-            translateX(-.75)
-        }
-        +from(Sphere()) {
-            translateX(.575)
-        }
-    }
-}
 

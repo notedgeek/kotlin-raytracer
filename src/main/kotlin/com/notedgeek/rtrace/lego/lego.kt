@@ -28,6 +28,15 @@ const val TECH_STUD_HOLE_RADIUS = 1.6 * SCALE
 const val TECH_STUD_HOLE_DEPTH = STUD_HEIGHT * 0.95
 const val TECH_PEG_INNER_HOLE_RADIUS = 2.2 * SCALE
 
+fun brick(width: Int, length: Int) = studObject(brickCuboid(width, length), width, BRICK_HEIGHT, length, stud)
+
+fun plate(width: Int, length: Int) = studObject(plateCuboid(width, length), width, PLATE_HEIGHT, length)
+
+fun techBar(length: Int) =
+        techHoleObject(
+                studObject(brickCuboid(1, length), 1, BRICK_HEIGHT, length, techStud), length
+        )
+
 val baseCube = buildObject(Cube()) {
     translateY(1.0)
     translateX(1.0)
@@ -153,16 +162,6 @@ val techHole = buildGroup {
 fun brickCuboid(width: Int, length: Int) = buildObject(brickSquare) { scale(width.toDouble(), 1.0, length.toDouble()) }
 
 fun plateCuboid(width: Int, length: Int) = buildObject(plateSquare) { scale(width.toDouble(), 1.0, length.toDouble()) }
-
-fun brick(width: Int, length: Int) = studObject(brickCuboid(width, length), width, BRICK_HEIGHT, length, stud)
-
-fun plate(width: Int, length: Int) = studObject(plateCuboid(width, length), width, PLATE_HEIGHT, length)
-
-fun techBar(length: Int) =
-        techHoleObject(
-                studObject(brickCuboid(1, length), 1, BRICK_HEIGHT, length, techStud), length
-        )
-
 
 private fun studObject(piece: SceneObject, width: Int, height: Double, length: Int, studType: SceneObject = stud) = buildGroup {
     +union {

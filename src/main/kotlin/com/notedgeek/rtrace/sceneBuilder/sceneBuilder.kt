@@ -168,9 +168,16 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
         obj = obj.transform(transform)
     }
 
+    fun transformAtOrigin(transform: Matrix) {
+        obj = obj.transform(obj.transform * transform * obj.inverseTransform)
+    }
+
     fun material(material: Material = obj.material, block: MaterialBuilder.() -> Unit = {}) {
         obj = obj.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
     }
+
+    fun join(fromVector: Matrix, toObject: SceneObject, toVector: Matrix) =
+            transform(toObject.transform * toVector * -fromVector * -obj.transform)
 
 }
 

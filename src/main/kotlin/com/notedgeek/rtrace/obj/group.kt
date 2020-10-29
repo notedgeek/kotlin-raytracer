@@ -10,29 +10,28 @@ import com.notedgeek.rtrace.maths.Point
 import com.notedgeek.rtrace.maths.Vector
 import java.util.*
 
-class Group(
-        children: List<SceneObject> = emptyList(),
+open class Group(
+        var children: List<SceneObject> = emptyList(),
         material: Material = Material(),
         transform: Matrix = I,
         parent: SceneObject? = null
 ) : SceneObject(material, transform, parent) {
 
-    private val _children: MutableList<SceneObject> = LinkedList()
-
     private val parentSpaceBounds: BoundingBox
 
     init {
-        for(child in children) {
-            _children.add(child.withParent(this))
+        val children = LinkedList<SceneObject>()
+        for (child in this.children) {
+            children.add(child.withParent(this))
         }
+        this.children = children
         bounds = calculateBounds()
-
         parentSpaceBounds = bounds.transform(transform)
     }
 
     private fun calculateBounds(): BoundingBox {
         var result = BoundingBox()
-        for(child in _children) {
+        for (child in children) {
             result = result.addBoundingBox(child.parentSpaceBounds())
         }
         return result
@@ -42,20 +41,20 @@ class Group(
 
     override fun parentSpaceBounds() = parentSpaceBounds
 
-    override fun withTransform(transform: Matrix) = Group(_children, material, transform, parent)
+    override fun withTransform(transform: Matrix) = Group(children, material, transform, parent)
 
     override fun withMaterial(material: Material): Group {
         val newChildren = LinkedList<SceneObject>()
-        for (child in _children) {
+        for (child in children) {
             newChildren.add(child.withMaterial(material))
         }
         return Group(newChildren, material, transform, parent)
     }
 
-    override fun withParent(parent: SceneObject) = Group(_children, material, transform, parent)
+    override fun withParent(parent: SceneObject) = Group(children, material, transform, parent)
 
     override fun includes(obj: SceneObject): Boolean {
-        for (child in _children) {
+        for (child in children) {
             if (child.includes(obj)) {
                 return true
             }
@@ -68,7 +67,7 @@ class Group(
         if(!bounds().hitBy(localRay)) {
             return result
         }
-        for(child in _children) {
+        for (child in children) {
             result = result.addIntersections(child.intersect(localRay))
         }
         return result
@@ -79,7 +78,7 @@ class Group(
     }
 
     fun split(threshold: Int = 5): Group {
-        if(_children.size < threshold) {
+        if (children.size < threshold) {
             return this
         }
         //println("start bb: ${boundingBox.min} ${boundingBox.max} object count ${children.size}")
@@ -89,7 +88,7 @@ class Group(
         val rightChildren = LinkedList<SceneObject>()
         val orphans = LinkedList<SceneObject>()
 
-        for(child in _children) {
+        for (child in children) {
             when {
                 leftBox.containsObject(child) -> {
                     leftChildren.add(child)
