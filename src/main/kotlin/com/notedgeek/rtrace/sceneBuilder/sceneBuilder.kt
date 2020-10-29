@@ -49,10 +49,10 @@ annotation class SceneMarker
 
 interface SceneObjectCollector {
 
-    fun addObject(obj: SceneObject)
+    fun addObject(obj: SceneObject): SceneObject
 
-    operator fun SceneObject.unaryPlus() {
-        addObject(this)
+    operator fun SceneObject.unaryPlus(): SceneObject {
+        return addObject(this)
     }
 
     fun sphere(block: ObjectBuilder.() -> Unit) = ObjectBuilder(Sphere()).apply(block).obj
@@ -133,8 +133,9 @@ open class SceneBuilder(scene: Scene) : SceneObjectCollector {
         objects.addAll(scene.world.objects)
     }
 
-    override fun addObject(obj: SceneObject) {
+    override fun addObject(obj: SceneObject): SceneObject {
         objects.add(obj)
+        return obj
     }
 
     fun size(width: Int, height: Int) {
@@ -188,8 +189,9 @@ open class GroupBuilder : SceneObjectCollector, Transformer {
     var material = Material()
     var transform = I
 
-    override fun addObject(obj: SceneObject) {
+    override fun addObject(obj: SceneObject): SceneObject {
         children.add(obj)
+        return obj
     }
 
     override fun transform(transform: Matrix) {
@@ -211,7 +213,7 @@ class CsgBuilder(private val operation: CSGOperation) : SceneObjectCollector, Tr
     var left: SceneObject? = null
     var material: Material? = null
 
-    override fun addObject(obj: SceneObject) {
+    override fun addObject(obj: SceneObject): SceneObject {
         val csg = this.csg
         val left = this.left
         when {
@@ -225,6 +227,7 @@ class CsgBuilder(private val operation: CSGOperation) : SceneObjectCollector, Tr
                 this.left = obj
             }
         }
+        return obj
     }
 
     override fun transform(transform: Matrix) {

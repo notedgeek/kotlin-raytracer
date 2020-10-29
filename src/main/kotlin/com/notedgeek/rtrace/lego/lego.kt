@@ -2,6 +2,7 @@
 
 package com.notedgeek.rtrace.lego
 
+import com.notedgeek.rtrace.Material
 import com.notedgeek.rtrace.maths.I
 import com.notedgeek.rtrace.maths.Point
 import com.notedgeek.rtrace.obj.BoundingBox
@@ -32,13 +33,16 @@ const val TECH_STUD_HOLE_RADIUS = 1.6 * SCALE
 const val TECH_STUD_HOLE_DEPTH = STUD_HEIGHT * 0.95
 const val TECH_PEG_INNER_HOLE_RADIUS = 2.2 * SCALE
 
-class CuboidBased(group: Group, val width: Int, val length: Int) : Group(group.children, group.material, group.transform, group.parent) {
+class CuboidBased(private val group: Group, private val width: Int, private val length: Int) : Group(group.children, group.material, group.transform, group.parent) {
 
     fun north() = withTransform(I)
     fun east() = withTransform(translation(0.0, 0.0, width.toDouble()) * rotationY(PI / 2))
     fun south() = withTransform(translation(width.toDouble(), 0.0, length.toDouble()) * rotationY(PI))
     fun west() = withTransform(translation(length.toDouble(), 0.0, 0.0) * rotationY(3 * PI / 2))
 
+    override fun withMaterial(material: Material): CuboidBased {
+        return CuboidBased(group.withMaterial(material), width, length)
+    }
 }
 
 
@@ -282,11 +286,13 @@ class LegoContext : GroupBuilder() {
             Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
     )
 
-    fun place(obj: Group, x: Int = this.gridX, y: Int = this.gridY, z: Int = this.gridZ) {
-        addObject(obj
+    fun place(obj: SceneObject, x: Int = this.gridX, y: Int = this.gridY, z: Int = this.gridZ): SceneObject {
+        val result = obj
                 .translateX(x.toDouble())
                 .translateY(z * PLATE_HEIGHT)
-                .translateZ(y.toDouble()))
+                .translateZ(y.toDouble())
+        addObject(result)
+        return result
     }
 
     fun lego(block: LegoContext.() -> Unit) = LegoContext().apply(block).toGroup()

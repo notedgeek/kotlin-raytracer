@@ -17,7 +17,7 @@ val EAST_4 = east(4)
 val EAST_5 = east(5)
 val EAST_6 = east(6)
 
-fun east(y: Int) = translation(0.0, BRICK_HEIGHT / 2, BRICK_WIDTH * y) * rotationZ(-PI / 2)
+fun east(y: Int) = translation(BRICK_WIDTH, TECH_HOLE_HEIGHT, BRICK_WIDTH * y) * rotationZ(PI / 2)
 
 val WEST_1 = west(1)
 val WEST_2 = west(2)
@@ -26,4 +26,4 @@ val WEST_4 = west(4)
 val WEST_5 = west(5)
 val WEST_6 = west(6)
 
-fun west(y: Int) = translation(BRICK_WIDTH, BRICK_HEIGHT / 2, BRICK_WIDTH * y) * rotationZ(PI / 2)
+fun west(y: Int) = translation(0.0, TECH_HOLE_HEIGHT, BRICK_WIDTH * y) * rotationZ(-PI / 2)
