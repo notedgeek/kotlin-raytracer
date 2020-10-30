@@ -21,7 +21,7 @@ val section01 = LegoContext().apply {
 
         // 1
         val p1s1 = +TECH_SQR_RING_6_BLK
-            join(PEG_1_2_BLK, PEG_OUT, p1s1, WEST_3)
+        join(PEG_1_2_BLK, PEG_OUT, p1s1, WEST_3)
 
         // 2
         val p2s1 = place(TECH_BAR_16_DG, -1, 2)
