@@ -40,10 +40,10 @@ private var scene = buildLegoScene {
 
     +lego {
         +bar
-        join(peg, PEG_IN, bar, EAST_1)
-        join(peg, PEG_OUT, bar, EAST_2)
-        join(peg, PEG_IN, bar, WEST_3)
-        join(peg, PEG_OUT, bar, WEST_4)
+        j(peg, PEG_IN, bar, EAST_1)
+        j(peg, PEG_OUT, bar, EAST_2)
+        j(peg, PEG_IN, bar, WEST_3)
+        j(peg, PEG_OUT, bar, WEST_4)
     }
 }
 

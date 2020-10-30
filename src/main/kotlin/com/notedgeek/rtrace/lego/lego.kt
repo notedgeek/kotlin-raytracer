@@ -285,15 +285,17 @@ class LegoSceneBuilder : SceneBuilder(EMPTY_SCENE) {
 
 }
 
+fun lego(block: LegoContext.() -> Unit) = LegoContext().apply(block).toGroup()
+
 class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) : GroupBuilder() {
 
     private var gridX: Int = 0
     private var gridY: Int = 0
     private var gridZ: Int = 0
 
-    fun place(x: Int = 0, y: Int = 0, z: Int = 0, block: LegoContext.() -> Unit) = place(LegoContext(map).apply(block).toGroup(), x, y, z)
+    fun p(x: Int = 0, y: Int = 0, z: Int = 0, block: LegoContext.() -> Unit) = p(LegoContext(map).apply(block).toGroup(), x, y, z)
 
-    fun place(obj: SceneObject, x: Int = this.gridX, y: Int = this.gridY, z: Int = this.gridZ): SceneObject {
+    fun p(obj: SceneObject, x: Int = this.gridX, y: Int = this.gridY, z: Int = this.gridZ): SceneObject {
         gridX = x
         gridY = y
         gridZ = z
@@ -303,10 +305,6 @@ class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) 
                 .translateZ(y.toDouble())
         addObject(result)
         return result
-    }
-
-    fun put(string: String, obj: SceneObject) {
-        map[string] = obj
     }
 
     fun resetXYZ() = setXYZ(0, 0, 0)
@@ -329,14 +327,18 @@ class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) 
         gridZ = n
     }
 
-    fun get(string: String): SceneObject = map[string] ?: Group()
+    fun s(string: String, obj: SceneObject) {
+        map[string] = obj
+    }
+
+    fun g(string: String): SceneObject = map[string] ?: Group()
 
     fun lego(block: LegoContext.() -> Unit) = LegoContext(map).apply(block).toGroup()
 
-    fun join(fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
-            join(fromObject, fromObject, fromVector, toObject, toVector, rotation)
+    fun j(fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
+            j(fromObject, fromObject, fromVector, toObject, toVector, rotation)
 
-    fun join(target: SceneObject, fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
+    fun j(target: SceneObject, fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
             +target.transform(toObject.transform * toVector * rotationY(rotation) * -fromVector * -fromObject.transform)
 
 }
