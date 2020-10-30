@@ -176,13 +176,6 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
     fun material(material: Material = obj.material, block: MaterialBuilder.() -> Unit = {}) {
         obj = obj.withMaterial(MaterialBuilder(material).apply(block).toMaterial())
     }
-
-    fun join(fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
-            join(obj, fromVector, toObject, toVector, rotation)
-
-    fun join(fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
-            transform(toObject.transform * toVector * rotationY(rotation) * -fromVector * -fromObject.transform)
-
 }
 
 @SceneMarker

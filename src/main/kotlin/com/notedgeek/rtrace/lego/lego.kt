@@ -4,6 +4,7 @@ package com.notedgeek.rtrace.lego
 
 import com.notedgeek.rtrace.Material
 import com.notedgeek.rtrace.maths.I
+import com.notedgeek.rtrace.maths.Matrix
 import com.notedgeek.rtrace.obj.Cube
 import com.notedgeek.rtrace.obj.Group
 import com.notedgeek.rtrace.obj.SceneObject
@@ -331,4 +332,11 @@ class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) 
     fun get(string: String): SceneObject = map[string] ?: Group()
 
     fun lego(block: LegoContext.() -> Unit) = LegoContext(map).apply(block).toGroup()
+
+    fun join(fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
+            join(fromObject, fromObject, fromVector, toObject, toVector, rotation)
+
+    fun join(target: SceneObject, fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
+            +target.transform(toObject.transform * toVector * rotationY(rotation) * -fromVector * -fromObject.transform)
+
 }

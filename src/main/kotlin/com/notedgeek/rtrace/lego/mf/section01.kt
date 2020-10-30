@@ -21,9 +21,7 @@ val section01 = LegoContext().apply {
 
         // 1
         val p1s1 = +TECH_SQR_RING_6_BLK
-        +from(PEG_1_2_BLK) {
-            join(PEG_OUT, p1s1, WEST_3)
-        }
+            join(PEG_1_2_BLK, PEG_OUT, p1s1, WEST_3)
 
         // 2
         val p2s1 = place(TECH_BAR_16_DG, -1, 2)
@@ -34,9 +32,7 @@ val section01 = LegoContext().apply {
 
         // 4
         place(PLATE_6_8_LG, -2, -1, 3)
-        +from(PEG_1_2_BLK) {
-            join(PEG_OUT, p2s2, WEST_4)
-        }
+        join(PEG_1_2_BLK, PEG_OUT, p2s2, WEST_4)
 
         // 5
         place(PLATE_6_8_LG, -2, -1, 4)
@@ -65,27 +61,13 @@ val section01 = LegoContext().apply {
         val p7tl = place(TECH_BAR_16_DG, -1, 18)
 
         // 8
-        val p8bl = +from(PEG_BLK) {
-            join(PEG_IN, p5bl, WEST_15)
-        }
-        +from(PEG_BLK) {
-            join(PEG_IN, p7tl, WEST_15)
-        }
-        +from(PEG_BLK) {
-            join(PEG_IN, p3bm, WEST_1)
-        }
-        val p8tm = +from(PEG_BLK) {
-            join(PEG_IN, p7tm, WEST_1)
-        }
-        +from(PEG_BLK) {
-            join(PEG_IN, p5br, WEST_1)
-        }
-        val p8tr = +from(PEG_BLK) {
-            join(PEG_IN, p7tr, WEST_1)
-        }
-        +from(TECH_SQR_RING_6_BLK) {
-            join(NORTH_1_6, p8tm, PEG_OUT)
-        }
+        val p8bl = join(PEG_BLK, PEG_IN, p5bl, WEST_15)
+        join(PEG_BLK, PEG_IN, p7tl, WEST_15)
+        join(PEG_BLK, PEG_IN, p3bm, WEST_1)
+        val p8tm = join(PEG_BLK, PEG_IN, p7tm, WEST_1)
+        join(PEG_BLK, PEG_IN, p5br, WEST_1)
+        val p8tr = join(PEG_BLK, PEG_IN, p7tr, WEST_1)
+        join(TECH_SQR_RING_6_BLK, NORTH_1_6, p8tm, PEG_OUT)
 
         // 9
         place(TECH_BAR_16_DG, 0, -8, -12)
@@ -101,19 +83,11 @@ val section01 = LegoContext().apply {
             place(PLATE_4_6_LG, z = 3)
             place(PLATE_2_4_LG.east(), z = 4)
             place(PLATE_2_4_LG.east(), y = 4)
-            +from(PEG_BLK) {
-                join(PEG_IN, p11sq, SOUTH_1)
-            }
-            +from(PEG_BLK) {
-                join(PEG_IN, p11sq, SOUTH_3)
-            }
+            join(PEG_BLK, PEG_IN, p11sq, SOUTH_1)
+            join(PEG_BLK, PEG_IN, p11sq, SOUTH_3)
         }
-        +from(p11) {
-            join(NORTH_1_6, p8tr, PEG_OUT)
-        }
-        +from(p11) {
-            join(NORTH_1_6, p8bl, PEG_OUT, PI)
-        }
+        join(p11, NORTH_1_6, p8tr, PEG_OUT)
+        join(p11, NORTH_1_6, p8bl, PEG_OUT, PI)
 
         // 12
         place(-8, -28, 0) {
@@ -130,12 +104,8 @@ val section01 = LegoContext().apply {
         // 13
         place(-7, -1, 5) {
             val p13sq = place(TECH_SQR_RING_8_BLK)
-            +from(PEG_1_2_BLK) {
-                join(PEG_OUT, p13sq, WEST_4)
-            }
-            +from(PEG_1_2_BLK) {
-                join(PEG_OUT, p13sq, EAST_4_6)
-            }
+            join(PEG_1_2_BLK, PEG_OUT, p13sq, WEST_4)
+            join(PEG_1_2_BLK, PEG_OUT, p13sq, EAST_4_6)
             place(TECH_BAR_16_DG, 6, 3)
             place(TECH_BAR_16_DG, -1, -11)
             place(TECH_SQR_RING_6_BLK, 7, 1)
@@ -145,17 +115,10 @@ val section01 = LegoContext().apply {
         // 14
         val p14 = lego {
             val p14sq = place(TECH_SQR_RING_6_BLK)
-            put("p14p", +from(PEG_BLK) {
-                join(PEG_IN, p14sq, SOUTH_1)
-            })
-            +from(PEG_BLK) {
-                join(PEG_IN, p14sq, SOUTH_3)
-            }
+            put("p14p", join(PEG_BLK, PEG_IN, p14sq, SOUTH_1))
+            join(PEG_BLK, PEG_IN, p14sq, SOUTH_3)
         }
-        val p14p = get("p14p")
-        +from(p14) {
-            join(p14p, PEG_OUT, p2s1, WEST_15, PI)
-        }
+        join(p14, get("p14p"), PEG_OUT, p2s1, WEST_15, PI)
 
         // 15
         place(-8, 18, 0) {
@@ -185,12 +148,8 @@ val section01 = LegoContext().apply {
                         place(STEERING_WHEEL_BASE_DG, x * 2, y, 4)
                     }
                 }
-                +from(PEG_BLK) {
-                    join(PEG_IN, s17sq, SOUTH_1)
-                }
-                +from(PEG_BLK) {
-                    join(PEG_IN, s17sq, SOUTH_3)
-                }
+                join(PEG_BLK, PEG_IN, s17sq, SOUTH_1)
+                join(PEG_BLK, PEG_IN, s17sq, SOUTH_3)
             }
             val s17bottomBar = place(TECH_BAR_14_LG)
             resetXYZ()
@@ -200,12 +159,8 @@ val section01 = LegoContext().apply {
             place(PLATE_1_4_LG, y = 10, z = 4)
             place(TECH_BAR_14_LG, 0, 0, 5)
             place(PLATE_1_2_LG, y = 12, z = 8)
-            val s17SidePeg = +from(PEG_BLK) {
-                join(PEG_IN, s17bottomBar, EAST_13)
-            }
-            +from(s17back) {
-                join(NORTH_3_6, s17SidePeg, PEG_OUT, PI)
-            }
+            val s17SidePeg = join(PEG_BLK, PEG_IN, s17bottomBar, EAST_13)
+            join(s17back, NORTH_3_6, s17SidePeg, PEG_OUT, PI)
             resetXYZ()
             place(TECH_BAR_14_LG, x = 7)
             place(PLATE_1_8_LG, y = -4, z = 3)

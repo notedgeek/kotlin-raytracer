@@ -11,7 +11,6 @@ import com.notedgeek.rtrace.lego.buildLegoScene
 import com.notedgeek.rtrace.lego.peg
 import com.notedgeek.rtrace.lego.techBar
 import com.notedgeek.rtrace.pixelSource
-import com.notedgeek.rtrace.sceneBuilder.buildGroup
 
 private var scene = buildLegoScene {
     val scale = 1
@@ -37,28 +36,15 @@ private var scene = buildLegoScene {
         }
     }
 
-    +peg
+    val bar = techBar(5).south()
 
-    val bar = from(techBar(5).south()) {
-    }
-
-    val group = buildGroup {
+    +lego {
         +bar
-        +from(peg) {
-            join(PEG_IN, bar, EAST_1)
-        }
-        +from(peg) {
-            join(PEG_OUT, bar, EAST_2)
-        }
-        +from(peg) {
-            join(PEG_IN, bar, WEST_3)
-        }
-        +from(peg) {
-            join(PEG_OUT, bar, WEST_4)
-        }
+        join(peg, PEG_IN, bar, EAST_1)
+        join(peg, PEG_OUT, bar, EAST_2)
+        join(peg, PEG_IN, bar, WEST_3)
+        join(peg, PEG_OUT, bar, WEST_4)
     }
-
-    +group
 }
 
 fun main() {

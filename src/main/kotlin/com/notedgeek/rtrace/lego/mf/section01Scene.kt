@@ -7,7 +7,7 @@ import com.notedgeek.rtrace.pixelSource
 import kotlin.math.PI
 
 private var scene = buildLegoScene {
-    val scale = 1.3 / 2
+    val scale = 1.3
     size((1920 * scale).toInt(), (1080 * scale).toInt())
     val vpScale = 8
     viewPoint(-3.0 * vpScale, 4.0 * vpScale, -6.0 * vpScale)
