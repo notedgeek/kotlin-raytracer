@@ -116,10 +116,10 @@ val section01 = LegoContext().apply {
         val p12 = lego {
             place(TECH_BAR_16_DG)
             place(PLATE_1_4_LG, z = 3)
-            place(PLATE_2_3_LG.west(), 0, 8, 3)
+            place(PLATE_2_3_LG.west(), -2, 8, 3)
             place(PLATE_1_8_LG, 0, 12, 3)
             place(PLATE_1_4_LG, z = 4)
-            place(PLATE_2_3_LG.west(), 0, 8, 4)
+            place(PLATE_2_3_LG.west(), -2, 8, 4)
             place(PLATE_1_8_LG, 0, 12, 4)
             place(TECH_BAR_16_DG, z = 5)
         }
@@ -164,10 +164,10 @@ val section01 = LegoContext().apply {
             place(TECH_BAR_16_DG)
             place(TECH_BAR_14_LG, y = -14)
             place(PLATE_1_8_LG, 0, -4, 3)
-            place(PLATE_2_3_LG.west(), 0, 6, 3)
+            place(PLATE_2_3_LG.west(), -2, 6, 3)
             place(PLATE_1_4_LG, 0, 12, 3)
             place(PLATE_1_8_LG, 0, -4, 4)
-            place(PLATE_2_3_LG.west(), 0, 6, 4)
+            place(PLATE_2_3_LG.west(), -2, 6, 4)
             place(PLATE_1_4_LG, 0, 12, 4)
             place(TECH_BAR_16_DG, z = 5)
         }
