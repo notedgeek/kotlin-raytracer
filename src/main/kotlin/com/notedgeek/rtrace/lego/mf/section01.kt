@@ -13,12 +13,12 @@ import com.notedgeek.rtrace.lego.WEST_1
 import com.notedgeek.rtrace.lego.WEST_15
 import com.notedgeek.rtrace.lego.WEST_3
 import com.notedgeek.rtrace.lego.WEST_4
-import com.notedgeek.rtrace.obj.SceneObject
 import kotlin.math.PI
 
 val section01 = LegoContext().apply {
 
     +lego {
+
         // 1
         val p1s1 = +TECH_SQR_RING_6_BLK
         +from(PEG_1_2_BLK) {
@@ -37,29 +37,32 @@ val section01 = LegoContext().apply {
         +from(PEG_1_2_BLK) {
             join(PEG_OUT, p2s2, WEST_4)
         }
+
         // 5
         place(PLATE_6_8_LG, -2, -1, 4)
-        val p5br = place(TECH_BAR_16_DG, -1, -28)
-        val p5bl = place(TECH_BAR_16_DG, -1, 18)
-        place(PLATE_1_4_LG, -1, -28, 3)
-        place(PLATE_2_3_LG.east(), -1, -20, 3)
-        place(PLATE_1_8_LG, -1, -16, 3)
-        place(PLATE_1_4_LG, -1, 30, 3)
-        place(PLATE_2_3_LG.east(), -1, 24, 3)
-        place(PLATE_1_8_LG, -1, 14, 3)
+        val p5br = place(TECH_BAR_16_DG, -1, -28, 0)
+        val p5bl = place(TECH_BAR_16_DG, -1, 18, 0)
+        setZ(3)
+        place(PLATE_1_4_LG, -1, -28)
+        place(PLATE_2_3_LG.east(), -1, -20)
+        place(PLATE_1_8_LG, -1, -16)
+        place(PLATE_1_4_LG, -1, 30)
+        place(PLATE_2_3_LG.east(), -1, 24)
+        place(PLATE_1_8_LG, -1, 14)
 
         // 6
         place(PLATE_1_4_LG, -1, -28, 4)
-        place(PLATE_2_3_LG.east(), -1, -20, 4)
-        place(PLATE_1_8_LG, -1, -16, 4)
-        place(PLATE_1_4_LG, -1, 30, 4)
-        place(PLATE_2_3_LG.east(), -1, 24, 4)
-        place(PLATE_1_8_LG, -1, 14, 4)
+        place(PLATE_2_3_LG.east(), -1, -20)
+        place(PLATE_1_8_LG, -1, -16)
+        place(PLATE_1_4_LG, -1, 30)
+        place(PLATE_2_3_LG.east(), -1, 24)
+        place(PLATE_1_8_LG, -1, 14)
 
         // 7
-        val p7tm = place(TECH_BAR_14_LG, -1, -12, 5)
-        val p7tr = place(TECH_BAR_16_DG, -1, -28, 5)
-        val p7tl = place(TECH_BAR_16_DG, -1, 18, 5)
+        setZ(5)
+        val p7tm = place(TECH_BAR_14_LG, -1, -12)
+        val p7tr = place(TECH_BAR_16_DG, -1, -28)
+        val p7tl = place(TECH_BAR_16_DG, -1, 18)
 
         // 8
         val p8bl = +from(PEG_BLK) {
@@ -85,8 +88,8 @@ val section01 = LegoContext().apply {
         }
 
         // 9
-        place(TECH_BAR_16_DG, -8, -12, 0)
-        place(TECH_SQR_RING_6_BLK, -12, 0, 0)
+        place(TECH_BAR_16_DG, 0, -8, -12)
+        place(TECH_SQR_RING_6_BLK, -12)
 
         // 10
         place(PLATE_6_8_LG, -12, -1, 3)
@@ -97,7 +100,7 @@ val section01 = LegoContext().apply {
             val p11sq = place(TECH_SQR_RING_6_BLK)
             place(PLATE_4_6_LG, z = 3)
             place(PLATE_2_4_LG.east(), z = 4)
-            place(PLATE_2_4_LG.east(), y = 4, z = 4)
+            place(PLATE_2_4_LG.east(), y = 4)
             +from(PEG_BLK) {
                 join(PEG_IN, p11sq, SOUTH_1)
             }
@@ -113,20 +116,19 @@ val section01 = LegoContext().apply {
         }
 
         // 12
-        val p12 = lego {
+        place(-8, -28, 0) {
             place(TECH_BAR_16_DG)
             place(PLATE_1_4_LG, z = 3)
-            place(PLATE_2_3_LG.west(), -2, 8, 3)
-            place(PLATE_1_8_LG, 0, 12, 3)
-            place(PLATE_1_4_LG, z = 4)
-            place(PLATE_2_3_LG.west(), -2, 8, 4)
-            place(PLATE_1_8_LG, 0, 12, 4)
-            place(TECH_BAR_16_DG, z = 5)
+            place(PLATE_2_3_LG.west(), -2, 8)
+            place(PLATE_1_8_LG, 0, 12)
+            place(PLATE_1_4_LG, 0, 0, 4)
+            place(PLATE_2_3_LG.west(), -2, 8)
+            place(PLATE_1_8_LG, 0, 12)
+            place(TECH_BAR_16_DG, 0, 0, 5)
         }
-        place(p12, -8, -28, 0)
 
         // 13
-        val p13 = lego {
+        place(-7, -1, 5) {
             val p13sq = place(TECH_SQR_RING_8_BLK)
             +from(PEG_1_2_BLK) {
                 join(PEG_OUT, p13sq, WEST_4)
@@ -134,74 +136,69 @@ val section01 = LegoContext().apply {
             +from(PEG_1_2_BLK) {
                 join(PEG_OUT, p13sq, EAST_4_6)
             }
-            place(TECH_BAR_16_DG, 6, 3, 0)
-            place(TECH_BAR_16_DG, -1, -11, 0)
-            place(TECH_SQR_RING_6_BLK, 7, 1, 0)
-            place(TECH_SQR_RING_6_BLK, -5, 1, 0)
+            place(TECH_BAR_16_DG, 6, 3)
+            place(TECH_BAR_16_DG, -1, -11)
+            place(TECH_SQR_RING_6_BLK, 7, 1)
+            place(TECH_SQR_RING_6_BLK, -5, 1)
         }
-        place(p13, -7, -1, 5)
 
         // 14
-        var p14p: SceneObject? = null
         val p14 = lego {
             val p14sq = place(TECH_SQR_RING_6_BLK)
-            p14p = +from(PEG_BLK) {
+            put("p14p", +from(PEG_BLK) {
                 join(PEG_IN, p14sq, SOUTH_1)
-            }
+            })
             +from(PEG_BLK) {
                 join(PEG_IN, p14sq, SOUTH_3)
             }
         }
+        val p14p = get("p14p")
         +from(p14) {
-            val tmp = p14p
-            if (tmp != null) {
-                join(tmp, PEG_OUT, p2s1, WEST_15, PI)
-            }
+            join(p14p, PEG_OUT, p2s1, WEST_15, PI)
         }
 
         // 15
-        val p15 = lego {
+        place(-8, 18, 0) {
             place(TECH_BAR_16_DG)
             place(TECH_BAR_14_LG, y = -14)
             place(PLATE_1_8_LG, 0, -4, 3)
-            place(PLATE_2_3_LG.west(), -2, 6, 3)
+            place(PLATE_2_3_LG.west(), -2, 6)
             place(PLATE_1_4_LG, 0, 12, 3)
             place(PLATE_1_8_LG, 0, -4, 4)
-            place(PLATE_2_3_LG.west(), -2, 6, 4)
-            place(PLATE_1_4_LG, 0, 12, 4)
-            place(TECH_BAR_16_DG, z = 5)
+            place(PLATE_2_3_LG.west(), -2, 6)
+            place(PLATE_1_4_LG, 0, 12)
+            place(TECH_BAR_16_DG, 0, 0, 5)
         }
-        place(p15, -8, 18, 0)
 
         // 16
-        place(TECH_BAR_16_DG.east(), y = -1)
+        place(TECH_BAR_16_DG.east(), 0, -1, 0)
         place(TECH_BAR_16_DG.east(), y = 6)
         place(TECH_BAR_14_LG, -8, 4, 5)
 
         // 17
-        val s17back = lego {
-            val s17sq = place(TECH_SQR_RING_6_BLK)
-            place(PLATE_4_6_LG, z = 3)
-            for (x in 0..1) {
-                for (y in 0..5) {
-                    place(STEERING_WHEEL_BASE_DG, x * 2, y, 4)
+        place(16, 7, 0) {
+            val s17back = lego {
+                val s17sq = place(TECH_SQR_RING_6_BLK)
+                place(PLATE_4_6_LG, z = 3)
+                for (x in 0..1) {
+                    for (y in 0..5) {
+                        place(STEERING_WHEEL_BASE_DG, x * 2, y, 4)
+                    }
+                }
+                +from(PEG_BLK) {
+                    join(PEG_IN, s17sq, SOUTH_1)
+                }
+                +from(PEG_BLK) {
+                    join(PEG_IN, s17sq, SOUTH_3)
                 }
             }
-            +from(PEG_BLK) {
-                join(PEG_IN, s17sq, SOUTH_1)
-            }
-            +from(PEG_BLK) {
-                join(PEG_IN, s17sq, SOUTH_3)
-            }
-        }
-
-        val s17 = lego {
             val s17bottomBar = place(TECH_BAR_14_LG)
+            resetXYZ()
             place(PLATE_1_8_LG, y = -4, z = 3)
             place(PLATE_1_4_LG, y = 10, z = 3)
             place(PLATE_1_8_LG, y = -4, z = 4)
             place(PLATE_1_4_LG, y = 10, z = 4)
-            place(TECH_BAR_14_LG, z = 5)
+            place(TECH_BAR_14_LG, 0, 0, 5)
             place(PLATE_1_2_LG, y = 12, z = 8)
             val s17SidePeg = +from(PEG_BLK) {
                 join(PEG_IN, s17bottomBar, EAST_13)
@@ -209,16 +206,16 @@ val section01 = LegoContext().apply {
             +from(s17back) {
                 join(NORTH_3_6, s17SidePeg, PEG_OUT, PI)
             }
+            resetXYZ()
             place(TECH_BAR_14_LG, x = 7)
-            place(PLATE_1_8_LG, x = 7, y = -4, z = 3)
-            place(PLATE_1_4_LG, x = 7, y = 10, z = 3)
-            place(PLATE_1_8_LG, x = 7, y = -4, z = 4)
-            place(PLATE_1_4_LG, x = 7, y = 10, z = 4)
-            place(TECH_BAR_14_LG, x = 7, z = 5)
-            place(PLATE_1_2_LG, x = 7, y = 12, z = 8)
+            place(PLATE_1_8_LG, y = -4, z = 3)
+            place(PLATE_1_4_LG, y = 10)
+            place(PLATE_1_8_LG, y = -4, z = 4)
+            place(PLATE_1_4_LG, y = 10)
+            place(TECH_BAR_14_LG, y = 0, z = 5)
+            place(PLATE_1_2_LG, y = 12, z = 8)
             rotateY(PI / 2)
         }
-        place(s17, 16, 7, 0)
     }
 
 }.toGroup()

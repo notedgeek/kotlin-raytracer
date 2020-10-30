@@ -4,8 +4,6 @@ package com.notedgeek.rtrace.lego
 
 import com.notedgeek.rtrace.Material
 import com.notedgeek.rtrace.maths.I
-import com.notedgeek.rtrace.maths.Point
-import com.notedgeek.rtrace.obj.BoundingBox
 import com.notedgeek.rtrace.obj.Cube
 import com.notedgeek.rtrace.obj.Group
 import com.notedgeek.rtrace.obj.SceneObject
@@ -292,12 +290,12 @@ class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) 
     private var gridY: Int = 0
     private var gridZ: Int = 0
 
-    var boundingBox: BoundingBox = BoundingBox(
-            Point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
-            Point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
-    )
+    fun place(x: Int = 0, y: Int = 0, z: Int = 0, block: LegoContext.() -> Unit) = place(LegoContext(map).apply(block).toGroup(), x, y, z)
 
     fun place(obj: SceneObject, x: Int = this.gridX, y: Int = this.gridY, z: Int = this.gridZ): SceneObject {
+        gridX = x
+        gridY = y
+        gridZ = z
         val result = obj
                 .translateX(x.toDouble())
                 .translateY(z * PLATE_HEIGHT)
@@ -310,7 +308,27 @@ class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) 
         map[string] = obj
     }
 
-    fun get(string: String) = map[string]
+    fun resetXYZ() = setXYZ(0, 0, 0)
+
+    fun setXYZ(x: Int, y: Int, z: Int) {
+        gridX = x
+        gridY = y
+        gridZ = z
+    }
+
+    fun setX(n: Int) {
+        gridX = n
+    }
+
+    fun setY(n: Int) {
+        gridY = n
+    }
+
+    fun setZ(n: Int) {
+        gridZ = n
+    }
+
+    fun get(string: String): SceneObject = map[string] ?: Group()
 
     fun lego(block: LegoContext.() -> Unit) = LegoContext(map).apply(block).toGroup()
 }

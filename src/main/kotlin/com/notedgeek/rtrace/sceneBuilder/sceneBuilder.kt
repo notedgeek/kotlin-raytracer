@@ -178,7 +178,7 @@ class ObjectBuilder(var obj: SceneObject) : Transformer {
     }
 
     fun join(fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
-            transform(toObject.transform * toVector * rotationY(rotation) * -fromVector * -obj.transform)
+            join(obj, fromVector, toObject, toVector, rotation)
 
     fun join(fromObject: SceneObject, fromVector: Matrix, toObject: SceneObject, toVector: Matrix, rotation: Double = 0.0) =
             transform(toObject.transform * toVector * rotationY(rotation) * -fromVector * -fromObject.transform)
