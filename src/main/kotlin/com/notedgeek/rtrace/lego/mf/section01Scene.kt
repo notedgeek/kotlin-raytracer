@@ -4,20 +4,21 @@ import com.notedgeek.rtrace.WHITE
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import com.notedgeek.rtrace.lego.buildLegoScene
 import com.notedgeek.rtrace.pixelSource
+import kotlin.math.PI
 
 private var scene = buildLegoScene {
-    val scale = 1.2
+    val scale = 1.3
     size((1920 * scale).toInt(), (1080 * scale).toInt())
-    val vpScale = 10
-    viewPoint(-3.0 * vpScale, 4.0 * vpScale, -4.0 * vpScale)
-    lookAt(0.5, 0.0, 2.0)
+    val vpScale = 8
+    viewPoint(-3.0 * vpScale, 4.0 * vpScale, -6.0 * vpScale)
+    lookAt(0.5, -10.0, 2.0)
 
     pointLight {
-        at(-35.0, 35.0, -0.0)
+        at(-35.0, 35.0, -40.0)
     }
 
     pointLight {
-        at(35.0, 35.0, 0.0)
+        at(35.0, 35.0, -40.0)
     }
 
     //floor
@@ -28,6 +29,7 @@ private var scene = buildLegoScene {
                 scale(1.0)
             }
         }
+        translateY(-0.25)
     }
 
     //sky
@@ -39,7 +41,9 @@ private var scene = buildLegoScene {
         translateY(100.0)
     }
 
-    +section01
+    +from(section01) {
+        rotateY(PI / 2)
+    }
 }
 
 fun main() {

@@ -16,8 +16,8 @@ import com.notedgeek.rtrace.sceneBuilder.buildGroup
 private var scene = buildLegoScene {
     val scale = 1
     size(1920 / scale, 1080 / scale)
-    viewPoint(0.5, 5.0, -5.0)
-    lookAt(0.5, 0.0, 2.0)
+    viewPoint(0.5, 5.0, -6.0)
+    lookAt(0.5, 0.0, 0.0)
 
     pointLight {
         at(-5.0, 5.0, -5.0)

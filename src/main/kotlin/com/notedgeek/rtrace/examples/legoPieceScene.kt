@@ -2,7 +2,7 @@ package com.notedgeek.rtrace.examples
 
 import com.notedgeek.rtrace.graphics.PixelSourceRenderer
 import com.notedgeek.rtrace.lego.buildLegoScene
-import com.notedgeek.rtrace.lego.techSquareRing
+import com.notedgeek.rtrace.lego.steeringWheelBase
 import com.notedgeek.rtrace.pixelSource
 
 private var scene = buildLegoScene {
@@ -19,11 +19,7 @@ private var scene = buildLegoScene {
         at(5.0, 5.0, -5.0)
     }
 
-    +from(techSquareRing(6)) {
-        translateX(9.0)
-    }
-
-    +techSquareRing(8)
+    +steeringWheelBase()
 
 }
 

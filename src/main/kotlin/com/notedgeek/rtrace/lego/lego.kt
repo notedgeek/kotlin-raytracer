@@ -51,6 +51,17 @@ fun brick(width: Int, length: Int) =
 
 fun plate(width: Int, length: Int) = CuboidBased(studObject(pieceCuboid(width, length, PLATE_HEIGHT), width, PLATE_HEIGHT, length), width, length)
 
+fun smoothPlate(width: Int, length: Int) = CuboidBased(pieceCuboid(width, length, PLATE_HEIGHT), width, length)
+
+fun steeringWheelBase() = buildGroup {
+    +union {
+        +smoothPlate(2, 1)
+        +from(techStud) {
+            translate(BRICK_WIDTH, PLATE_HEIGHT, BRICK_WIDTH / 2)
+        }
+    }
+}
+
 fun techBar(length: Int) =
         CuboidBased(techHoleObject(
                 studObject(pieceCuboid(1, length, BRICK_HEIGHT), 1, BRICK_HEIGHT, length, techStud), length
@@ -227,7 +238,7 @@ fun techSquareRing(length: Int): Group {
                         translate(x, BRICK_HEIGHT, BRICK_WIDTH / 2 + (length - 1) * BRICK_WIDTH)
                     }
                 }
-                for (i in 2..length - 1) {
+                for (i in 2 until length) {
                     val y = (i - 0.5) * BRICK_WIDTH
                     +from(techStud) {
                         translate(BRICK_WIDTH / 2, BRICK_HEIGHT, y)
@@ -275,7 +286,7 @@ class LegoSceneBuilder : SceneBuilder(EMPTY_SCENE) {
 
 }
 
-class LegoContext : GroupBuilder() {
+class LegoContext(private val map: MutableMap<String, SceneObject> = HashMap()) : GroupBuilder() {
 
     private var gridX: Int = 0
     private var gridY: Int = 0
@@ -295,5 +306,11 @@ class LegoContext : GroupBuilder() {
         return result
     }
 
-    fun lego(block: LegoContext.() -> Unit) = LegoContext().apply(block).toGroup()
+    fun put(string: String, obj: SceneObject) {
+        map[string] = obj
+    }
+
+    fun get(string: String) = map[string]
+
+    fun lego(block: LegoContext.() -> Unit) = LegoContext(map).apply(block).toGroup()
 }
